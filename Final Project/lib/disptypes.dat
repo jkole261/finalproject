@@ -1,0 +1,21 @@
+Police Local:: ^PD
+Admin Local:: ^ADMIN
+DPW Local:: ^DPW
+Local Alarm::  1 Engine
+Rescue Local:: 1 Engine, 1 Rescue, 1 BLS, ^PD
+Rescue Local with Entrapment:: 1 Engine, 1 Rescue, 1 ALS, ^EMS Supervisor, 1 Battalion Chief
+Ambulance Local:: 1 Engine, 1 BLS
+Medical Local:: 1 Engine, 1 Ambulance, 1 ALS
+Medical Local (Shooting/Stabbing):: 1 Engine, 1 BLS, 1 ALS
+Working Code:: 1 Engine, 1 BLS, 1 ALS, ^EMS Supervisor
+Woodland Street:: 1 Engine, 2 Brush, 1 Battalion Chief
+Haz-Mat Local:: 1 Engine, 1 Haz-Mat
+Street Assignment:: 2 Engines, 1 Truck, 1 Special Service, 1 Battalion Chief
+Haz-Mat Street:: 2 Engines, 1 Special Service, 1 Haz-Mat, 1 BLS, 1 ALS, 1 EMS Supervisor, 1 Battalion Chief
+Box Alarm:: 4 Engines, 2 Trucks, 1 Special Service, 1 BLS, 2 Battalion Chiefs, ^UTILITIES
+Box Alarm (In Non-Hydrated Areas):: 4 Engines, 2 Trucks, 1 Special Service, 3 Tankers, 1 Water Supply Unit, 1 BLS, 2 Battalion Chiefs
+Haz-Mat Box Alarm:: 4 Engines, 2 Special Services, 1 Haz-Mat Unit, 1 BLS, 1 ALS, 1 EMS Supervisor, ^1 Haz-Mat Coordinator, 2 Battalion Chiefs
+Working Fire(Upgrade):: 1 ALS, 1 Safety Officer, 1 EMS Supervisor
+Task Force Alarm(Upgrade):: 2 Engines, 1 Special Service 
+Alarm:: 4 Engines, 2 Trucks, 1 Special Service
+Airplane/Train Crash:: 2 Engines, 1 Rescue, 1 Haz-Mat, 1 Foam, 1 Brush, 1 BLS, 1 ALS, 1 EMS Supervisor, 2 Battalion Chiefs

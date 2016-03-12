@@ -1,0 +1,189 @@
+Airplane Crash, Airplane/Train , 1
+Airplane Incident, Airplane/Train , 1
+Airplane Fire, Airplane/Train, 1
+911 Hangup, Police Local, 5
+911 misdial, Police Local, 5
+911 nyc, Police Local, 5
+911 open line, Police Local,1
+abnd veh, Police Local,1
+admn asgnmnt, Admin Local, 1 
+alarm, Police Local, 1
+animal calls, Police Local, 6
+assault w/ inj,	Medical Local:: Shoot/Stab, 2
+assault-nonsexu, Police Local, 3
+asst indiv,	Police Local, 6
+asst agency, Police Local, 4
+bias crime,	Police Local, 4
+bias incident, Police Local, 6
+bolo, Police Local, 3
+bomb / device, Box Alarm, 1
+bomb threat, Box Alarm, 1
+burglary, Police Local, 1
+burglary-alarm, Police Local, 3
+cds, Police Local, 3
+chk susp noise, Police Local, 4
+chk susp odor, Police Local, 5
+co alarm, Local Alarm,  3
+comm assgnment, Admin Local, 9
+contraband, Police Local, 8
+court, Police Local, 8
+covr assignment, Local Alarm,  7
+crim mischief, Police Local, 7
+crime prevent, Police Local, 9
+cust dispute, Police Local, 7
+directed patrol, Police Local, 8 
+dismounted post, Police Local, 9
+disorderly prsn, Police Local, 7
+doa, Ambulance Local, 6
+doa - hospice, Police Local, 6
+domestic, Police Local, 3
+domestic w/ inj, Ambulance Local, 3
+dpw request, DPW Local, 8
+dwi, Police Local, 4
+dyfs, Ambulance Local, 3
+emerg medical, Ambulance Local, 3
+emerg notif, Police Local, 2
+emerg ph activ, Police Local, 1
+emerg phon chk, Police Local, 3
+EMS - ALS, Medical Local, 3
+ems - basic, Ambulance Local, 5
+envrnmntl cmplt, Police Local, 8
+escort, Police Local, 3
+eviction, Police Local, 4
+field contact, Police Local, 1
+fight, Police Local, 2
+fight w/ inj, Medical Local, 2
+fire - alarm, Local Alarm, 4
+fire - ems asst, Ambulance Local, 3
+fire - investgtn, Local Alarm, 3
+fire - other, Street Assignment, 2
+fire - outdodr, Street Assignment, 3
+fire - rit, Local Alarm,  1
+fire - struct, Box Alarm, 1
+fire - trash, Street Assignment, 3
+fire - vehicle, Street Assignment, 1
+fire - woods, Woodland Street, 3
+fire call, Local Alarm, , 5
+fire drills, Local Alarm, , 8
+fire watch, Local Alarm, , 3
+firearms, Police Local, 8
+found property, Police Local, 8
+fraud, Police Local, 6
+funeral detail, Box Alarm, 2
+gas odor/leak, Street Assignment, 3
+general pd, Police Local, 6
+harassment, Police Local, 4
+haz-mat, HazMat Local, 3
+hazardous rd, DPW Local, 2
+hmld sec chk, Police Local, 1
+hosp ccu divert, Ambulance Local, 1
+hosp er bypass, Ambulance Local, 1
+hosp fac divert, Ambulance Local, 1
+hosp full dvrt, Ambulance Local, 1
+hospital divert, Ambulance Local, 1
+hostage, Rescue Local, 1
+house watch, Police Local, 9
+intoxicated sub, Police Local, 6
+intrnl affairs, Police Local, 1
+judicial threat, Police Local, 1
+juv w/ alcohol, Police Local, 3
+juvenile cmplnt, Police Local, 5
+k9 - bomb, Police Local, 1
+k9 - narcotic, Police Local, 2
+k9 - patrol, Police Local, 2
+k9 - specevnt, Police Local, 2
+k9 - tracking, Police Local, 2
+k9 - training, Police Local, 2
+kidnapping, Police Local, 1
+knox activation, Local Alarm, , 6
+lewdness, Police Local, 6
+light problem, Police Local, 8
+liquor laws, Police Local, 8
+lockout, Local Alarm, 7
+lost property, Police Local, 9
+lost/found anml, Police Local, 8
+lpr, Police Local, 8
+medevac, Working Code, 2
+mental/suicidal, Working Code, 3
+missing person, Local Alarm,  3
+mocib, Police Local, 1
+motorist assist, Police Local, 2
+mun code vio, Police Local, 4
+murder, Police Local, 1
+mutual aid - e, Ambulance Local, 1
+mutual aid - f, Local Alarm,  1
+mutual aid - pd, Police Local, 1
+mv accident, Police Local, 2
+mva als, Rescue Local, 1
+mva bls, Rescue Local, 2
+mva fire, Street Alarm, 2
+mva fire bls, Street Alarm, 2
+mva fire als, Street Alarm, 2
+mva hit and run, Rescue Local, 2
+noise complaint, Police Local, 5
+oem, Police Local, 1
+off safety chk, Police Local, 1
+officer injury, Rescue Local, 1
+oss - hydrant, Local Alarm,  1
+open door req, Police Local, 5
+open door/win, Police Local, 5 
+open gate, Police Local, 5 
+overnight park, Police Local, 8 
+parking vio, Police Local, 8
+police - ems, Medical Local, 1 
+police info, Police Local, 4 
+police service, Police Local, 4 
+power failure, Admin Local, 3 
+property, Police Local, 8 
+psyc transport, Ambulance Local, 3 
+pursuit - foot, Police Local, 1 
+pursuit - vehic, Police Local, 1 
+railroad inc, Airplane/Train, 1 
+rape, Police Local, 1 
+report by phone, Police Local, 7 
+riot, Police Local, 1 
+returned prop, Police Local, 8 
+robbery, Police Local, 1 
+robbery w/ inj, Ambulance Local, 1 
+robbery-alarm, Police Local, 3 
+rescue - cfnspc, Rescue Local, 1 
+rescue - elevtr, Rescue Local, 1 
+rescue - other, Rescue Local, 1 
+rescue - water, Rescue Local, 1 
+roll call, Admin Local, 9 
+rstrn ord svc, Police Local, 2 
+rstrn ord vio, Police Local, 1 
+safety inspect, Police Local, 6 
+school detail, Police Local, 4 
+service order, Admin Local, 3 
+sex offense, Police Local, 1 
+sick, Admin Local, 1
+solicitors, Police Local, 7 
+special event, Street Assignment, 3 
+stop, Police Local, e 
+storm watch, Admin Local, 2 
+student miscond, Police Local, 4
+suspecious, Police Local, 3
+terr threats, Police Local, 1
+test, Admin Local, 2
+theft - propert, Police Local, 6
+theft - vehicle, Police Local, 5 
+towing, Police Local, 4 
+traffic complnt, Police Local, 6 
+traffic detail, Police Local, 1 
+training, Admin Local, 1 
+transport, Admin Local, 1 
+trespassing, Police Local, 3
+trouble alarm, Police Local, 8 
+unknown incdnt, Street Alarm, 2 
+vandalism, Police Local, 5 
+vice, Police Local, 2 
+walk through, Police Local, 1 
+warrant arrest, Police Local, 1 
+warrant service, Police Local, 2
+water problem, Local Alarm, 3 
+wcraft - accident, Rescue Local, 1 
+wcraft - nonacdnt, Rescue Local, 2 
+weapons - armdsub, Police Local, 1 
+welfare check, Police Local, 3 
+wire/pole down, Local Alarm, 2
