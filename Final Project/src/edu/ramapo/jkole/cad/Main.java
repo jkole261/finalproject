@@ -2,6 +2,7 @@ package edu.ramapo.jkole.cad;
 
 import com.mongodb.MongoTimeoutException;
 
+import edu.ramapo.jkole.alerting.AlertCheck;
 import edu.ramapo.jkole.alerting.AlertClient;
 
 public class Main {
@@ -16,6 +17,8 @@ public class Main {
 		pro = new Profile("P69ZAF", "13-26-1", 5, 5, 5, 5);
 		try{
 			Database.Connect();
+			AlertCheck chk = new AlertCheck(Main.pro.getAgency());
+			chk.start();
 			MainMenu.openMenu(args);
 		}
 		catch(MongoTimeoutException e){

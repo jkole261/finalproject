@@ -15,16 +15,15 @@ public class AlertClient {
      BufferedReader in;
      PrintWriter out;
      String str;
-     JFrame frame = new JFrame("Chatter");
      static String message;
-     JTextField textField = new JTextField(40);
-     JTextArea messageArea = new JTextArea(8, 40);
      static String call = null;
-     
+     static String serverAddress = "127.0.0.1";
+     static Socket socket;
      static boolean lock = false;
 
     public AlertClient(String string) {
-
+        
+    	
         // Layout GUI
     	str = string;
     	try {
@@ -33,13 +32,10 @@ public class AlertClient {
 			e.printStackTrace();
 		}
     }
-
-    @SuppressWarnings("resource")
+    
 	public void run() throws IOException {
 
         // Make connection and initialize streams
-        String serverAddress = "127.0.0.1";
-        Socket socket = new Socket(serverAddress, 9001);
         in = new BufferedReader(new InputStreamReader(
             socket.getInputStream()));
         out = new PrintWriter(socket.getOutputStream(), true);
@@ -48,22 +44,17 @@ public class AlertClient {
         while (lock) {
             try {
             	 out.println(message);
-            	 String line = in.readLine();
-                 if (line.startsWith("MESSAGE")) {
-                     messageArea.append(line.substring(8) + "\n");
-                 }
-                 else {
-                 	messageArea.append(line + "\n");
-                 }
             } catch (Exception e) {
                 Thread.currentThread().interrupt();
             }
+            socket.close();
             lock = false;
          }
     }
 
 	public void setMessage(String string) throws IOException {
 		unlock();
+		socket = new Socket("127.0.0.1", 9001);
 		message = string;
 	}
 	

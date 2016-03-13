@@ -26,7 +26,7 @@ import javafx.util.Callback;
 
 public class ActCallMenu extends Application{
 	static TableView<Call> table;
-	static Stage stage;
+	public static Stage stage;
 	
 	public ActCallMenu(){	
 		try{
@@ -135,8 +135,6 @@ public class ActCallMenu extends Application{
        		.getMaximumWindowBounds().width);
 	    stage.sizeToScene(); 
 	    stage.show();
-	    
-	    AlertCheck chk = new AlertCheck(Main.pro.getAgency());
 	}
 	protected ObservableList<Call> check(ObservableList<Call> calls) {
 		if(calls.isEmpty()){
