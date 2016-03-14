@@ -2,6 +2,7 @@ package edu.ramapo.jkole.cad;
 
 import java.awt.GraphicsEnvironment;
 
+import edu.ramapo.jkole.alerting.AlertCheck;
 import edu.ramapo.jkole.alerting.AlertClient;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -11,7 +12,10 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -22,15 +26,19 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class MainMenu extends Application {
 	
 	TextField cmdline;
+	static Stage stage;
 	
     @Override
 	public void stop() throws Exception {
@@ -169,8 +177,7 @@ public class MainMenu extends Application {
              
         Button testBut = new Button("TEST");
         testBut.setOnAction(actionEvent -> {
-        	System.out.println("TEST");
-        	
+        	showPopup("TEST");
         });
         
  //     dispscreen.setGraphic(new ImageView("/dispscreen.png"));
@@ -219,6 +226,15 @@ public class MainMenu extends Application {
 		} catch (Exception e2) {
 			e2.printStackTrace();
 		}
+		
+		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+		    @Override
+		    public void handle(WindowEvent event) {
+		        AlertCheck.currentThread().interrupt();
+		        
+		    	Platform.exit();
+		    }
+		});
     }
 	protected void update(Call selectedCall, String text) {
 		String[] str = parseText(text);
@@ -257,5 +273,14 @@ public class MainMenu extends Application {
 			e.printStackTrace();
 		}
 		
+	}
+	public static void showPopup(String message) {
+		// TODO Auto-generated method stub
+		System.out.println("NEW POPUP");
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Information Dialog");
+		alert.setHeaderText("Look, an Information Dialog");
+		alert.setContentText(message);
+		alert.show();
 	}
 }

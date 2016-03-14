@@ -36,6 +36,7 @@ public class AlertClient {
 	public void run() throws IOException {
 
         // Make connection and initialize streams
+		socket = new Socket(serverAddress, 9001);
         in = new BufferedReader(new InputStreamReader(
             socket.getInputStream()));
         out = new PrintWriter(socket.getOutputStream(), true);
@@ -54,7 +55,6 @@ public class AlertClient {
 
 	public void setMessage(String string) throws IOException {
 		unlock();
-		socket = new Socket("127.0.0.1", 9001);
 		message = string;
 	}
 	

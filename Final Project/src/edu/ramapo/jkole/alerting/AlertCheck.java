@@ -1,5 +1,6 @@
 package edu.ramapo.jkole.alerting;
 
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,7 +16,16 @@ import javax.swing.JTextField;
 
 import edu.ramapo.jkole.cad.ActCallMenu;
 import edu.ramapo.jkole.cad.Main;
+import edu.ramapo.jkole.cad.MainMenu;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.layout.VBoxBuilder;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 
 public class AlertCheck extends Thread{
@@ -48,13 +58,17 @@ public class AlertCheck extends Thread{
 		           socket.getInputStream()));
 		   System.out.println("IN THREAD");
 	       while (true) {
-	       		System.out.println("T..");
+	       		System.out.println("..");
 	       		try {
 	       			String line = in.readLine();
-	       			if (line.contains(Main.pro.getAgency())) {
-	       				showMessage(message);
+	       			if (line.contains(str)) {
+	       				info.append(line.substring((line.indexOf("MESSAGE ")+7)));
 	                }
+	       			if (line.contains("!!!!")){
+	       				showMessage(info.toString());
+	       			}
 	                else {
+	                	info.append(line.substring((line.indexOf("MESSAGE ")+7)));
 	                }
 	           } catch (Exception e) {
 	               Thread.currentThread().interrupt();
@@ -68,12 +82,8 @@ public class AlertCheck extends Thread{
 
    }
    private void showMessage(String message2) {
-	   System.out.println("NEW ALERT");
-	   Alert alert = new Alert(AlertType.INFORMATION);
-	   alert.setTitle("Information Dialog");
-	   alert.setHeaderText("Look, an Information Dialog");
-	   alert.setContentText("alert");
-	   alert.showAndWait();
+	   System.out.println("NEW ALERT\n"+info);
+	   MainMenu.showPopup(info.toString());
 	}
 
 public void start ()
@@ -85,10 +95,6 @@ public void start ()
          t.start ();
       }
    }
-	public void setMessage(String string) throws IOException {
-		unlock();
-		message = string;
-	}
 	public void close(){
 		try {
 			t.interrupt();
