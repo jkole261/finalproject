@@ -1,14 +1,12 @@
 package edu.ramapo.jkole.cad;
 
 import java.awt.GraphicsEnvironment;
-import java.io.IOException;
 import java.util.List;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
-import edu.ramapo.jkole.alerting.AlertCheck;
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;

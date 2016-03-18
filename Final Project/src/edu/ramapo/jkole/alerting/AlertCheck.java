@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -56,19 +57,17 @@ public class AlertCheck extends Thread{
 		   socket = new Socket(serverAddress, 9001);
 		   in = new BufferedReader(new InputStreamReader(
 		           socket.getInputStream()));
-		   System.out.println("IN THREAD");
 	       while (true) {
-	       		System.out.println("..");
 	       		try {
 	       			String line = in.readLine();
 	       			if (line.contains(str)) {
-	       				info.append(line.substring((line.indexOf("MESSAGE ")+7)));
+	       				info.append(line.substring((line.indexOf("MESSAGE ")+8))+"\n");
 	                }
 	       			if (line.contains("!!!!")){
 	       				showMessage(info.toString());
 	       			}
 	                else {
-	                	info.append(line.substring((line.indexOf("MESSAGE ")+7)));
+	                	info.append(line.substring((line.indexOf("MESSAGE ")+8))+"\n");
 	                }
 	           } catch (Exception e) {
 	               Thread.currentThread().interrupt();
@@ -76,19 +75,20 @@ public class AlertCheck extends Thread{
 	       }
 		} catch (UnknownHostException e1) {
 			e1.printStackTrace();
+		} catch (ConnectException e1){
+			System.err.println("AlertCheck.java "+e1.getMessage());
 		} catch (Exception e1) {
 			e1.printStackTrace();
-		}
+		} 
 
    }
    private void showMessage(String message2) {
-	   System.out.println("NEW ALERT\n"+info);
 	   MainMenu.showPopup(info.toString());
 	}
 
 public void start ()
    {
-      System.out.println("Starting ");
+      System.out.println("Starting");
       if (t == null)
       {
          t = new Thread (this);
@@ -102,8 +102,5 @@ public void start ()
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	private static void unlock(){
-		lock = true;
 	}
 }

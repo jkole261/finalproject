@@ -1,6 +1,7 @@
 package edu.ramapo.jkole.cad;
 
 import java.awt.GraphicsEnvironment;
+import java.util.Optional;
 
 import edu.ramapo.jkole.alerting.AlertCheck;
 import edu.ramapo.jkole.alerting.AlertClient;
@@ -15,7 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -26,12 +27,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -276,11 +275,16 @@ public class MainMenu extends Application {
 	}
 	public static void showPopup(String message) {
 		// TODO Auto-generated method stub
-		System.out.println("NEW POPUP");
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Information Dialog");
-		alert.setHeaderText("Look, an Information Dialog");
-		alert.setContentText(message);
-		alert.show();
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Confirmation Dialog");
+		alert.setHeaderText("Look, a Confirmation Dialog");
+		alert.setContentText("Are you ok with this?");
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.OK){
+		    // ... user chose OK
+		} else {
+		    // ... user chose CANCEL or closed the dialog
+		}
 	}
 }
