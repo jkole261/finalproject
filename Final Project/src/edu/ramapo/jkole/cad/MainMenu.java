@@ -1,10 +1,7 @@
 package edu.ramapo.jkole.cad;
 
 import java.awt.GraphicsEnvironment;
-import java.util.Optional;
 
-import edu.ramapo.jkole.alerting.AlertCheck;
-import edu.ramapo.jkole.alerting.AlertClient;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -13,10 +10,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -219,18 +213,14 @@ public class MainMenu extends Application {
         stage.setMaxWidth(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width);
         stage.sizeToScene(); 
         stage.show(); 	
-        
-		try {
-			Main.client = new AlertClient(Main.pro.getAgency());
-		} catch (Exception e2) {
-			e2.printStackTrace();
-		}
-		
+       
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 		    @Override
 		    public void handle(WindowEvent event) {
-		        AlertCheck.currentThread().interrupt();
-		        
+		    	System.out.println("SYSTEM EXIT");
+		    	Database.close();
+		    	Main.chk.close();
+		    	Main.client.close();
 		    	Platform.exit();
 		    }
 		});
@@ -240,7 +230,6 @@ public class MainMenu extends Application {
 		CmdLine.modify(selectedCall, str[0], str);
 	}
 	protected void execute(String text){
-		System.out.println(text);
 		String[] str = parseText(text);
 		CmdLine.execute(str);
 	}
@@ -253,7 +242,6 @@ public class MainMenu extends Application {
 		cmdline = new TextField();
 		
 		box.getChildren().add(cmdline);
-		
 		box.setSpacing(10);
 		box.setPadding(new Insets(10, 10, 10, 10));
 		
@@ -266,25 +254,11 @@ public class MainMenu extends Application {
 	public static void openMenu(String[] args){
 		try {
 			Application.launch(args);
-			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
+		}	
 	}
 	public static void showPopup(String message) {
-		// TODO Auto-generated method stub
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Confirmation Dialog");
-		alert.setHeaderText("Look, a Confirmation Dialog");
-		alert.setContentText("Are you ok with this?");
-
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == ButtonType.OK){
-		    // ... user chose OK
-		} else {
-		    // ... user chose CANCEL or closed the dialog
-		}
+		System.out.println(message);
 	}
 }

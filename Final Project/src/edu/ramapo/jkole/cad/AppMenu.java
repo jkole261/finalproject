@@ -63,7 +63,21 @@ public class AppMenu extends Application {
 	
 	public AppMenu() throws Exception{
 		try{
-			if(!(stage.isShowing())){return;}
+			if(stage.isShowing()){
+				return;
+			}
+			else {
+				System.out.println("ELSE");
+				stage = new Stage();
+				table = new TableView<Apparatus>();
+				loc = new TableView<Station>();
+				loc.setMaxHeight(200);
+				try {
+					start(stage);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		catch(NullPointerException e2){
 			stage = new Stage();

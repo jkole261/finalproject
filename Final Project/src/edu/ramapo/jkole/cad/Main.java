@@ -10,6 +10,7 @@ public class Main {
 	private static boolean admin;
 	public static Profile pro;
 	public static AlertClient client;
+	static AlertCheck chk;
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -17,16 +18,17 @@ public class Main {
 		pro = new Profile("P69ZAF", "13-26-1", 5, 5, 5, 5);
 		try{
 			Database.Connect();
-			AlertCheck chk = new AlertCheck(Main.pro.getAgency());
+			chk = new AlertCheck(Main.pro.getAgency());
 			chk.start();
+			client = new AlertClient(Main.pro.getAgency());
+			client.start();
 			MainMenu.openMenu(args);
 		}
 		catch(MongoTimeoutException e){
-			System.out.println("TIME OUT DB NOT CONNECT");
+			System.err.println("TIME OUT DB NOT CONNECT");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 
 	public static boolean isAdmin() {

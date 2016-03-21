@@ -61,13 +61,9 @@ public class Alert {
 		}
 		alert.append("\n"+c.getCall().get("addr")+"\n"+
 				c.getCall().get("nature")+"\n"+
+				c.getCall().get("type")+"\n"+
 				c.getCall().get("callInfo"));	
 		alert.append("\n !!!!");
-		try {
-			Main.client.setMessage(alert.toString());
-			Main.client.run();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}	
+		Main.client.out.println(alert);
 	}
 }

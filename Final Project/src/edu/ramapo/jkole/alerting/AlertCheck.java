@@ -1,7 +1,5 @@
 package edu.ramapo.jkole.alerting;
 
-import java.awt.Insets;
-import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,23 +9,10 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import edu.ramapo.jkole.cad.ActCallMenu;
-import edu.ramapo.jkole.cad.Main;
 import edu.ramapo.jkole.cad.MainMenu;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.layout.VBoxBuilder;
-import javafx.scene.text.Text;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 
 public class AlertCheck extends Thread{
 	BufferedReader in;
@@ -46,7 +31,6 @@ public class AlertCheck extends Thread{
     static boolean lock = false;
 
    public AlertCheck(String string) {
-	   System.out.println("new");
 	   str = string;
 	   info = new StringBuilder();
    }
@@ -82,21 +66,18 @@ public class AlertCheck extends Thread{
 		} 
 
    }
-   private void showMessage(String message2) {
-	   MainMenu.showPopup(info.toString());
+    private void showMessage(String message2) {
+    	MainMenu.showPopup(info.toString());
 	}
-
-public void start ()
-   {
-      System.out.println("Starting");
-      if (t == null)
-      {
-         t = new Thread (this);
-         t.start ();
-      }
-   }
+	public void start () {
+		if (t == null) {
+			t = new Thread (this);
+			t.start ();
+		}
+	}
 	public void close(){
 		try {
+			Thread.currentThread().interrupt();
 			t.interrupt();
 			socket.close();
 		} catch (IOException e) {

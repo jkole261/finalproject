@@ -76,6 +76,7 @@ public class CallTakerScreen extends Application {
 		try{
 			if((stage.isShowing())){return;}
 			else if(!(stage.isShowing())){
+				clearScreen();
 				stage.show();
 			}
 		}

@@ -6,11 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import javax.swing.JFrame;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-
-public class AlertClient {
+public class AlertClient extends Thread{
 
      BufferedReader in;
      PrintWriter out;
@@ -19,40 +15,48 @@ public class AlertClient {
      static String call = null;
      static String serverAddress = "127.0.0.1";
      static Socket socket;
+     private Thread t;
      static boolean lock = false;
 
-    public AlertClient(String string) {
-        
-    	
-        // Layout GUI
+    public AlertClient(String string) { 
     	str = string;
-    	try {
-			this.run();
+    }
+    
+	public void run() {
+		try {
+        // Make connection and initialize streams
+			socket = new Socket(serverAddress, 9001);
+	        in = new BufferedReader(new InputStreamReader(
+	            socket.getInputStream()));
+	        out = new PrintWriter(socket.getOutputStream(), true);
+	        
+	        // Process all messages from server, according to the protocol.
+	        while (lock) {
+	          
+	            	 out.println(message);
+	            
+	            socket.close();
+	            lock = false;
+	         }
+		} catch (Exception e) {
+	        Thread.currentThread().interrupt();
+		} 
+    }
+	public void start () {
+		if (t == null) {
+			t = new Thread (this);
+			t.start ();
+		}
+	}
+	public void close(){
+		try {
+			Thread.currentThread().interrupt();
+			t.interrupt();
+			socket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-    }
-    
-	public void run() throws IOException {
-
-        // Make connection and initialize streams
-		socket = new Socket(serverAddress, 9001);
-        in = new BufferedReader(new InputStreamReader(
-            socket.getInputStream()));
-        out = new PrintWriter(socket.getOutputStream(), true);
-        
-        // Process all messages from server, according to the protocol.
-        while (lock) {
-            try {
-            	 out.println(message);
-            } catch (Exception e) {
-                Thread.currentThread().interrupt();
-            }
-            socket.close();
-            lock = false;
-         }
-    }
-
+	}
 	public void setMessage(String string) throws IOException {
 		unlock();
 		message = string;
