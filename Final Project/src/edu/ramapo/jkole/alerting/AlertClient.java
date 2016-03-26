@@ -31,13 +31,7 @@ public class AlertClient extends Thread{
 	        out = new PrintWriter(socket.getOutputStream(), true);
 	        
 	        // Process all messages from server, according to the protocol.
-	        while (lock) {
-	          
-	            	 out.println(message);
-	            
-	            socket.close();
-	            lock = false;
-	         }
+
 		} catch (Exception e) {
 	        Thread.currentThread().interrupt();
 		} 
@@ -50,9 +44,9 @@ public class AlertClient extends Thread{
 	}
 	public void close(){
 		try {
+			socket.close();
 			Thread.currentThread().interrupt();
 			t.interrupt();
-			socket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

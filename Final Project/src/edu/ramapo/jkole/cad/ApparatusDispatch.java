@@ -112,6 +112,25 @@ public class ApparatusDispatch extends Application{
 		alert.sendAlert();
 	}
 
+	public static void clearApp(String str){
+		String[] string = {str.substring(0, 1),
+				str.substring(1, 3),str.substring(3, 5),""};
+		try{
+			string[3] = str.substring(5, 6);
+		}
+		catch(StringIndexOutOfBoundsException e){
+			string[3] = "";
+		}
+		Apparatus app = new Apparatus((BasicDBObject) Database
+				.getCol("Apparatus", "info")
+				.findOne(new BasicDBObject("AppType", string[0])
+						.append("UnitCount", string[1])
+						.append("UnitMunic", string[2])
+						.append("appNum", string[3])));
+		Status.updateStatus(new Status(true, false, false, true, false, app),
+				"CALL CLEAR:"+ActCallMenu.table.getSelectionModel().getSelectedItem().getCall().get("cadid")+"|OPR:"+Login.getUser());	
+	}
+	
 	public static void arvdApp(String str){
 		String[] string = {str.substring(0, 1),
 				str.substring(1, 3),str.substring(3, 5),""};

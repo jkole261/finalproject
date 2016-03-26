@@ -21,6 +21,11 @@ public class Call {
 		//DIRECT FROM DB
 		this.call = (HashMap<String, String>) obj.toMap();
 	}
+	@SuppressWarnings("unchecked")
+	public Call(String cadid){
+		this.call = (HashMap<String, String>) Database.getCol("Calls", "basicInfo")
+				.findOne(new BasicDBObject("cadid", cadid)).toMap();
+	}
 	public Call(HashMap<String, String> hashmap){
 		this.call = hashmap;
 	}

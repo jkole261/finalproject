@@ -77,9 +77,9 @@ public class AlertCheck extends Thread{
 	}
 	public void close(){
 		try {
+			socket.close();
 			Thread.currentThread().interrupt();
 			t.interrupt();
-			socket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

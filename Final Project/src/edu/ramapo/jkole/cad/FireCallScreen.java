@@ -31,6 +31,9 @@ public class FireCallScreen extends Application{
 	static String callid = "";
 	static Call c;
 	boolean editable = true;
+	
+	BorderPane root; 
+	TreeItem<String> applog;
 	TextField cadid = new TextField();
 	TextField actid = new TextField();
 	TextField addr = new TextField();
@@ -88,7 +91,7 @@ public class FireCallScreen extends Application{
 	@Override
 	public void start(Stage stage) throws Exception {
 		// TODO Auto-generated method stub
-		BorderPane root = new BorderPane();
+		root = new BorderPane();
     	Scene scene = new Scene(root, 600, 650, Color.ANTIQUEWHITE);
 		
     	MenuBar menu = new MenuBar();
@@ -226,7 +229,7 @@ public class FireCallScreen extends Application{
 		if(!(initcom.getValue().equalsIgnoreCase(""))){
 			dispcom.getChildren().add(initcom);
 		}
-		TreeItem<String> applog = new TreeItem<String>("Unit Log");
+		applog = new TreeItem<String>("Unit Log");
 		List<Apparatus> applist = Call.getAppFromCall(callid);
 		for(int i = 0; i < applist.size(); i ++){
 			TreeItem<String> it = new TreeItem<String>(
@@ -235,9 +238,57 @@ public class FireCallScreen extends Application{
 		}
 		TreeView<String> item = new TreeView<String>(dispcom);
 		TreeView<String> item1 = new TreeView<String>(applog);
+		
+		item1.setOnMouseClicked(new EventHandler<MouseEvent>(){
+		    @Override
+		    public void handle(MouseEvent mouseEvent){            
+		        if(mouseEvent.getClickCount() == 2){
+		            update(item1.getSelectionModel().getSelectedItem().getValue());
+		        }
+		    }
+		});
+		
 		box.getChildren().addAll(item, item1);
 		
 		return box;
+	}
+	protected void update(String appUnit) {
+		appUnit = appUnit.substring(0, appUnit.indexOf("\t"));
+		//Find app 
+		BasicDBObject obj = new BasicDBObject("AppType", appUnit.substring(0,1))
+				.append("UnitCount", appUnit.substring(1, 3))
+				.append("UnitMunic", appUnit.substring(3, 5));
+		try {obj.append("appNum", appUnit.substring(5, 6));} 
+		catch (Exception e) {obj.append("appNum", "");}
+		Apparatus app = new Apparatus((BasicDBObject) Database
+				.getCol("Apparatus", "info").findOne(obj));
+		//get status
+		String stat = app.getStat();
+		switch(stat){
+		case "BUSY":{
+			Status.updateStatus(new Status(true, true, false, false, true, app),
+					"CALL ENRT:"+app.getCurCall()+"|OPR:"+Login.getUser());		
+			Call.setEnrt(new Call(callid));
+			root.setCenter(getCallScreen());
+			applog.setExpanded(true);
+			break;
+		}
+		case "ENRT":{
+			Status.updateStatus(new Status(true, false, true, false, true, app),
+					"CALL ARVD:"+app.getCurCall()+"|OPR:"+Login.getUser());		
+			Call.setArvd(new Call(callid));
+			root.setCenter(getCallScreen());
+			applog.setExpanded(true);
+			break;
+		}
+		case "ONLOC":{
+			Status.updateStatus(new Status(true, false, false, true, false, app),
+					"CALL CLEAR:"+app.getCurCall()+"|OPR:"+Login.getUser());	
+			root.setCenter(getCallScreen());
+			applog.setExpanded(true);
+			break;
+		}
+		}
 	}
 	private Node getCallInfo() {
 		VBox box = new VBox();

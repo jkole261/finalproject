@@ -123,7 +123,6 @@ public class Apparatus {
 		try {
 			this.stat = Status.getStatString(obj.get("Status").toString());
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			this.stat = null;
 		}
 	}
@@ -266,7 +265,7 @@ public class Apparatus {
 	public static Apparatus getApparatus(String oid) {
 		Apparatus app = new Apparatus((BasicDBObject)
 				Database.getCol("Apparatus", "info")
-				.findOne(new BasicDBObject("_id", new ObjectId(oid))));
+					    .findOne(new BasicDBObject("_id", new ObjectId(oid))));
 		return app;
 	}
 	public void setSupv(boolean supv) {
