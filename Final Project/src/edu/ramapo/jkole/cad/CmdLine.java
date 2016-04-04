@@ -71,6 +71,9 @@ public class CmdLine {
 				Call.clearCall(ActCallMenu.getSelectedCall());
 			}
 		}
+		else if(str[0].equalsIgnoreCase("rlog")){
+			CallTakerScreen.createRadioLog();
+		}
 		else if(str[0].equalsIgnoreCase("calltkr")){
 			new CallTakerScreen();
 		}

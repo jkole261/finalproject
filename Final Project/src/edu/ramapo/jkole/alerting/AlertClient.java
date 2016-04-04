@@ -29,9 +29,6 @@ public class AlertClient extends Thread{
 	        in = new BufferedReader(new InputStreamReader(
 	            socket.getInputStream()));
 	        out = new PrintWriter(socket.getOutputStream(), true);
-	        
-	        // Process all messages from server, according to the protocol.
-
 		} catch (Exception e) {
 	        Thread.currentThread().interrupt();
 		} 

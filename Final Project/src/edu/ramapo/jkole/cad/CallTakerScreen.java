@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import com.google.code.geocoder.Geocoder;
 import com.google.code.geocoder.GeocoderRequestBuilder;
@@ -31,7 +32,10 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -42,10 +46,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 import javafx.util.StringConverter;
 
 public class CallTakerScreen extends Application {
@@ -110,7 +116,6 @@ public class CallTakerScreen extends Application {
 			date1 = new TextField();
 			recby = new TextField();
 			date2 = new TextField();
-			index = -1;
 			stage = new Stage();
 			try {
 				start(stage);
@@ -121,6 +126,7 @@ public class CallTakerScreen extends Application {
 	}
 	private void getCalls() {
 		actCall = Database.getCol("Calls", "basicInfo").find().toArray();
+		index = actCall.size();
 	}
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -284,49 +290,50 @@ public class CallTakerScreen extends Application {
 		bufRead.close();
 		return nature;
 	}
-	private ToolBar getToolBar2() {
-		ToolBar temp = new ToolBar();
+	protected static void createRadioLog() {
+		//set unit as busy with comment
+		Dialog<Pair<String, String>> dialog = new Dialog<>();
+		dialog.setTitle("Create Radio Log");
+		dialog.setHeaderText("Enter Unit and comment for RLog");
+		dialog.setContentText("Unit: ");
+
+		ButtonType loginButtonType = new ButtonType("Login", ButtonData.OK_DONE);
+		dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
 		
-		Button use = new Button("Use");
-		use.setTooltip(new Tooltip("Update Unit Usage"));
-		use.setOnAction(actionEvent -> new UsageLog(cadid.getText()));
+		GridPane grid = new GridPane();
+		grid.setHgap(10);
+		grid.setVgap(10);
+		grid.setPadding(new Insets(20, 150, 10, 10));
+
+		TextField unit = new TextField();
+		unit.setPromptText("Unit");
+		TextField comm = new TextField();
+
+		grid.add(new Label("Unit:"), 0, 0);
+		grid.add(unit, 1, 0);
+		grid.add(new Label("Comment:"), 0, 1);
+		grid.add(comm, 1, 1);
+
+		dialog.setResultConverter(dialogButton -> {
+		    if (dialogButton == loginButtonType) {
+		        return new Pair<>(unit.getText(), comm.getText());
+		    }
+		    return null;
+		});
+
+		dialog.getDialogPane().setContent(grid);
 		
-		Button invl = new Button("Invl");
-		invl.setTooltip(new Tooltip("Unit Involvement"));
-		invl.setOnAction(actionEvent ->System.out.println("NO EVENT YET"));
+		Optional<Pair<String, String>> result = dialog.showAndWait();
+		result.ifPresent(unitCom -> {
+		    System.out.println("Unit=" + unitCom.getKey() + ", Comment=" + unitCom.getValue());
+		    ApparatusDispatch.rlog(unitCom);
+		});
 		
-		Button files = new Button("Files");
-		files.setTooltip(new Tooltip("Files"));
-		files.setOnAction(actionEvent -> System.out.println("NO EVENT YET"));
-		
-		Button rlog = new Button("RLog");
-		rlog.setTooltip(new Tooltip("New Radio Log"));
-		rlog.setOnAction(actionEvent -> System.out.println("NO EVENT YET"));
-		
-		Button n911 = new Button("911");
-		n911.setTooltip(new Tooltip("New Call From 911"));
-		n911.setOnAction(actionEvent -> new911());
-		
-		Button hist = new Button("Hist");
-		hist.setTooltip(new Tooltip("History"));
-		hist.setOnAction(actionEvent -> search(addr.getText()));
-		
-		temp.getItems().addAll(use, invl, files, rlog, n911, hist);
-		
-		use.setFocusTraversable(false);
-		invl.setFocusTraversable(false);
-		files.setFocusTraversable(false);
-		rlog.setFocusTraversable(false);
-		n911.setFocusTraversable(false);
-		hist.setFocusTraversable(false);
-		
-		return temp;
 	}
-	private Object new911() {
+	private void new911() {
 		clearScreen();
 		rechw.setText("9");
 		recby.setText(Login.getUser());
-		return null;
 	}
 	private ToolBar getToolBar() {
 		ToolBar temp = new ToolBar();
@@ -362,6 +369,7 @@ public class CallTakerScreen extends Application {
 		
 		Button prt = new Button("_Prnt");
 		prt.setTooltip(new Tooltip("Print Current Call"));
+		prt.setDisable(true);
 		prt.setOnAction(actionEvent -> System.out.println("NO EVENT YET"));
 		
 		Button fwd = new Button("_Fwd");
@@ -388,10 +396,54 @@ public class CallTakerScreen extends Application {
 		
 		return temp;
 	}
-	private void search(String text) {
+	private ToolBar getToolBar2() {
+		ToolBar temp = new ToolBar();
+		
+		Button use = new Button("Use");
+		use.setTooltip(new Tooltip("Update Unit Usage"));
+		use.setOnAction(actionEvent -> new UsageLog(cadid.getText()));
+		
+		Button invl = new Button("Invl");
+		invl.setTooltip(new Tooltip("Call Involvement"));
+		invl.setOnAction(actionEvent -> {
+			try{
+				new FireCallScreen(cadid.getText());
+			}
+			catch(Exception e){ }
+		});
+		
+		Button files = new Button("Files");
+		files.setTooltip(new Tooltip("Files"));
+		files.setDisable(true);
+		files.setOnAction(actionEvent -> System.out.println("NO EVENT YET"));
+		
+		Button rlog = new Button("RLog");
+		rlog.setTooltip(new Tooltip("New Radio Log"));
+		rlog.setOnAction(actionEvent -> createRadioLog());
+		
+		Button n911 = new Button("911");
+		n911.setTooltip(new Tooltip("New Call From 911"));
+		n911.setOnAction(actionEvent -> new911());
+		
+		Button hist = new Button("Hist");
+		hist.setTooltip(new Tooltip("History"));
+		hist.setOnAction(actionEvent -> search(addr.getText()));
+		
+		temp.getItems().addAll(use, invl, files, rlog, n911, hist);
+		
+		use.setFocusTraversable(false);
+		invl.setFocusTraversable(false);
+		files.setFocusTraversable(false);
+		rlog.setFocusTraversable(false);
+		n911.setFocusTraversable(false);
+		hist.setFocusTraversable(false);
+		
+		return temp;
+	}
+	protected void search(String text) {
 		// TODO Auto-generated method stub
 		List<Call> list = new ArrayList<Call>();
-		DBCursor curs = Database.getCol("Calls", "basicInfo").find(new BasicDBObject("addr", text));
+		DBCursor curs = Database.getCol("Calls", "basicInfo").find(new BasicDBObject("addr", searchAddr(text)));
 	   	while(curs.hasNext()){
 	   		curs.next();
 	   		System.out.println(curs.curr());
@@ -457,14 +509,12 @@ public class CallTakerScreen extends Application {
 		return object;
 	}
 	private void deleteCurrent() {
-		// TODO Auto-generated method stub
 		if(Database.remove("Calls", "basicInfo", actCall.get(index).get("_id").toString())){
 			actCall.remove(index);
 			clearScreen();
 		}
 	}
 	private void prevCall() {
-		// TODO Auto-generated method stub
 		if(index > 0){
 			index--;
 			clearScreen();
@@ -475,13 +525,16 @@ public class CallTakerScreen extends Application {
 		}
 	}
 	private void nextCall() {
-		// TODO Auto-generated method stub
-		index++;
-		clearScreen();
-		setScreen(actCall.get(index));
+		if(index < actCall.size()){
+			index++;
+			clearScreen();
+			setScreen(actCall.get(index));
+		}
+		else{
+			System.out.println("INDEX TO HIGH");
+		}
 	}
 	protected void setScreen(DBObject dbObject) {
-		// TODO Auto-generated method stub
 		cadid.setText(dbObject.get("cadid").toString());
 		actid.setText(dbObject.get("actid").toString());
 		type.setText(dbObject.get("type").toString());
@@ -513,7 +566,7 @@ public class CallTakerScreen extends Application {
 		 callinfo = getNewCallInfo();
 		 Call c = new Call(callinfo);
 		 Call.addCall(c);
-		 //check and add zones
+//check and add zones
 		 actid.setText(c.getCall().get("actid"));
 		 cadid.setText(c.getCall().get("cadid"));
 		 dups.setText(c.getCall().get("dups"));
@@ -529,6 +582,18 @@ public class CallTakerScreen extends Application {
 		} catch (IOException e) {
 			System.err.print(e);
 		}
+	}	
+	protected String searchAddr(String text) {
+		try {
+			final Geocoder geocoder = new Geocoder();
+			GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().setAddress(text+", NJ").setLanguage("en").getGeocoderRequest();
+			GeocodeResponse geocoderResponse = geocoder.geocode(geocoderRequest);
+			System.out.println(geocoderResponse.getResults().get(0).getFormattedAddress());
+			return geocoderResponse.getResults().get(0).getFormattedAddress();
+		} catch (IOException e) {
+			System.err.print(e);
+		}
+		return "";
 	}
 	private HashMap<String, String> getInfo() {
 		HashMap<String, String> temp = new HashMap<String, String>();

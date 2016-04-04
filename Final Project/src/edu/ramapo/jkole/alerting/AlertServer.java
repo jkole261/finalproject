@@ -29,13 +29,6 @@ public class AlertServer {
 	 private static final int PORT = 9001;
 
 	    /**
-	     * The set of all names of clients in the chat room.  Maintained
-	     * so that we can check that new clients are not registering name
-	     * already in use.
-	     */
-	//    private static HashSet<String> names = new HashSet<String>();
-
-	    /**
 	     * The set of all the print writers for all the clients.  This
 	     * set is kept so we can easily broadcast messages.
 	     */

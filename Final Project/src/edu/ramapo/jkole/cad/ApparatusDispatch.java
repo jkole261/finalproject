@@ -31,6 +31,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
 public class ApparatusDispatch extends Application{
 	static Stage stage;
@@ -355,5 +356,12 @@ public class ApparatusDispatch extends Application{
 						.append("appNum", str1[3])));
 		Status.updateStatus(new Status(false, false, false, false, false, app),
 				com+"|OPR:"+Login.getUser());	
+	}
+
+	public static void rlog(Pair<String, String> unitCom) {
+		Apparatus app = Apparatus.findApp(unitCom.getKey());
+		
+		Status.updateStatus(new Status(true, false, false, false, true, app),
+				"RADIOLOG|"+unitCom.getValue()+"|OPR:"+Login.getUser());
 	}
 }

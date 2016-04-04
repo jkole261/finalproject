@@ -1,5 +1,8 @@
 package edu.ramapo.jkole.cad;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.bson.types.ObjectId;
 import org.json.JSONException;
 
@@ -268,6 +271,19 @@ public class Apparatus {
 					    .findOne(new BasicDBObject("_id", new ObjectId(oid))));
 		return app;
 	}
+	public static Apparatus findApp(String app){
+		app = app.toUpperCase();
+		BasicDBObject obj = new BasicDBObject("AppType", app.substring(0,1))
+				.append("UnitCount", app.substring(1, 3))
+				.append("UnitMunic", app.substring(3, 5));
+		try {obj.append("appNum", app.substring(5, 6));} 
+		catch (Exception e) {obj.append("appNum", "");}
+		System.out.println(obj);
+		Apparatus a = new Apparatus((BasicDBObject) Database.getCol("Apparatus", "info").findOne(obj));
+		
+		return a;
+	}
+	
 	public void setSupv(boolean supv) {
 		this.supv = supv;
 	}
@@ -408,8 +424,19 @@ public class Apparatus {
 							.append("UnitMunic", this.muniNum)
 							.append("appNum", this.appNum));
 			String s = obj.getString("Status");
-			s = s.substring((s.indexOf("|")-9), s.indexOf("|"));
-			return s;
+			
+			Pattern p = Pattern.compile("\\d{2}-\\d{6}");
+			Matcher m = p.matcher(s);
+			
+			Pattern p1 = Pattern.compile("\\bRADIOLOG.*.+?(?=\\bOPR)", Pattern.CASE_INSENSITIVE);
+			Matcher m1 = p1.matcher(s);
+			
+			if(m.find()){
+				return m.group();
+			}
+			else if(m1.find()){
+				return m1.group();
+			}
 		}
 		return "";
 	}

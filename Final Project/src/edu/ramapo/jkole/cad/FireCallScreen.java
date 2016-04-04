@@ -1,6 +1,8 @@
 package edu.ramapo.jkole.cad;
 
 import java.awt.GraphicsEnvironment;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Application;
@@ -24,7 +26,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import com.google.code.geocoder.Geocoder;
+import com.google.code.geocoder.GeocoderRequestBuilder;
+import com.google.code.geocoder.model.GeocodeResponse;
+import com.google.code.geocoder.model.GeocoderRequest;
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
 
 public class FireCallScreen extends Application{
 	static Stage stage;
@@ -128,6 +135,55 @@ public class FireCallScreen extends Application{
 	    stage.sizeToScene(); 
 	    stage.show(); 	
 	}
+	private HBox getToolBar() {
+		// TODO Auto-generated method stub
+		HBox box = new HBox();
+		ToolBar tool = new ToolBar();
+
+		Button hist = new Button("HIST");
+		Button modify = new Button("MOD");
+		Button add = new Button("ADD");
+		Button clear = new Button("CLR");
+		Button delete = new Button("DEL");
+		Button print = new Button("PRT");
+		Button next = new Button("FWD");
+		Button prev = new Button("BCK");
+		
+		hist.setOnAction(actionEvent -> search(addr.getText()));
+		
+		modify.setOnAction(actionEvent -> {});
+		modify.setDisable(true);
+		
+		add.setOnAction(actionEvent -> new CallTakerScreen());
+		
+		tool.getItems().addAll(hist, modify, add, clear, delete, print, new Separator(),
+				prev, next);
+		box.getChildren().addAll(tool);
+		return box;
+	}
+	protected void search(String text) {
+		// TODO Auto-generated method stub
+		List<Call> list = new ArrayList<Call>();
+		DBCursor curs = Database.getCol("Calls", "basicInfo").find(new BasicDBObject("addr", searchAddr(text)));
+	   	while(curs.hasNext()){
+	   		curs.next();
+	   		System.out.println(curs.curr());
+	   		list.add(new Call((BasicDBObject)curs.curr()));
+	   	}
+		new CallStack(list);
+	}
+	public String searchAddr(String text) {
+		try {
+			final Geocoder geocoder = new Geocoder();
+			GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().setAddress(text+", NJ").setLanguage("en").getGeocoderRequest();
+			GeocodeResponse geocoderResponse = geocoder.geocode(geocoderRequest);
+			System.out.println(geocoderResponse.getResults().get(0).getFormattedAddress());
+			return geocoderResponse.getResults().get(0).getFormattedAddress();
+		} catch (IOException e) {
+			System.err.print(e);
+		}
+		return "";
+	}
 	private Node getToolBar2() {
 		HBox box = new HBox();
 		
@@ -135,7 +191,7 @@ public class FireCallScreen extends Application{
 		
 		Button involv = new Button("INVL");
 		Button usage = new Button("USE");
-		Button files = new Button("Files");
+		Button files = new Button("FILES");
 		Button narr = new Button("NARR");
 		Button rlog = new Button("RLOG");
 		Button nfris = new Button("NFIRS");
@@ -145,6 +201,11 @@ public class FireCallScreen extends Application{
 		tool.getItems().addAll(involv, usage, files, narr, rlog, nfris, image, upgrd);
 		
 		usage.setOnAction(actionEvent -> new UsageLog(cadid.getText()));
+		
+		files.setDisable(true);
+		narr.setDisable(true);
+		
+		rlog.setOnAction(actionEvent -> CallTakerScreen.createRadioLog());
 		
 		upgrd.setOnAction(actionEvent -> {
 			ApparatusDispatch.upgrade();
@@ -157,26 +218,6 @@ public class FireCallScreen extends Application{
 	public void clear() {
 		// TODO Auto-generated method stub
 		stage.close();
-	}
-	private HBox getToolBar() {
-		// TODO Auto-generated method stub
-		HBox box = new HBox();
-		ToolBar tool = new ToolBar();
-
-		Button search = new Button("SRCH");
-		Button modify = new Button("MOD");
-		Button add = new Button("ADD");
-		Button clear = new Button("CLR");
-		Button delete = new Button("DEL");
-		Button list = new Button("LIST");
-		Button print = new Button("PRT");
-		Button next = new Button("FWD");
-		Button prev = new Button("BCK");
-		
-		tool.getItems().addAll(search, modify, add, clear, delete, list, print, new Separator(),
-				prev, next);
-		box.getChildren().addAll(tool);
-		return box;
 	}
 	private Node getCallScreen() {
 		VBox main = new VBox();
@@ -254,7 +295,6 @@ public class FireCallScreen extends Application{
 	}
 	protected void update(String appUnit) {
 		appUnit = appUnit.substring(0, appUnit.indexOf("\t"));
-		//Find app 
 		BasicDBObject obj = new BasicDBObject("AppType", appUnit.substring(0,1))
 				.append("UnitCount", appUnit.substring(1, 3))
 				.append("UnitMunic", appUnit.substring(3, 5));
@@ -262,7 +302,6 @@ public class FireCallScreen extends Application{
 		catch (Exception e) {obj.append("appNum", "");}
 		Apparatus app = new Apparatus((BasicDBObject) Database
 				.getCol("Apparatus", "info").findOne(obj));
-		//get status
 		String stat = app.getStat();
 		switch(stat){
 		case "BUSY":{
@@ -304,22 +343,19 @@ public class FireCallScreen extends Application{
 		return box;
 	}
 	private void getTimes() {
-		// TODO Auto-generated method stub
 		paged.setText(getTime("PAGED"));
 		enrt.setText(getTime("ENRT"));
 		arrvd.setText(getTime("ARVD"));
 		clear.setText(getTime("CLEAR"));
 	}
 	private String getTime(String string) {
-		// TODO Auto-generated method stub
 		try{
 			return Database.getCol("Calls", "times")
 					.findOne(new BasicDBObject("call",callid)).get(string).toString();
 		}
 		catch(NullPointerException e){
 			return "";
-		}
-			
+		}		
 	}
 	private void getInfo() {
 		clearAll();

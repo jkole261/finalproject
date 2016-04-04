@@ -1,6 +1,5 @@
 package edu.ramapo.jkole.alerting;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

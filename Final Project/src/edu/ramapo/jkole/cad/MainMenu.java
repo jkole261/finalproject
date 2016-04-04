@@ -167,18 +167,13 @@ public class MainMenu extends Application {
         Button pendingCalls = new Button("Pend Call");	
         pendingCalls.setTooltip(new Tooltip("Pending Calls"));
         pendingCalls.setOnAction(actionEvent -> new PendingCallsMenu());
-             
-        Button testBut = new Button("TEST");
-        testBut.setOnAction(actionEvent -> {
-        	showPopup("TEST");
-        });
-        
+                 
  //     dispscreen.setGraphic(new ImageView("/dispscreen.png"));
  //     callTaker.setGraphic(new ImageView("/Phone-Icon.png"));
  //     mapping.setGraphic(new ImageView("/mapicon.png"));
         
         toolBar.getItems().addAll(callTaker, dispscreen, mapping, activeCalls,
-        		activeUnits, pendingCalls, testBut);
+        		activeUnits, pendingCalls);
               
     	cmdline.setOnKeyPressed(new EventHandler<KeyEvent>(){
             @Override
@@ -219,8 +214,11 @@ public class MainMenu extends Application {
 		    public void handle(WindowEvent event) {
 		    	System.out.println("SYSTEM EXIT");
 		    	Database.close();
-		    	Main.chk.close();
-		    	Main.client.close();
+		    	try{
+		    		Main.chk.close();
+		    		Main.client.close();
+		    	}
+		    	catch(NullPointerException e){ }
 		    	Platform.exit();
 		    }
 		});

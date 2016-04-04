@@ -24,16 +24,6 @@ public class CallStack extends Application{
 	List<Call> list;
 	CallTakerScreen cts;
 	
-	public CallStack(List<Call> list) {
-		stage = new Stage();
-		this.list = list;
-		try {
-			start(stage);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 	public CallStack(List<Call> list, CallTakerScreen cts1) {
 		stage = new Stage();
 		this.list = list;
@@ -44,7 +34,15 @@ public class CallStack extends Application{
 			e.printStackTrace();
 		}
 	}
-
+	public CallStack(List<Call> list) {
+		stage = new Stage();
+		this.list = list;
+		try {
+			start(stage);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	@SuppressWarnings({ "unchecked", "static-access" })
 	@Override
 	public void start(Stage primaryStage) throws Exception {
