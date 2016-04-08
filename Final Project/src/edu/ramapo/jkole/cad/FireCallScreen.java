@@ -4,6 +4,14 @@ import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import com.google.code.geocoder.Geocoder;
+import com.google.code.geocoder.GeocoderRequestBuilder;
+import com.google.code.geocoder.model.GeocodeResponse;
+import com.google.code.geocoder.model.GeocoderRequest;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -14,8 +22,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -26,17 +36,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import com.google.code.geocoder.Geocoder;
-import com.google.code.geocoder.GeocoderRequestBuilder;
-import com.google.code.geocoder.model.GeocodeResponse;
-import com.google.code.geocoder.model.GeocoderRequest;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
-
 public class FireCallScreen extends Application{
 	static Stage stage;
 	static String callid = "";
 	static Call c;
+	static String app;
 	boolean editable = true;
 	
 	BorderPane root; 
@@ -97,7 +101,6 @@ public class FireCallScreen extends Application{
 	
 	@Override
 	public void start(Stage stage) throws Exception {
-		// TODO Auto-generated method stub
 		root = new BorderPane();
     	Scene scene = new Scene(root, 600, 650, Color.ANTIQUEWHITE);
 		
@@ -108,21 +111,55 @@ public class FireCallScreen extends Application{
     	Menu cad = new Menu("_CAD");
     	Menu help = new Menu("_Help");
     	
+    	MenuItem enrt = new MenuItem("_ENRT");
+		enrt.setMnemonicParsing(true);
+		MenuItem onloc = new MenuItem("_ONLOC");
+		onloc.setMnemonicParsing(true);
+		MenuItem avail = new MenuItem("_AVAIL");
+		avail.setMnemonicParsing(true);
+		MenuItem oos = new MenuItem("_OOS");
+		oos.setMnemonicParsing(true);
+		MenuItem busy = new MenuItem("_BUSY");
+		busy.setMnemonicParsing(true);
+		
+		cad.getItems().addAll(enrt, onloc, avail, oos, busy);
+    	
     	menu.getMenus().addAll(file, edit, cad, help);
     	   
     	disp.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-    	     @Override
-    	     public void handle(MouseEvent event) {
-    	         new ChoiceMenu(disp, "nfrisDispTypes");
-    	     }
+    		@Override
+    		public void handle(MouseEvent event) {
+    			new ChoiceMenu(disp, "nfrisDispTypes");
+    		}
     	});
     	
     	btype.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-   	     @Override
-   	     public void handle(MouseEvent event) {
-   	         new ChoiceMenu(btype, "nfrisPropertyUse");
-   	     }
-   	});
+    		@Override
+    		public void handle(MouseEvent event) {
+    			new ChoiceMenu(btype, "nfrisPropertyUse");
+    		}
+    	});
+    	
+		enrt.setOnAction(actionEvent -> {
+			if(!(callid.isEmpty())){
+				ApparatusDispatch.enrtApp(callid, app);
+			}
+		});
+		
+		onloc.setOnAction(actionEvent -> {
+			if(!(callid.isEmpty())){
+				ApparatusDispatch.arvdApp(callid, app);
+			}
+		});
+		
+		avail.setOnAction(actionEvent -> {
+			ApparatusDispatch.setAvail(app);
+		});
+		
+		oos.setOnAction(actionEvent -> ApparatusDispatch
+				.setOss(app));
+		
+		busy.setOnAction(actionEvent -> CallTakerScreen.createRadioLog(app));
     	
     	root.setTop(new VBox(menu, new HBox(new VBox(getToolBar(), getToolBar2()), 
     			new VBox(Clock.getClock()))));
@@ -136,7 +173,6 @@ public class FireCallScreen extends Application{
 	    stage.show(); 	
 	}
 	private HBox getToolBar() {
-		// TODO Auto-generated method stub
 		HBox box = new HBox();
 		ToolBar tool = new ToolBar();
 
@@ -151,10 +187,19 @@ public class FireCallScreen extends Application{
 		
 		hist.setOnAction(actionEvent -> search(addr.getText()));
 		
+		add.setOnAction(actionEvent -> new CallTakerScreen());
+		
+		clear.setOnAction(actionEvent -> {
+			Call.clearCall(new Call(callid));
+			stage.close();
+		});
+		
 		modify.setOnAction(actionEvent -> {});
 		modify.setDisable(true);
 		
-		add.setOnAction(actionEvent -> new CallTakerScreen());
+		delete.setDisable(true);
+		
+		print.setDisable(true);
 		
 		tool.getItems().addAll(hist, modify, add, clear, delete, print, new Separator(),
 				prev, next);
@@ -162,7 +207,6 @@ public class FireCallScreen extends Application{
 		return box;
 	}
 	protected void search(String text) {
-		// TODO Auto-generated method stub
 		List<Call> list = new ArrayList<Call>();
 		DBCursor curs = Database.getCol("Calls", "basicInfo").find(new BasicDBObject("addr", searchAddr(text)));
 	   	while(curs.hasNext()){
@@ -203,7 +247,21 @@ public class FireCallScreen extends Application{
 		usage.setOnAction(actionEvent -> new UsageLog(cadid.getText()));
 		
 		files.setDisable(true);
-		narr.setDisable(true);
+
+		narr.setOnAction(actionEvent -> {
+			TextInputDialog dialog = new TextInputDialog("walter");
+			dialog.setTitle("Text Input Dialog");
+			dialog.setHeaderText("Look, a Text Input Dialog");
+			dialog.setContentText("Please enter your name:");
+
+			Optional<String> result = dialog.showAndWait();
+			
+			result.ifPresent(name -> System.out.println("Your name: " + name));			
+		});
+		
+		involv.setDisable(true);
+		nfris.setDisable(true);
+		image.setDisable(true);
 		
 		rlog.setOnAction(actionEvent -> CallTakerScreen.createRadioLog());
 		
@@ -215,10 +273,11 @@ public class FireCallScreen extends Application{
 		
 		return box;
 	}
+	
 	public void clear() {
-		// TODO Auto-generated method stub
 		stage.close();
 	}
+	
 	private Node getCallScreen() {
 		VBox main = new VBox();
 		HBox header = new HBox();
@@ -283,9 +342,14 @@ public class FireCallScreen extends Application{
 		item1.setOnMouseClicked(new EventHandler<MouseEvent>(){
 		    @Override
 		    public void handle(MouseEvent mouseEvent){            
-		        if(mouseEvent.getClickCount() == 2){
+		    	if(mouseEvent.getClickCount() == 2){
 		            update(item1.getSelectionModel().getSelectedItem().getValue());
 		        }
+		    	else if(mouseEvent.getClickCount() == 1){
+		    		try { 
+		    			app = item1.getSelectionModel().getSelectedItem().getValue();
+		    		} catch(NullPointerException e){ }
+		    	}
 		    }
 		});
 		
@@ -326,8 +390,7 @@ public class FireCallScreen extends Application{
 			root.setCenter(getCallScreen());
 			applog.setExpanded(true);
 			break;
-		}
-		}
+		}}
 	}
 	private Node getCallInfo() {
 		VBox box = new VBox();
@@ -346,6 +409,7 @@ public class FireCallScreen extends Application{
 		paged.setText(getTime("PAGED"));
 		enrt.setText(getTime("ENRT"));
 		arrvd.setText(getTime("ARVD"));
+		ctrld.setText(getTime("CTRLD"));
 		clear.setText(getTime("CLEAR"));
 	}
 	private String getTime(String string) {

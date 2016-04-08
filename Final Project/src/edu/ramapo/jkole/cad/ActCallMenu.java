@@ -13,6 +13,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -70,24 +72,21 @@ public class ActCallMenu extends Application{
             return row;
 		});
 		
-		new Thread(new Runnable() 
-	    { 
-	      public void run() 
-	      { 
-	        do { 
-	          try{
-	        	  int a = table.getSelectionModel().getSelectedIndex();
-	        	  table.setItems(check(table.getItems()));
-	        	  table.getSelectionModel().select(a);
-	        	  Thread.sleep(10000);
-	          }  
-	          catch(IllegalStateException | InterruptedException e){
-	        	  System.err.println("ERROR ON ACTIVE CALL THREAD");
-	          } 
-	        } 
-	        while(stage.isShowing());
-	      } 
-	    }).start();
+		new Thread(new Runnable(){ 
+			public void run(){ 
+				do { 
+					try{
+						int a = table.getSelectionModel().getSelectedIndex();
+						table.setItems(check(table.getItems()));
+						table.getSelectionModel().select(a);
+						Thread.sleep(10000);
+					} catch(IllegalStateException | InterruptedException e){
+						System.err.println("ERROR ON ACTIVE CALL THREAD");
+					} 
+				} 
+				while(stage.isShowing());
+			} 
+		}).start();
 			
 		actid.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Call, String>, 
 				ObservableValue<String>>() {
@@ -124,6 +123,15 @@ public class ActCallMenu extends Application{
                 return new SimpleStringProperty(param.getValue().getStatus());
             }
         });
+		
+		MenuItem clear = new MenuItem("Clear Call");
+		clear.setMnemonicParsing(true);
+		
+		clear.setOnAction(actionEvent -> {
+			Call.clearCall(table.getSelectionModel().getSelectedItem());
+		});
+		
+		table.setContextMenu(new ContextMenu(clear));
 		
 		mbox.getChildren().add(table);
 		root.setCenter(mbox);

@@ -55,7 +55,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class AppMenu extends Application {
-	private static TableView<Apparatus> table;
+	protected static TableView<Apparatus> table;
 	private TableView<Station> loc; 
 	private TabPane tabPane = new TabPane();
 	private static TableView<Apparatus> stattable;

@@ -78,6 +78,7 @@ public class Login {
 		Optional<Pair<String, String>> result = dialog.showAndWait();
 
 		result.ifPresent(usernamePassword -> {
+			new MainMenu();
 		    System.out.println("Username=" + usernamePassword.getKey() + ", Password=" + usernamePassword.getValue());
 		});
 	}

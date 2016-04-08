@@ -290,6 +290,51 @@ public class CallTakerScreen extends Application {
 		bufRead.close();
 		return nature;
 	}
+	
+	protected static void createRadioLog(String s){
+		Dialog<Pair<String, String>> dialog = new Dialog<>();
+		dialog.setTitle("Create Radio Log");
+		dialog.setHeaderText("Enter Unit and comment for RLog");
+		dialog.setContentText("Unit: ");
+
+		ButtonType loginButtonType = new ButtonType("Submit", ButtonData.OK_DONE);
+		dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+		
+		GridPane grid = new GridPane();
+		grid.setHgap(10);
+		grid.setVgap(10);
+		grid.setPadding(new Insets(20, 150, 10, 10));
+
+		TextField unit = new TextField();
+		unit.setText(s);
+		TextField comm = new TextField();
+		comm.setPrefWidth(200);
+		comm.setPromptText("Comment (location, time until, etc.)");
+		
+		grid.add(new Label("Unit:"), 0, 0);
+		grid.add(unit, 1, 0);
+		grid.add(new Label("Comment:"), 0, 1);
+		grid.add(comm, 1, 1);
+
+		dialog.setResultConverter(dialogButton -> {
+		    if (dialogButton == loginButtonType) {
+		        return new Pair<>(unit.getText(), comm.getText());
+		    }
+		    return null;
+		});
+
+		dialog.getDialogPane().setContent(grid);
+		
+		unit.setFocusTraversable(false);
+		
+		comm.requestFocus();
+		
+		Optional<Pair<String, String>> result = dialog.showAndWait();
+		result.ifPresent(unitCom -> {
+		    ApparatusDispatch.rlog(unitCom);
+		});
+	}
+	
 	protected static void createRadioLog() {
 		//set unit as busy with comment
 		Dialog<Pair<String, String>> dialog = new Dialog<>();
@@ -297,7 +342,7 @@ public class CallTakerScreen extends Application {
 		dialog.setHeaderText("Enter Unit and comment for RLog");
 		dialog.setContentText("Unit: ");
 
-		ButtonType loginButtonType = new ButtonType("Login", ButtonData.OK_DONE);
+		ButtonType loginButtonType = new ButtonType("Submit", ButtonData.OK_DONE);
 		dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
 		
 		GridPane grid = new GridPane();
@@ -308,7 +353,9 @@ public class CallTakerScreen extends Application {
 		TextField unit = new TextField();
 		unit.setPromptText("Unit");
 		TextField comm = new TextField();
-
+		comm.setPrefWidth(200);
+		comm.setPromptText("Comment (location, time until, etc.)");
+		
 		grid.add(new Label("Unit:"), 0, 0);
 		grid.add(unit, 1, 0);
 		grid.add(new Label("Comment:"), 0, 1);
@@ -525,13 +572,18 @@ public class CallTakerScreen extends Application {
 		}
 	}
 	private void nextCall() {
-		if(index < actCall.size()){
-			index++;
+		try{
+			if(index < actCall.size()){
+				index++;
+				clearScreen();
+				setScreen(actCall.get(index));
+			}
+			else{
+				System.out.println("INDEX TO HIGH");
+			}
+		} catch(IndexOutOfBoundsException e) {
 			clearScreen();
-			setScreen(actCall.get(index));
-		}
-		else{
-			System.out.println("INDEX TO HIGH");
+			System.out.println("NO NEW");
 		}
 	}
 	protected void setScreen(DBObject dbObject) {

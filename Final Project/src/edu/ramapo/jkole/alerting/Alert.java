@@ -63,6 +63,10 @@ public class Alert {
 				c.getCall().get("type")+"\n"+
 				c.getCall().get("callInfo"));	
 		alert.append("\n !!!!");
-		Main.client.out.println(alert);
+		try {
+			Main.client.out.println(alert);
+		} catch(NullPointerException e){
+			System.err.println("NO ALERT SENT");
+		}
 	}
 }

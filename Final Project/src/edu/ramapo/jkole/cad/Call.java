@@ -82,7 +82,8 @@ public class Call {
 					curs.curr().get("AppType").toString(), 
 					curs.curr().get("UnitCount").toString(),
 					curs.curr().get("UnitMunic").toString(),
-					curs.curr().get("appNum").toString());
+					curs.curr().get("appNum").toString(),
+					c);
 		}
 	}
 	public void addAgency(Call c, char agen){
@@ -237,6 +238,18 @@ public class Call {
 						ActCallMenu.table.getSelectionModel().getSelectedItem().getCall().get("cadid")+
 						"|OPR:"+Login.getUser());	
 	}
+	private static void clearApp(String atype, String uc, String um, String an, Call c) {
+		Apparatus app = new Apparatus((BasicDBObject) Database
+				.getCol("Apparatus", "info")
+				.findOne(new BasicDBObject("AppType", atype)
+						.append("UnitCount", uc)
+						.append("UnitMunic", um)
+						.append("appNum", an)));
+		Status.updateStatus(new Status(true, false, false, true, false, app),
+				"CALL CLEARED:"+
+						c.getCall().get("cadid")+
+						"|OPR:"+Login.getUser());	
+	}
 	public static void setPaged(String callid) {
 		// TODO Auto-generated method stub
 		BasicDBObject obj = (BasicDBObject) Database.getCol("Calls", "times")
@@ -313,5 +326,17 @@ public class Call {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public static void setCtrld(Call call) {
+		Database.getCol("Calls", "status").findAndModify(
+				new BasicDBObject("CallId", call.getCall().get("cadid").toString()), 
+				new BasicDBObject("CallId", call.getCall().get("cadid").toString())
+					.append("Status", "CTRLD"));
+		BasicDBObject obj = (BasicDBObject) Database.getCol("Calls", "times")
+				.findOne(new BasicDBObject("call", call.getCall().get("cadid")));
+		if(!(obj.containsField("CTRLD"))){
+			obj.put("CTRLD", Clock.getTime());
+		}
+		Database.getCol("Calls", "times").save(obj);
 	}
 }

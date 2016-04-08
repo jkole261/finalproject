@@ -49,7 +49,7 @@ public class CmdLine {
 		}
 	}
 
-	private static void clearCall(Call selectedCall) {
+	static void clearCall(Call selectedCall) {
 		System.out.println("CLEAR CALL "+selectedCall.getCall().get("actid").toString());
 		Call.clearCall(selectedCall);
 	}
@@ -79,6 +79,13 @@ public class CmdLine {
 		}
 		else if(str[0].equalsIgnoreCase("cl")){
 			Apparatus.changeLocation(str[1], str[2]);
+		}
+		else if(str[0].equalsIgnoreCase("ctrld")){
+			try{
+				Call.setCtrld(ActCallMenu.table.getSelectionModel().getSelectedItem());
+			} catch(Exception e){
+				
+			}
 		}
 		else if(str[0].equalsIgnoreCase("appmenu")){
 			try {

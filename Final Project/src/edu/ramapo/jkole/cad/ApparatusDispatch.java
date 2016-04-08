@@ -152,6 +152,26 @@ public class ApparatusDispatch extends Application{
 		Call.setArvd(ActCallMenu.table.getSelectionModel().getSelectedItem());
 	}
 	
+	public static void arvdApp(String callid, String app){
+		String[] string = {app.substring(0, 1),
+				app.substring(1, 3),app.substring(3, 5),""};
+		try{
+			string[3] = app.substring(5, 6);
+		}
+		catch(StringIndexOutOfBoundsException e){
+			string[3] = "";
+		}
+		Apparatus a = new Apparatus((BasicDBObject) Database
+				.getCol("Apparatus", "info")
+				.findOne(new BasicDBObject("AppType", string[0])
+						.append("UnitCount", string[1])
+						.append("UnitMunic", string[2])
+						.append("appNum", string[3])));
+		Status.updateStatus(new Status(true, false, true, false, true, a),
+				"CALL ARVD:"+callid+"|OPR:"+Login.getUser());	
+		Call.setArvd(new Call(callid));
+	}
+	
 	public static void enrtApp(String str){
 		String[] string = {str.substring(0, 1),
 		str.substring(1, 3),str.substring(3, 5),""};
@@ -170,6 +190,26 @@ public class ApparatusDispatch extends Application{
 		Status.updateStatus(new Status(true, true, false, false, true, app),
 				"CALL ENRT:"+ActCallMenu.table.getSelectionModel().getSelectedItem().getCall().get("cadid")+"|OPR:"+Login.getUser());		
 		Call.setEnrt(ActCallMenu.table.getSelectionModel().getSelectedItem());
+	}
+	
+	public static void enrtApp(String callid, String app){
+		String[] string = {app.substring(0, 1),
+		app.substring(1, 3),app.substring(3, 5),""};
+		try{
+			string[3] = app.substring(5, 6);
+		}
+		catch(StringIndexOutOfBoundsException e){
+			string[3] = "";
+		}
+		Apparatus a = new Apparatus((BasicDBObject) Database
+				.getCol("Apparatus", "info")
+				.findOne(new BasicDBObject("AppType", string[0])
+						.append("UnitCount", string[1])
+						.append("UnitMunic", string[2])
+						.append("appNum", string[3])));
+		Status.updateStatus(new Status(true, true, false, false, true, a),
+				"CALL ENRT:"+callid+"|OPR:"+Login.getUser());		
+		Call.setEnrt(new Call(callid));
 	}
 	
 	private void page(AppList appList2) {
@@ -301,7 +341,26 @@ public class ApparatusDispatch extends Application{
 		Status.updateStatus(new Status(true, false, false, true, false, app),
 				"CMDLINE AVAIL|OPR:"+Login.getUser());		
 	}
-
+	public static void setAvail(String callid, String app) {
+		String[] string = {app.substring(0, 1),
+		app.substring(1, 3),app.substring(3, 5),""};
+		try{
+			string[3] = app.substring(5, 6);
+		}
+		catch(StringIndexOutOfBoundsException e){
+			string[3] = "";
+		}
+		Apparatus a = new Apparatus((BasicDBObject) Database
+				.getCol("Apparatus", "info")
+				.findOne(new BasicDBObject("AppType", string[0])
+						.append("UnitCount", string[1])
+						.append("UnitMunic", string[2])
+						.append("appNum", string[3])));
+		Status.updateStatus(new Status(true, false, false, true, false, a),
+				"CMDLINE AVAIL|OPR:"+Login.getUser());		
+	}
+	
+	
 	public static void upgrade() {
 		List<String> choices = new ArrayList<>();
 
@@ -355,9 +414,37 @@ public class ApparatusDispatch extends Application{
 						.append("UnitMunic", str1[2])
 						.append("appNum", str1[3])));
 		Status.updateStatus(new Status(false, false, false, false, false, app),
-				com+"|OPR:"+Login.getUser());	
+				"OOS|"+com+"|OPR:"+Login.getUser());	
 	}
+	public static void setOss(String app) {
+		String[] string = {app.substring(0, 1),
+				app.substring(1, 3),app.substring(3, 5),""};
+		try{
+			string[3] = app.substring(5, 6);
+		}
+		catch(StringIndexOutOfBoundsException e){
+			string[3] = "";
+		}
+		Apparatus a = new Apparatus((BasicDBObject) Database
+				.getCol("Apparatus", "info")
+				.findOne(new BasicDBObject("AppType", string[0])
+					.append("UnitCount", string[1])
+					.append("UnitMunic", string[2])
+					.append("appNum", string[3])));
+		
+		TextInputDialog dialog = new TextInputDialog();
+		dialog.setTitle("Set Unit "+a.getUnitString()+" OOS");
+		dialog.setHeaderText("Enter Comment to set "+a.getUnitString()+"\nOut of Service");
+		dialog.setContentText("Reason:");
 
+		Optional<String> result = dialog.showAndWait();
+		result.ifPresent(com -> {
+			Status.updateStatus(new Status(false, false, false, false, false, a),
+					"OOS|"+com+"|OPR:"+Login.getUser());
+		});	
+	}
+	
+	
 	public static void rlog(Pair<String, String> unitCom) {
 		Apparatus app = Apparatus.findApp(unitCom.getKey());
 		

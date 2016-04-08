@@ -4,6 +4,9 @@ import java.awt.GraphicsEnvironment;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.bson.types.ObjectId;
 
@@ -17,9 +20,13 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -27,19 +34,26 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class ActUnitMenu extends Application{
-	Stage stage;
+	public static Stage stage;
 	TableView<Apparatus> table;
 	
 	public ActUnitMenu(){
-		
-		try {
-			stage = new Stage();
-			start(stage);
-		} catch (Exception e) {
-			e.printStackTrace();
+		try{
+			if(stage.isShowing()){return;}
+			else if(!(stage.isShowing())){
+				stage.show();
+			}
+		}
+		catch(NullPointerException e2){
+			try {
+				stage = new Stage();
+				start(stage);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "static-access" })
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
@@ -58,6 +72,91 @@ public class ActUnitMenu extends Application{
 		
 		table.getColumns().addAll(unit, loc, stat, curcall, timeelap);
 
+		MenuItem showCall = new MenuItem("_Show Call");
+		showCall.setMnemonicParsing(true);
+		MenuItem changeLoc = new MenuItem("_Change Loc");
+		changeLoc.setMnemonicParsing(true);
+		MenuItem rLog = new MenuItem("_Radio Log");
+		rLog.setMnemonicParsing(true);
+		MenuItem appMenu = new MenuItem("View Apparatus");
+		appMenu.setMnemonicParsing(true);
+		Menu status = new Menu("_Set Status");
+		MenuItem enrt = new MenuItem("_ENRT");
+		enrt.setMnemonicParsing(true);
+		MenuItem onloc = new MenuItem("_ONLOC");
+		onloc.setMnemonicParsing(true);
+		MenuItem avail = new MenuItem("_AVAIL");
+		avail.setMnemonicParsing(true);
+		MenuItem oos = new MenuItem("_OOS");
+		oos.setMnemonicParsing(true);
+		MenuItem busy = new MenuItem("_BUSY");
+		busy.setMnemonicParsing(true);
+		
+		status.getItems().addAll(enrt, onloc, avail, oos, busy);
+		
+		showCall.setOnAction(actionEvent -> {
+		        Apparatus item = table.getSelectionModel().getSelectedItem();
+		        if (item != null){ 
+		            new FireCallScreen(item.getCurCall());
+		        }
+		});
+		
+		appMenu.setOnAction(actionEvent -> {
+			try {
+				AppMenu apm = new AppMenu();
+				apm.table.getSelectionModel().select(table.getSelectionModel().getSelectedItem());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+		
+		changeLoc.setOnAction(actionEvent -> {
+			TextInputDialog dialog = new TextInputDialog();
+			dialog.setTitle("Change Unit Location");
+			dialog.setHeaderText("Enter new Location for\n"+table.getSelectionModel().getSelectedItem().getUnitString());
+			dialog.setContentText("Station:");
+
+			Optional<String> result = dialog.showAndWait();
+			result.ifPresent(com -> {
+				Apparatus.changeLocation(table
+						.getSelectionModel().getSelectedItem().getUnitString(), com);
+			});	
+		});
+		
+		rLog.setOnAction(actionEvent -> CallTakerScreen.createRadioLog(
+				table.getSelectionModel().getSelectedItem().getUnitString()));
+		
+		enrt.setOnAction(actionEvent -> {
+			if(!(table.getSelectionModel().getSelectedItem().getCurCall().equalsIgnoreCase(""))){
+				Pattern p = Pattern.compile("\\d{2}-\\d{6}");
+				Matcher m = p.matcher(table.getSelectionModel().getSelectedItem().getCurCall());
+				if(m.find()){
+					ApparatusDispatch.enrtApp(m.group(), table.getSelectionModel().getSelectedItem().getUnitString());
+				}
+			}
+		});
+		
+		onloc.setOnAction(actionEvent -> {
+			if(!(table.getSelectionModel().getSelectedItem().getCurCall().equalsIgnoreCase(""))){
+				Pattern p = Pattern.compile("\\d{2}-\\d{6}");
+				Matcher m = p.matcher(table.getSelectionModel().getSelectedItem().getCurCall());
+				if(m.find()){
+					ApparatusDispatch.arvdApp(m.group(), table.getSelectionModel().getSelectedItem().getUnitString());
+				}
+			}
+		});
+		
+		avail.setOnAction(actionEvent -> {
+			ApparatusDispatch.setAvail(table.getSelectionModel().getSelectedItem().getUnitString());
+		});
+		
+		oos.setOnAction(actionEvent -> ApparatusDispatch
+				.setOss(table.getSelectionModel().getSelectedItem().getUnitString()));
+		
+		busy.setOnAction(actionEvent -> CallTakerScreen.createRadioLog(
+				table.getSelectionModel().getSelectedItem().getUnitString()));
+		
 		table.setRowFactory( tv -> {
             TableRow<Apparatus> row = new TableRow<Apparatus>();
             row.setOnMouseClicked(event -> {
@@ -73,24 +172,24 @@ public class ActUnitMenu extends Application{
             return row;
 		});
 		
-		new Thread(new Runnable() 
-	    { 
-	      public void run() 
-	      { 
-	        do { 
-	          try{
-	        	  int a = table.getSelectionModel().getSelectedIndex();
-	        	  table.setItems(check(table.getItems()));
-	        	  table.getSelectionModel().select(a);
-	        	  Thread.sleep(10000);
-	          }  
-	          catch(IllegalStateException | InterruptedException e){
-	        	  System.err.println("ERROR ON ACTIVE UNIT THREAD");
-	          } 
-	        } 
-	        while(stage.isShowing());
-	      }
-	    }).start();
+		table.setContextMenu(new ContextMenu(showCall, appMenu, changeLoc, rLog, status));
+		
+		new Thread(new Runnable() { 
+			public void run() { 
+				do { 
+					try{
+						int a = table.getSelectionModel().getSelectedIndex();
+						table.setItems(check(table.getItems()));
+						table.getSelectionModel().select(a);
+						Thread.sleep(10000);
+					}  
+					catch(IllegalStateException | InterruptedException e){
+						System.err.println("ERROR ON ACTIVE UNIT THREAD");
+					} 
+				} 
+				while(stage.isShowing());
+			}
+		}).start();
 			
 		unit.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Apparatus, String>, 
 				ObservableValue<String>>() {
@@ -142,7 +241,6 @@ public class ActUnitMenu extends Application{
 		BasicDBObject obj = (BasicDBObject) Database.getCol("Apparatus", "info").findOne(new BasicDBObject("_id", new ObjectId(app.getOid())));
 		String s = obj.getString("Status");
 		s = s.substring(s.indexOf("TimeStamp")+14, s.indexOf("TimeStamp")+32);
-			
 		return getElapsedTime(s);
 	}
 	
@@ -203,6 +301,7 @@ public class ActUnitMenu extends Application{
 		}
 		return items;
 	}
+	
 	private Apparatus getApps(int i) {
 		DBCollection coll = Database.getCol("Apparatus", "info");
 		List<DBObject> foundDocument = coll.find(new BasicDBObject("Status.active", true)).toArray();
