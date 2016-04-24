@@ -114,7 +114,7 @@ public class CmdLine {
 		else if(str[0].equalsIgnoreCase("avail")){
 			ApparatusDispatch.setAvail(str[1]);
 		}
-		else if(str[0].equalsIgnoreCase("fcall")){
+		else if(str[0].equalsIgnoreCase("ci")){
 			new FireCallScreen(str[1]);
 		}	
 		else if(str[0].equalsIgnoreCase("exitcad")){

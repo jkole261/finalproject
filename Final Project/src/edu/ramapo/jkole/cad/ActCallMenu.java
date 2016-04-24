@@ -32,6 +32,7 @@ public class ActCallMenu extends Application{
 		try{
 			if((stage.isShowing())){return;}
 			else if(!(stage.isShowing())){
+				getCalls();
 				stage.show();
 			}
 		}

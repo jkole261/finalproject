@@ -2,6 +2,7 @@ package edu.ramapo.jkole.cad;
 
 import java.awt.GraphicsEnvironment;
 
+import edu.ramapo.jkole.cad.locAlert.LocAlertMenu;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -38,6 +39,7 @@ public class MainMenu extends Application {
     	Database.close();
 		super.stop();
 	}
+    
 	public void start(Stage stage) {
 
         BorderPane root = new BorderPane();
@@ -80,6 +82,7 @@ public class MainMenu extends Application {
         //Admin Menu
         MenuItem statusmenu = new MenuItem("Status Menu");
         MenuItem municmenu = new MenuItem("Municipality Menu");
+        MenuItem localert = new MenuItem("Location Alerts");
         admi.setAccelerator(new KeyCodeCombination(KeyCode.A, KeyCombination.CONTROL_DOWN));
        
         //Help Menu
@@ -89,7 +92,7 @@ public class MainMenu extends Application {
         
         disp.getItems().addAll(stations, apperat);
         
-        admi.getItems().addAll(municmenu, statusmenu);
+        admi.getItems().addAll(municmenu, statusmenu, localert);
         
         help.getItems().addAll(connTest);
         
@@ -134,6 +137,8 @@ public class MainMenu extends Application {
 				}
 			}
         });
+        
+        localert.setOnAction(actionEvent -> new LocAlertMenu());
         
         connTest.setOnAction(actionEvent -> Database
         		.connectionTest("departmentlocs", "addresses"));
