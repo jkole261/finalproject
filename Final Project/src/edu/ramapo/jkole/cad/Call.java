@@ -9,6 +9,10 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 
+import edu.ramapo.jkole.cad.locAlert.LocationAlert;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
 public class Call {
 	private HashMap<String, String> call = new HashMap<String, String>();
 	private String status;
@@ -115,11 +119,27 @@ public class Call {
 	}
 	public static String checkAlert(Call call) {
 		// TODO Auto-generated method stub
-		DBCollection coll = Database.getCol("Calls", "alerts");
-		String i = null;
-		i = coll.find(new BasicDBObject("addr", call.getCall().get("addr"))).count()+"";
+		DBCollection coll = Database.getCol("Alerts", "info");
+		DBCursor curs = coll.find(new BasicDBObject("addr", call.getCall().get("addr")));
+		String i =curs.size()+"";
+		if(((int) Double.parseDouble(i)) > 0){
+			sendAlert(curs);
+		}
 		call.getCall().put("alerts", i);
 		return i;
+	}
+	private static void sendAlert(DBCursor curs) {
+		while(curs.hasNext()){
+			System.out.println("ALERT");
+			curs.next();
+			LocationAlert temp = new LocationAlert();
+			temp.setType(curs.curr().get("type").toString());
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Location Alert");
+			alert.setHeaderText(temp.getTypeString());
+			alert.setContentText(curs.curr().get("info").toString());
+			alert.showAndWait();
+		}
 	}
 	public static String checkDups(Call call) {
 		// TODO Auto-generated method stub

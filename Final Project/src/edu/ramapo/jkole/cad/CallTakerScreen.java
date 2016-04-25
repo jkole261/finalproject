@@ -595,6 +595,9 @@ public class CallTakerScreen extends Application {
 		addr.setText(dbObject.get("addr").toString());
 		city.setText(dbObject.get("city").toString());
 		addr2.setText(dbObject.get("addr2").toString());
+		calls.setText(dbObject.get("Calls").toString());
+		dups.setText(dbObject.get("Dups").toString());
+		alerts.setText(dbObject.get("Alerts").toString());
 //!!!!! ADD REST OF VALUES
 	}
 	private void clearScreen() {
@@ -627,7 +630,8 @@ public class CallTakerScreen extends Application {
 	private void validateAddr(String text) {
 		try {
 			final Geocoder geocoder = new Geocoder();
-			GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().setAddress(text+", NJ").setLanguage("en").getGeocoderRequest();
+			GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().setAddress(text+", NJ")
+					.setLanguage("en").getGeocoderRequest();
 			GeocodeResponse geocoderResponse = geocoder.geocode(geocoderRequest);
 			addr.setText(geocoderResponse.getResults().get(0).getFormattedAddress());
 			city.setText(Municipality.getCodeFromDB("Municipality",addr.getText().split(",")[1].trim()));

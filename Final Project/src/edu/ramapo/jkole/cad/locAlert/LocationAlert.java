@@ -1,109 +1,135 @@
 package edu.ramapo.jkole.cad.locAlert;
 
+import java.io.FileReader;
 import java.util.HashMap;
+import java.util.Iterator;
+
+import org.bson.types.ObjectId;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import com.mongodb.BasicDBObject;
 
+import edu.ramapo.jkole.cad.ChoiceMenu;
 import edu.ramapo.jkole.cad.Database;
+import javafx.scene.control.TreeItem;
 
 public class LocationAlert {
-	private static String alertID;
-	private static String location;
-	private static String city;
-	private static int munic;
-	private static String state;
-	private static String type;
-	private static String info;
+	private  ObjectId alertID;
+	private  String location;
+	private  String city;
+	private  String munic;
+	private  String type;
+	private  String info;
 	
 	public LocationAlert(){
 		
 	}
 	
+	public LocationAlert(BasicDBObject obj){
+		new LocationAlert((HashMap<String, String>) obj.toMap());
+	}
+	
 	public LocationAlert(HashMap<String, String> map){
-		alertID = map.get("id");
 		location = map.get("addr"); //formatted address
 		city = map.get("city");
-		munic = (int)Double.parseDouble(map.get("munic"));
-		state = map.get("state");
+		munic = map.get("munic");
 		type = map.get("type");
 		info = map.get("info");
 	}
 
-	public static String getAlertID() {
+	public ObjectId getAlertID() {
 		return alertID;
 	}
 
-	public static void setAlertID(String alertID) {
-		LocationAlert.alertID = alertID;
+	public void setAlertID(ObjectId alertID) {
+		this.alertID = alertID;
 	}
 
-	public static String getLocation() {
+	public String getLocation() {
 		return location;
 	}
 
-	public static void setLocation(String location) {
-		LocationAlert.location = location;
+	public String getTypeString(){
+		System.out.println(this.type);
+		JSONParser parser = new JSONParser(); 
+        try {
+            Object obj = parser.parse(new FileReader(
+            		"lib/alertType.dat"));
+            JSONObject jsonObject = (JSONObject) obj;
+            JSONArray objs = (JSONArray) jsonObject.get("Types");
+			Iterator<JSONObject> iterator = objs.iterator();
+            while (iterator.hasNext()) {
+            	JSONObject tobj = iterator.next();         	
+            	Object obj1 = parser.parse(new FileReader(
+                        "lib/alertType.dat"));
+                JSONObject jobject = (JSONObject) obj1;
+                JSONArray obja = (JSONArray) jobject.get(tobj.get("type").toString());
+    			Iterator<JSONObject> iterator2 = obja.iterator();
+                while (iterator2.hasNext()) {
+                	JSONObject jobj = iterator2.next();
+                	if(jobj.get("code").toString().equalsIgnoreCase(this.type)){
+                		return jobj.get("type").toString();
+                	}
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		return "";
+	}
+	
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
-	public static String getCity() {
+	public String getCity() {
 		return city;
 	}
 
-	public static void setCity(String city) {
-		LocationAlert.city = city;
+	public void setCity(String city) {
+		this.city = city;
 	}
 
-	public static int getMunic() {
+	public String getMunic() {
 		return munic;
 	}
 
-	public static void setMunic(int munic) {
-		LocationAlert.munic = munic;
+	public void setMunic(String munic) {
+		this.munic = munic;
 	}
 
-	public static String getState() {
-		return state;
-	}
-
-	public static void setState(String state) {
-		LocationAlert.state = state;
-	}
-
-	public static String getType() {
+	public String getType() {
 		return type;
 	}
 
-	public static void setType(String type) {
-		LocationAlert.type = type;
+	public void setType(String type) {
+		this.type = type;
 	}
 
-	public static String getInfo() {
+	public String getInfo() {
 		return info;
 	}
 
-	public static void setInfo(String info) {
-		LocationAlert.info = info;
+	public void setInfo(String info) {
+		this.info = info;
 	}
 	
-	public static HashMap<String, String> toMap(){
+	public HashMap<String, String> toMap(){
 		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("id", alertID);
 		map.put("addr", location);
 		map.put("city", city);
 		map.put("munic", munic+"");
-		map.put("state", state);
 		map.put("type", type);
 		map.put("info", info);
 		return map;
 	}
 	
 	@SuppressWarnings("static-access")
-	public static void update(LocationAlert la){
+	public void update(LocationAlert la){
 		BasicDBObject obj = (BasicDBObject) Database.getCol("Alerts", "info").findOne(new BasicDBObject(toMap()));
 		
-		if(!la.getAlertID().equalsIgnoreCase(alertID)){
-			alertID = la.getAlertID();
-		}
 		if(!la.getCity().equalsIgnoreCase(city)){
 			city = la.getCity();
 		}
@@ -115,9 +141,6 @@ public class LocationAlert {
 		}
 		if(!(la.getMunic() == munic)){
 			munic = la.getMunic();
-		}
-		if(!la.getState().equalsIgnoreCase(state)){
-			state = la.getState();
 		}
 		if(!la.getType().equalsIgnoreCase(type)){
 			type = la.getType();

@@ -1,0 +1,13 @@
+{"Types":[
+	{"code":"1", "type":"Safety"},
+	{"code":"2", "type":"Notification"},
+	{"code":"3", "type":"Arrest"}],
+"Safety":[
+	{"code":"10", "type":"Children Safety"},
+	{"code":"11", "type":"Weapons"},
+	{"code":"12", "type":"Safety, other"}],
+"Notification":[
+	{"code":"20", "type":"Notify, other"}],
+"Arrest":[
+	{"code":"30", "type":"Arrest, other"}]
+}

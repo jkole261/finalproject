@@ -14,8 +14,8 @@ import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 
 public class Database {
-	static MongoClient client;
-	static DB db;
+	public static MongoClient client;
+	public static DB db;
 	
 	public static DB getDb() {
 		return db;

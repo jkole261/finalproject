@@ -111,12 +111,12 @@ public class ChoiceMenu extends Application{
 	}
 
 	@SuppressWarnings("unchecked")
-	private static ObservableList<TreeItem<String>> getChildren(String str, String str1) {
+	public static ObservableList<TreeItem<String>> getChildren(String str, String file) {
 		JSONParser parser = new JSONParser();
 		ObservableList<TreeItem<String>> oblist = FXCollections.observableArrayList();
 		try {
             Object obj = parser.parse(new FileReader(
-                    "lib/"+str1+".dat"));
+                    "lib/"+file+".dat"));
  
             JSONObject jsonObject = (JSONObject) obj;
             JSONArray objs = (JSONArray) jsonObject.get(str);
