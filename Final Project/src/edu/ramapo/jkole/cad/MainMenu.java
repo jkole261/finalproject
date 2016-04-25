@@ -41,7 +41,7 @@ public class MainMenu extends Application {
 	}
     
 	public void start(Stage stage) {
-
+		stage = new Stage();
         BorderPane root = new BorderPane();
     	Scene scene = new Scene(root, 700, 100, Color.ANTIQUEWHITE);
         

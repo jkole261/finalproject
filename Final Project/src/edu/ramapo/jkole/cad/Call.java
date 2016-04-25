@@ -130,6 +130,7 @@ public class Call {
 	}
 	private static void sendAlert(DBCursor curs) {
 		while(curs.hasNext()){
+			SoundPlayer.playSound();
 			System.out.println("ALERT");
 			curs.next();
 			LocationAlert temp = new LocationAlert();

@@ -52,7 +52,6 @@ public class LocationAlert {
 	}
 
 	public String getTypeString(){
-		System.out.println(this.type);
 		JSONParser parser = new JSONParser(); 
         try {
             Object obj = parser.parse(new FileReader(

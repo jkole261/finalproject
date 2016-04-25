@@ -41,6 +41,7 @@ public class StatusMenu extends Application {
 		}
 		catch(NullPointerException e2){
 			try {
+				stage = new Stage();
 				start(stage);
 			} catch (Exception e) {
 				e.printStackTrace();
