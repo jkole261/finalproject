@@ -22,9 +22,7 @@ import org.json.simple.parser.JSONParser;
 
 import com.mongodb.BasicDBObject;
 
-import edu.ramapo.jkole.cad.ChoiceMenu;
 import edu.ramapo.jkole.cad.Database;
-import javafx.scene.control.TreeItem;
 
 public class LocationAlert {
 	private  ObjectId alertID;
@@ -38,6 +36,7 @@ public class LocationAlert {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public LocationAlert(BasicDBObject obj){
 		new LocationAlert((HashMap<String, String>) obj.toMap());
 	}
@@ -62,6 +61,7 @@ public class LocationAlert {
 		return location;
 	}
 
+	@SuppressWarnings("unchecked")
 	public String getTypeString(){
 		JSONParser parser = new JSONParser(); 
         try {
@@ -136,7 +136,6 @@ public class LocationAlert {
 		return map;
 	}
 	
-	@SuppressWarnings("static-access")
 	public void update(LocationAlert la){
 		BasicDBObject obj = (BasicDBObject) Database.getCol("Alerts", "info").findOne(new BasicDBObject(toMap()));
 		

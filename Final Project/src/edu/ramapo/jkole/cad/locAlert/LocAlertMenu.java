@@ -27,7 +27,6 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
-import edu.ramapo.jkole.cad.Call;
 import edu.ramapo.jkole.cad.ChoiceMenu;
 import edu.ramapo.jkole.cad.Database;
 import edu.ramapo.jkole.cad.Main;
@@ -94,7 +93,7 @@ public class LocAlertMenu extends Application{
 			}
 		}
 	}
-	@SuppressWarnings({ "static-access", "unchecked" })
+	@SuppressWarnings({ "static-access", "unchecked", "unused" })
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		if(Main.pro.getAdminlvl() < 4){return;}
@@ -176,6 +175,7 @@ public class LocAlertMenu extends Application{
         stage.sizeToScene(); 
         stage.show(); 
 	}
+	@SuppressWarnings("unused")
 	private void setBottomPane(LocationAlert dat) {
 		tabPane.getTabs().clear();
 		
