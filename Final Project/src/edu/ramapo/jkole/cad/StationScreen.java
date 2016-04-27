@@ -1,6 +1,19 @@
+/**/
+/**
+ * StationScreen.java
+ * 
+ * @author Jason Kole
+ * 
+ * StationScreen class is a JavaFX application that displays all Station objects within 
+ * the system for all town. Within this menu all stations will be able to be 
+ * modified as well as added to the dispatch system. 
+ */
+/**/
 package edu.ramapo.jkole.cad;
 
 import java.awt.GraphicsEnvironment;
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.List;
 
 import org.json.JSONException;
@@ -75,7 +88,11 @@ public class StationScreen extends Application{
 		// TODO Auto-generated method stub
 		BorderPane root = new BorderPane();
 		Scene scene = new Scene(root, 1000, 600, Color.ANTIQUEWHITE);
-		
+		try {
+			scene.getStylesheets().add((new File("lib/css/"+Main.pro.getUser()+".css").toURI().toURL()).toExternalForm());
+		} catch (MalformedURLException e2) {
+			e2.printStackTrace();
+		}
 		MenuBar mainMenu = new MenuBar();  
 		final VBox vbox = new VBox();
 		

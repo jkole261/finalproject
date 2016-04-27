@@ -1,3 +1,15 @@
+/**/
+/** AlertServer.java
+ * 
+ * @author Jason Kole
+ * 
+ * the AlertServer class is an independant program from StreetWatch. it is the server
+ * that recieves and pushes out all information to the respective clients. this class
+ * will not run when the main program runs unless started previously.
+ * 
+ **/
+/**/
+
 package edu.ramapo.jkole.alerting;
 
 import java.io.BufferedReader;
@@ -8,22 +20,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashSet;
 
-/**
- * A simple Swing-based client for the chat server.  Graphically
- * it is a frame with a text field for entering messages and a
- * textarea to see the whole dialog.
- *
- * The client follows the Chat Protocol which is as follows.
- * When the server sends "SUBMITNAME" the client replies with the
- * desired screen name.  The server will keep sending "SUBMITNAME"
- * requests as long as the client submits screen names that are
- * already in use.  When the server sends a line beginning
- * with "NAMEACCEPTED" the client is now allowed to start
- * sending the server arbitrary strings to be broadcast to all
- * chatters connected to the server.  When the server sends a
- * line beginning with "MESSAGE " then all characters following
- * this string should be displayed in its message area.
- */
 public class AlertServer {
 
 	 private static final int PORT = 9001;

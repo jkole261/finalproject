@@ -1,3 +1,14 @@
+/**/
+/** Database.java
+ * 
+ * @author Jason Kole
+ * 
+ * The database class contains basic functions to access the database stores
+ * all the information within the system. this class contains test functions
+ * and modification functions for database modification. 
+ **/
+/**/
+
 package edu.ramapo.jkole.cad;
 
 import java.net.UnknownHostException;
@@ -12,6 +23,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoTimeoutException;
 
 public class Database {
 	public static MongoClient client;
@@ -27,8 +39,9 @@ public class Database {
 		try {
 			client = new MongoClient("localhost");
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (MongoTimeoutException e) {
+			System.err.println("TEST");
 		}
 	}
 	public static void connectionTest(String DBName, String Collection){
@@ -70,17 +83,14 @@ public class Database {
 		return temp;
 	}
 	public static DBCollection getCol(String db, String collect) {
-		// TODO Auto-generated method stub
 		return client.getDB(db).getCollection(collect);		
 	}
 	public static DBCursor findAll(String db, String collect) {
-		// TODO Auto-generated method stub
 		DBCollection col = getCol("Calls", "basicInfo");
 		DBCursor cur = col.find();
 		return cur;
 	}
 	public static void close() {
-		// TODO Auto-generated method stub
 		client.close();
 	}
 }

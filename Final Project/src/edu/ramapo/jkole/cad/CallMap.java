@@ -1,3 +1,13 @@
+/**/
+/** CallMap.java
+ * 
+ * @author Jason Kole
+ * 
+ * The callmap is a webview of a external html document. this is to provide the dispatcher an
+ * overhead view of the area to assist the units on locaiton with further information that may 
+ * not be available to the specific person on the ground.
+ **/
+/**/
 package edu.ramapo.jkole.cad;
 
 import javafx.application.Application;
@@ -23,9 +33,6 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
-/**
- * @author Jasper Potts
- */
 public class CallMap extends Application {
     static Stage stage;
     static WebEngine webEngine;

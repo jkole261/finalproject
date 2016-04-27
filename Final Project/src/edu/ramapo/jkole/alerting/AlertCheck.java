@@ -1,3 +1,14 @@
+/**/
+/** AlertCheck.java
+ * 
+ * @author Jason Kole
+ * 
+ * The AlertCheck class creates and runs a thread constantly while the program
+ * is running to listen for all new calls. once a new call is recieved it checks 
+ * for the dispatched stations. if they are the same it will display the message 
+ * in the console.
+ **/
+/**/
 package edu.ramapo.jkole.alerting;
 
 import java.io.BufferedReader;

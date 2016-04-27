@@ -1,3 +1,13 @@
+/**/
+/** CallStack.java
+ * 
+ * @author Jason Kole
+ * 
+ * The callStack creates and holds all the calls in the dispatch system. this is used
+ * by the calltakerscreen and the firecallscreen to make the screens scroll through 
+ * all current and previous calls. 
+ **/
+/**/
 package edu.ramapo.jkole.cad;
 
 import java.awt.GraphicsEnvironment;

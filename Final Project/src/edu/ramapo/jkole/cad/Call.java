@@ -1,3 +1,13 @@
+/**/
+/** Call.java
+ * 
+ * @author Jason Kole
+ * 
+ * The Call object contains all information that is crutial to an emergency call.
+ * within this class also contains the ability to modify one or many calls at one 
+ * time. currently there is no safety on the calls to prevent certain modifications.
+ **/
+/**/
 package edu.ramapo.jkole.cad;
 
 import java.util.ArrayList;
@@ -89,12 +99,6 @@ public class Call {
 					curs.curr().get("appNum").toString(),
 					c);
 		}
-	}
-	public void addAgency(Call c, char agen){
-		
-	}
-	public void removeAgency(Call c, char agen){
-		
 	}
 	@Override
 	public String toString(){

@@ -1,7 +1,19 @@
+/**/
+/**
+ * SuggestedApp.java
+ * 
+ * @author Jason Kole
+ * 
+ * SuggestedApp is a javaFX application that suggests and 
+ * modifies apparatus to respond to an emergency.
+ */
+/**/
 package edu.ramapo.jkole.cad;
 
 import java.awt.GraphicsEnvironment;
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,10 +62,14 @@ public class SuggestedApp extends Application{
 		// TODO Auto-generated method stub
 		BorderPane root = new BorderPane();
     	Scene scene = new Scene(root, 400, 300, Color.ANTIQUEWHITE);
-      
+    	try {
+			scene.getStylesheets().add((new File("lib/cs/"+Main.pro.getUser()+".css").toURI().toURL()).toExternalForm());
+		} catch (MalformedURLException e2) {
+			e2.printStackTrace();
+		}
     	root.setCenter(getCent());
     	
-		stage.setTitle("Dispatch Unit Screen"); 
+		stage.setTitle("!!!!Dispatch Unit Screen"); 
         stage.setScene(scene);
         stage.setMaxWidth(GraphicsEnvironment.getLocalGraphicsEnvironment()
         		.getMaximumWindowBounds().width);
@@ -97,5 +113,4 @@ public class SuggestedApp extends Application{
 		}
 		return list;
 	}
-
 }

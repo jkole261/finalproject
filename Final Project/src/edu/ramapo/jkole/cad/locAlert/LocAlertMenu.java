@@ -1,7 +1,21 @@
+/**/
+/**
+ * LocAlertMenu.java
+ * 
+ * @author Jason Kole
+ * 
+ * LocAlertMenu is a javaFX application that displays all 
+ * LocationAlerts within the dispatch system. from this 
+ * screen you can add alerts and they will be automattically 
+ * formated into the correct address format.
+ */
+/**/
 package edu.ramapo.jkole.cad.locAlert;
 
 import java.awt.GraphicsEnvironment;
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -87,7 +101,11 @@ public class LocAlertMenu extends Application{
 		
 		BorderPane root = new BorderPane();
 		Scene scene = new Scene(root, 1000, 600, Color.ANTIQUEWHITE);
-		
+		try {
+			scene.getStylesheets().add((new File("lib/css/"+Main.pro.getUser()+".css").toURI().toURL()).toExternalForm());
+		} catch (MalformedURLException e2) {
+			e2.printStackTrace();
+		}
 		MenuBar mainMenu = new MenuBar();  
 		final VBox vbox = new VBox();
 		

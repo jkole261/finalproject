@@ -1,6 +1,18 @@
+/**/
+/** ActCallMenu.java
+ * 
+ * @author Jason Kole
+ * 
+ * The ActCallMenu or Active Call Menu, is a javaFX application that when started
+ * will display all current calls that are in the system and occuring at the current
+ * time. This screen has the ability to go into another screen, (FireCallScreen) for more details.
+ **/
+/**/
 package edu.ramapo.jkole.cad;
 
 import java.awt.GraphicsEnvironment;
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.List;
 
 import com.mongodb.BasicDBObject;
@@ -50,6 +62,12 @@ public class ActCallMenu extends Application{
 	public void start(Stage stage) throws Exception {
 		BorderPane root = new BorderPane();
 		Scene scene = new Scene(root, 600, 400, Color.ANTIQUEWHITE);
+		try {
+			scene.getStylesheets().add((new File("lib/css/"+Main.pro.getUser()+".css").toURI().toURL()).toExternalForm());
+		} catch (MalformedURLException e2) {
+			e2.printStackTrace();
+		}
+		
 		stage.setTitle("Active Calls");
 		
 		table = new TableView<Call>();	

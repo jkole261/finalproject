@@ -1,6 +1,18 @@
+/**/
+/** AppMenu.java
+ * 
+ * @author Jason Kole
+ * 
+ * AppMenu class is a JavaFX application that displays all apparatus within the system
+ * for all stations. within this menu all apparatus will be able to be modified as well
+ * as added to the dispatch system. 
+ **/
+/**/
 package edu.ramapo.jkole.cad;
 
 import java.awt.GraphicsEnvironment;
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -220,7 +232,11 @@ public class AppMenu extends Application {
 	public void start(Stage stage) throws Exception {
 		BorderPane root = new BorderPane();
 		Scene scene = new Scene(root, 1000, 600, Color.ANTIQUEWHITE);
-		
+		try {
+			scene.getStylesheets().add((new File("lib/css/"+Main.pro.getUser()+".css").toURI().toURL()).toExternalForm());
+		} catch (MalformedURLException e2) {
+			e2.printStackTrace();
+		}
 		MenuBar mainMenu = new MenuBar();  
 		final VBox vbox = new VBox();
 		

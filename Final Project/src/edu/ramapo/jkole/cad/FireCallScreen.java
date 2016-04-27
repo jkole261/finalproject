@@ -1,7 +1,20 @@
+/**/
+/**
+ * FireCallScreen.java
+ * 
+ * @author Jason Kole
+ * 
+ * the FireCallScreen is a javaFX application where there is more indepth information
+ * regarding calls. within this screen dispatchers can modify the information and keep
+ * time stamps of all important moments within the call.
+ */
+/**/
 package edu.ramapo.jkole.cad;
 
 import java.awt.GraphicsEnvironment;
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -103,7 +116,11 @@ public class FireCallScreen extends Application{
 	public void start(Stage stage) throws Exception {
 		root = new BorderPane();
     	Scene scene = new Scene(root, 600, 650, Color.ANTIQUEWHITE);
-		
+    	try {
+			scene.getStylesheets().add((new File("lib/css/"+Main.pro.getUser()+".css").toURI().toURL()).toExternalForm());
+		} catch (MalformedURLException e2) {
+			e2.printStackTrace();
+		}
     	MenuBar menu = new MenuBar();
     	
     	Menu file = new Menu("_File");

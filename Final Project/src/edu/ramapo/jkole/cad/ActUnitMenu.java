@@ -1,6 +1,18 @@
+/**/
+/** ActUnitMenu.java
+ * 
+ * @author Jason Kole
+ * 
+ * The ActUnitMenu, or Active Units Menu is a javaFX application that when started
+ * will display all current apparatus that are in the system and their locations
+ * at the current time. unit locations will be able to be changed within this screen.
+ **/
+/**/
 package edu.ramapo.jkole.cad;
 
 import java.awt.GraphicsEnvironment;
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -60,7 +72,11 @@ public class ActUnitMenu extends Application{
 		BorderPane root = new BorderPane();
 		Scene scene = new Scene(root, 600, 400, Color.ANTIQUEWHITE);
 		stage.setTitle("Active Units");
-		
+		try {
+			scene.getStylesheets().add((new File("lib/css/"+Main.pro.getUser()+".css").toURI().toURL()).toExternalForm());
+		} catch (MalformedURLException e2) {
+			e2.printStackTrace();
+		}
 		table = new TableView<Apparatus>();	
 		VBox mbox = new VBox();
 		

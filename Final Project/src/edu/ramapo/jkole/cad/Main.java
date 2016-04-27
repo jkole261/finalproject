@@ -1,3 +1,14 @@
+/**/
+/**
+ * Main.java
+ * 
+ * @author Jason Kole
+ * 
+ * the Main class contains the starting point for the program initalizes all database
+ * and server connections. for testing purposes the login is bipassed and the Profile 
+ * is manually started within this class.
+ */
+/**/
 package edu.ramapo.jkole.cad;
 
 import com.mongodb.MongoTimeoutException;

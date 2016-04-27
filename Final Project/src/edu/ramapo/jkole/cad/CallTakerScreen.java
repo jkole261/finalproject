@@ -1,9 +1,22 @@
+/**/
+/** CallTakerScreen.java
+ * 
+ * @author Jason Kole
+ * 
+ * The calltakerscreen is a javaFX application that is one of the main focuses
+ * of the dispatch system. within this screen the user will be able to input data
+ * into the database as well as upgrade existing calls within the system. WARNING 
+ * currently there is no protection against editing an old call.
+ **/
+/**/
 package edu.ramapo.jkole.cad;
 
 import java.awt.GraphicsEnvironment;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,6 +35,7 @@ import com.google.code.geocoder.model.GeocoderRequest;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import com.mongodb.MongoTimeoutException;
 
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -125,14 +139,22 @@ public class CallTakerScreen extends Application {
 		}
 	}
 	private void getCalls() {
-		actCall = Database.getCol("Calls", "basicInfo").find().toArray();
-		index = actCall.size();
+		try{
+			actCall = Database.getCol("Calls", "basicInfo").find().toArray();
+			index = actCall.size();
+		} catch (MongoTimeoutException e){
+			System.err.println(e.getMessage());
+		}
 	}
 	@Override
 	public void start(Stage stage) throws Exception {
 		BorderPane root = new BorderPane();
     	Scene scene = new Scene(root, 1000, 700, Color.ANTIQUEWHITE);
-            	
+    	try {
+			scene.getStylesheets().add((new File("lib/css/"+Main.pro.getUser()+".css").toURI().toURL()).toExternalForm());
+		} catch (MalformedURLException e2) {
+			e2.printStackTrace();
+		} 	
         VBox top = new VBox();  
         MenuBar mainMenu = getMenus();  
         ToolBar toolBar = getToolBar();
@@ -235,7 +257,7 @@ public class CallTakerScreen extends Application {
 				new Label("And"), date2);
 		
 		nature.setItems(getNature());
-		new AutoComboBoxListener<Nature>(nature);
+		new AutoComboBox(nature);
 		nature.valueProperty().addListener(new ChangeListener<Nature>() {
 			@Override
 			public void changed(ObservableValue<? extends Nature> observable,

@@ -1,3 +1,11 @@
+/**/
+/** AppList.java
+ * 
+ * @author Jason Kole
+ * 
+ * AppList object the stores the apparatus and the purpose it is being dispatched for.
+ **/
+/**/
 package edu.ramapo.jkole.cad;
 
 public class AppList {

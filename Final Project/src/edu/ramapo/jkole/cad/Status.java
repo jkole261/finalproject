@@ -1,3 +1,15 @@
+/**/
+/**
+ * Status.java
+ * 
+ * @author Jason Kole
+ * 
+ * the Status class translates all functions within the program, all 
+ * modifications to Apparatus, to a status string and object. the object
+ * contains several boolean values to determine if the apparatus is available
+ * to be dispatched to a call and its location.
+ */
+/**/
 package edu.ramapo.jkole.cad;
 
 import java.text.SimpleDateFormat;

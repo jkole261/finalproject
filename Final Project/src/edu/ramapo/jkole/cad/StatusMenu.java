@@ -1,6 +1,19 @@
+/**/
+/**
+ * StatusMenu.java
+ * 
+ * @author Jason Kole
+ * 
+ * the StatusMenu is a javaFX application that displays all status updates 
+ * in the system. this is used if an accident is entered it can be tracked 
+ * down.
+ */
+/**/
 package edu.ramapo.jkole.cad;
 
 import java.awt.GraphicsEnvironment;
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.List;
 
 import com.mongodb.BasicDBObject;
@@ -53,6 +66,11 @@ public class StatusMenu extends Application {
 	public void start(Stage stage) throws Exception {
 		BorderPane root = new BorderPane();
 		Scene scene = new Scene(root, 1000, 600, Color.ANTIQUEWHITE);
+		try {
+			scene.getStylesheets().add((new File("lib/css/"+Main.pro.getUser()+".css").toURI().toURL()).toExternalForm());
+		} catch (MalformedURLException e2) {
+			e2.printStackTrace();
+		}
 		
 		MenuBar mainmenu = new MenuBar();
 		

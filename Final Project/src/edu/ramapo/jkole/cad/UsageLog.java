@@ -1,6 +1,20 @@
+/**/
+/**
+ * UsageLog.java
+ * 
+ * @author Jason Kole
+ * 
+ * UsageLog is a javaFX application that can be accessed 
+ * from the firecallscreen or the calltakerscreen and 
+ * will show the status updates for all units that are 
+ * apart of the current call. 
+ */
+/**/
 package edu.ramapo.jkole.cad;
 
 import java.awt.GraphicsEnvironment;
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.NoSuchElementException;
 import java.util.regex.Pattern;
 
@@ -44,7 +58,11 @@ public class UsageLog extends Application{
 	public void start(Stage primaryStage) throws Exception {
 		BorderPane root = new BorderPane();
     	Scene scene = new Scene(root, 600, 550, Color.ANTIQUEWHITE);
-		
+    	try {
+			scene.getStylesheets().add((new File("lib/css/"+Main.pro.getUser()+".css").toURI().toURL()).toExternalForm());
+		} catch (MalformedURLException e2) {
+			e2.printStackTrace();
+		}
     	TableColumn<Status, String> unit = new TableColumn<Status, String>();
     	TableColumn<Status, String> stat = new TableColumn<Status, String>();
     	TableColumn<Status, String> time = new TableColumn<Status, String>();

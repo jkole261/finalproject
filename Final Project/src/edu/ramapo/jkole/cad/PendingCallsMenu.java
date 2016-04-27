@@ -1,6 +1,20 @@
+/**/
+/**
+ * PendingCallsMenu.java
+ * 
+ * @author Jason Kole
+ * 
+ * the PendingCallMenu is a javaFX appliation that displays all 
+ * calls that still have to be dispatched. once a call is dispatched
+ * it will no longer be displayed within this table. thread runs
+ * every 10 seconds to retrieve new calls.
+ */
+/**/
 package edu.ramapo.jkole.cad;
 
 import java.awt.GraphicsEnvironment;
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -32,6 +46,9 @@ public class PendingCallsMenu extends Application {
 	public PendingCallsMenu(){
 		try{
 			if(!(stage.isShowing())){return;}
+			else{
+				stage.show();
+			}
 		}
 		catch(NullPointerException e2){
 			stage = new Stage();
@@ -48,7 +65,11 @@ public class PendingCallsMenu extends Application {
 	public void start(Stage stage) throws Exception {
 		BorderPane root = new BorderPane();
     	Scene scene = new Scene(root, 500, 400, Color.ANTIQUEWHITE);
-		
+    	try {
+			scene.getStylesheets().add((new File("lib/css/"+Main.pro.getUser()+".css").toURI().toURL()).toExternalForm());
+		} catch (MalformedURLException e2) {
+			e2.printStackTrace();
+		}
     	MenuBar menu = new MenuBar();
     	
     	Menu file = new Menu("_File");

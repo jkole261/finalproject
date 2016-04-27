@@ -1,3 +1,14 @@
+/**/
+/**
+ * Dispatch.java
+ * 
+ * @author Jason Kole
+ * 
+ * Dispatch class provides the main functions that are needed to process
+ * the information put into the calltakerscreen. this also contains 
+ * geocoder functions to process address put into the system.
+ */
+/**/
 package edu.ramapo.jkole.cad;
 
 import java.io.IOException;

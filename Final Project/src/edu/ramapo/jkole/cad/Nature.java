@@ -1,3 +1,14 @@
+/**/
+/**
+ * Nature.java
+ * 
+ * @author Jason Kole
+ * 
+ * Nature object contains categories that call types and descriptions. there also is
+ * a dispatch type to determine what kind of response there will be as well as a 
+ * priority for the call. 
+ */
+/**/
 package edu.ramapo.jkole.cad;
 
 public class Nature extends Object{

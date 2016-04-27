@@ -1,3 +1,12 @@
+/**/
+/**
+ * SoundPlayer.java
+ * 
+ * @author Jason Kole
+ * 
+ * SoundPlayer class contains sound player functions within the program.
+ */
+/**/
 package edu.ramapo.jkole.cad;
 
 import java.io.FileInputStream;

@@ -1,16 +1,27 @@
+/**/
+/**
+ * Profile.java
+ * 
+ * @author Jason Kole
+ * 
+ * the profile object stores all information for the specific users, including
+ * username, agency, and security levels within the programs. as of now these
+ * cannot be changed within the program. 
+ */
+/**/
 package edu.ramapo.jkole.cad;
 
 public class Profile {
 	private static String user;
-	private static String agency = "13-12-1";
+	private static String agency;
 	private static int securlvl;
 	private static int adminlvl;
 	private static int editlvl;
 	private static int querylvl;
 	
-	public Profile(){
+	public Profile(){ 
 		user = null;
-		agency = "13-26-1";
+		agency = null;
 		securlvl = 0;
 		adminlvl = 0;
 		editlvl = 0;

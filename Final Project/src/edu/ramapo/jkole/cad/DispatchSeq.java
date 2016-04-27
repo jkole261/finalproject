@@ -1,3 +1,14 @@
+/**/
+/**
+ * DispatchSeq.java
+ * 
+ * @author Jason Kole
+ * 
+ * the DispatchSeq class handles the sequence of the dispatch type
+ * and parses it out into individual parts so an apparatatus with
+ * the approiate functionality can respond to the incident.
+ */
+/**/
 package edu.ramapo.jkole.cad;
 
 import java.io.BufferedReader;

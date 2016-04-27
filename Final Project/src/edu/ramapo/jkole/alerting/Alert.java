@@ -1,3 +1,14 @@
+/**/
+/** Alert.java
+ * 
+ * @author Jason Kole
+ * 
+ * The alert class creates an object that stores a call, apparatus, and locations
+ * of that apparatus to send an alert to the respecive locations to nofity apparatus
+ * of a call. all locations and apparatus are stored in ArrayList formats. 
+ **/
+/**/
+
 package edu.ramapo.jkole.alerting;
 
 import java.util.ArrayList;

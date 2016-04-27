@@ -1,3 +1,14 @@
+/**/
+/**
+ * LocationAlert.java
+ * 
+ * @author Jason Kole
+ * 
+ * LocationAlert objects store a location and an alert 
+ * type. once the object is pulled from the database a 
+ * notification appears once the call is dipatched. 
+ */
+/**/
 package edu.ramapo.jkole.cad.locAlert;
 
 import java.io.FileReader;

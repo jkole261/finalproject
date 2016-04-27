@@ -1,3 +1,14 @@
+/**/
+/**
+ * Station.java
+ * 
+ * @author Jason Kole
+ * 
+ * the Station object is a specific police department, fire department,
+ * or first aid squad within a municipality each station contains 
+ * apparatus. 
+ */
+/**/
 package edu.ramapo.jkole.cad;
 
 import com.mongodb.DBObject;

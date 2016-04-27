@@ -1,3 +1,13 @@
+/**/
+/** Clock.java
+ * 
+ * @author Jason Kole
+ * 
+ * The clock object is displayed on the main menu as a constantly
+ * running time with about a 1/2 second delay at times.
+ **/
+/**/
+
 package edu.ramapo.jkole.cad;
 
 import java.text.DateFormat;
@@ -20,7 +30,7 @@ public class Clock {
         final Label clock = new Label();
         clock.setTextAlignment(TextAlignment.RIGHT);
         final DateFormat format = new SimpleDateFormat("EEE, MMM dd, yyyy'\n' HH : mm : ss z");
-        final Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {   
+        final Timeline timeline = new Timeline(new KeyFrame(Duration.millis(500), new EventHandler<ActionEvent>() {   
              public void handle(ActionEvent event) {  
                   final Calendar cal = Calendar.getInstance();  
                   clock.setText(format.format(cal.getTime()));  

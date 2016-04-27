@@ -1,6 +1,19 @@
+/**/
+/**
+ * MainMenu.java
+ * 
+ * @author Jason Kole
+ * 
+ * the MainMenu is the first javaFX application once the program is started if the login
+ * screen is bypassed. this holds a command line and also buttons for all important menus
+ * that will be accessed often within the system.
+ */
+/**/
 package edu.ramapo.jkole.cad;
 
 import java.awt.GraphicsEnvironment;
+import java.io.File;
+import java.net.MalformedURLException;
 
 import edu.ramapo.jkole.cad.locAlert.LocAlertMenu;
 import javafx.application.Application;
@@ -44,7 +57,12 @@ public class MainMenu extends Application {
 		stage = new Stage();
         BorderPane root = new BorderPane();
     	Scene scene = new Scene(root, 700, 100, Color.ANTIQUEWHITE);
-        
+    	try {
+			scene.getStylesheets().add((new File("lib/css/"+Main.pro.getUser()+".css").toURI().toURL()).toExternalForm());
+		} catch (MalformedURLException e2) {
+			e2.printStackTrace();
+		}
+    	
         VBox topContainer = new VBox();  
         MenuBar mainMenu = new MenuBar();  
         ToolBar toolBar = new ToolBar();
@@ -95,6 +113,8 @@ public class MainMenu extends Application {
         admi.getItems().addAll(municmenu, statusmenu, localert);
         
         help.getItems().addAll(connTest);
+        
+        prop.setOnAction(actionEvent -> new PrefMenu());
         
         exit.setOnAction(actionEvent -> Platform.exit());
         

@@ -1,3 +1,13 @@
+/**/
+/** AlertClient.java
+ * 
+ * @author Jason Kole
+ * 
+ * The AlertClient class creates a thread and waits for input. this input is sending information
+ * to the server to then be recieved by the alertCheck class to listen for calls. the AlertClient 
+ * is responsible for sending then information.
+ **/
+/**/
 package edu.ramapo.jkole.alerting;
 
 import java.io.BufferedReader;
@@ -16,7 +26,6 @@ public class AlertClient extends Thread{
      static String serverAddress = "127.0.0.1";
      static Socket socket;
      private Thread t;
-     static boolean lock = false;
 
     public AlertClient(String string) { 
     	str = string;
@@ -49,11 +58,6 @@ public class AlertClient extends Thread{
 		}
 	}
 	public void setMessage(String string) throws IOException {
-		unlock();
 		message = string;
-	}
-	
-	private static void unlock(){
-		lock = true;
 	}
 }

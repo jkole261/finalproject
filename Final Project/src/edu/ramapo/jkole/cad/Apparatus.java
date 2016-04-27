@@ -1,3 +1,11 @@
+/**/
+/** Apparatus.java
+ * 
+ * @author Jason Kole
+ * 
+ * The Apparatus class creates the apparatus object. 
+ **/
+/**/
 package edu.ramapo.jkole.cad;
 
 import java.util.regex.Matcher;
@@ -14,9 +22,9 @@ public class Apparatus {
 	private String appNum;
 	private final String unitYear;
 	private final String unitMake;
-	private  String unitLocCoun;
-	private  String unitLocMuni;
-	private  String unitLocDist;
+	private String unitLocCoun;
+	private String unitLocMuni;
+	private String unitLocDist;
 	private boolean engine;
 	private final boolean ladder;
 	private final boolean rescue;

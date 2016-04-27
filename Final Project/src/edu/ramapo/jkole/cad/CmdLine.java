@@ -1,3 +1,13 @@
+/**/
+/** CmdLine.java
+ * 
+ * @author Jason Kole
+ * 
+ * The cmdline class contains functions for all the command line arguements that are
+ * put into the main menu.
+ **/
+/**/
+
 package edu.ramapo.jkole.cad;
 
 import javafx.application.Platform;

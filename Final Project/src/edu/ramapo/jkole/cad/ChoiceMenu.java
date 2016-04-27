@@ -1,6 +1,20 @@
+/**/
+/** ChoiceMenu.java
+ * 
+ * @author Jason Kole
+ * 
+ * The choicemenu class is a javafx pop-out menu that displays all the information
+ * in a treeview and on a user click will return the ID number of the element 
+ * selected. the choice menu retrieves all its data from .dat files previously
+ * save within the system.
+ * 
+ **/
+/**/
 package edu.ramapo.jkole.cad;
 
+import java.io.File;
 import java.io.FileReader;
+import java.net.MalformedURLException;
 import java.util.Iterator;
 
 import org.json.simple.JSONArray;
@@ -45,11 +59,16 @@ public class ChoiceMenu extends Application{
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void start(Stage stage) throws Exception {
-		stage.setTitle("NFRIS CHOICE MENU");        
-
+		stage.setTitle("NFRIS CHOICE MENU");    
 		BorderPane root = new BorderPane();
+		Scene scene = new Scene(root, 300, 250);
+		try {
+			scene.getStylesheets().add((new File("lib/css/"+Main.pro.getUser()+".css").toURI().toURL()).toExternalForm());
+		} catch (MalformedURLException e2) {
+			e2.printStackTrace();
+		}
+		
         tree = load(string);
-        
         tree.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         tree.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
 			@Override
@@ -63,7 +82,7 @@ public class ChoiceMenu extends Application{
         root.setTop(getSearchMenu());
         root.setCenter(tree);
         
-        stage.setScene(new Scene(root, 300, 250));
+        stage.setScene(scene);
         stage.show();
 	}
 

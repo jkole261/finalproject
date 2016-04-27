@@ -1,3 +1,14 @@
+/**/
+/**
+ * Municipality.java
+ * 
+ * @author Jason Kole
+ * 
+ * the municipality object is for every town that the dispatch system will cover
+ * this keeps the address, numeric codes, and contact information for each town
+ * the system covers.
+ */
+/**/
 package edu.ramapo.jkole.cad;
 
 public class Municipality {
@@ -93,7 +104,6 @@ public class Municipality {
 	}
 
 	public static String getCodeFromDB(String key, String text) {
-		// TODO Auto-generated method stub
 		return Database.get("MunicCode", key, text,"municipalities", "addresses");
 	}
 

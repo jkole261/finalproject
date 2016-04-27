@@ -1,9 +1,21 @@
+/**/
+/** ApparatusDispatch.java
+ * 
+ * @author Jason Kole
+ * 
+ * The ApparatusDispatch class is a menu that is displayed once dispatching begins,
+ * within this menu dispatchers get basic information regarding a call, as well as, 
+ * a list of responding apparatus to an emergency.
+ **/
+/**/
 package edu.ramapo.jkole.cad;
 
 import java.awt.GraphicsEnvironment;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -54,7 +66,11 @@ public class ApparatusDispatch extends Application{
 	public void start(Stage stage) throws Exception {
 		BorderPane root = new BorderPane();
     	Scene scene = new Scene(root, 600, 400, Color.ANTIQUEWHITE);
-      
+    	try {
+			scene.getStylesheets().add((new File("lib/css/"+Main.pro.getUser()+".css").toURI().toURL()).toExternalForm());
+		} catch (MalformedURLException e2) {
+			e2.printStackTrace();
+		}
     	root.setTop(getTop());
     	root.setCenter(getCenter(appList));
 		root.setBottom(getBot());
