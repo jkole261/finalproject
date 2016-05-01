@@ -66,6 +66,7 @@ public class MunicMenu {
 	public MunicMenu() throws Exception{	
 		try{
 			if(!(stage.isShowing())){return;}
+			else{stage.show();}
 		}
 		catch(NullPointerException e2){
 			stage = new Stage();
@@ -99,7 +100,7 @@ public class MunicMenu {
 		MenuItem exit = new MenuItem("_Exit Window");
 		exit.setAccelerator(new KeyCodeCombination(KeyCode.E, KeyCombination.CONTROL_DOWN));
 		
-		if(adminFlag) { file.getItems().add(addStation); }
+		if(Main.pro.getAdminlvl() == 5) { file.getItems().add(addStation); }
 		
 		file.getItems().add(exit);
 		

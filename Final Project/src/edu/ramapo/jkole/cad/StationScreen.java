@@ -69,18 +69,18 @@ public class StationScreen extends Application{
 	public StationScreen(boolean admin) throws Exception{
 		try{
 			if(!(stage.isShowing())){return;}
+			else{stage.show();}
 		}
 		catch(NullPointerException e2){
 			stage = new Stage();
-			adminFlag = Main.isAdmin();
+			adminFlag = Main.pro.getAdminlvl() > 3 ? true : false;
 			table = new TableView<Station>();
 			try {
 				start(stage);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
-		
+		}	
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -209,6 +209,7 @@ public class StationScreen extends Application{
 		TextField tfAddr = new TextField();
 		TextField tfMunc = new TextField();
 		
+		tfAddr.setPrefWidth(200);
 		staAddr.setSpacing(5);
 		staAddr.getChildren().add(new Text("Address:"));
 		staAddr.getChildren().add(tfAddr);
@@ -231,6 +232,7 @@ public class StationScreen extends Application{
 		TextField tfMC = new TextField();
 		TextField tfDC = new TextField();
 		TextField tfContNum = new TextField();
+		tfContNum.setPrefWidth(150);
 		
 		tfCC.setPrefWidth(40);
 		tfMC.setPrefWidth(40);
@@ -328,6 +330,7 @@ public class StationScreen extends Application{
 		TextField tfAddr = new TextField(sta.getAddress());
 		TextField tfMunc = new TextField(sta.getMunicipality());
 		
+		tfAddr.setPrefWidth(200);
 		staAddr.setSpacing(5);
 		staAddr.getChildren().add(new Text("Address:"));
 		staAddr.getChildren().add(tfAddr);
@@ -350,7 +353,7 @@ public class StationScreen extends Application{
 		TextField tfMC = new TextField(sta.getMuniccode());
 		TextField tfDC = new TextField(sta.getDistrict());
 		TextField tfContNum = new TextField(sta.getContactnum());
-		
+		tfContNum.setPrefWidth(150);
 		tfCC.setPrefWidth(40);
 		tfMC.setPrefWidth(40);
 		tfDC.setPrefWidth(40);

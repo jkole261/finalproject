@@ -25,7 +25,23 @@ public class Alert {
 	List<Apparatus> apps;
 	List<String> appLocs;
 	Call c;
-	
+	/**/
+	/*
+	 * NAME
+	 * 		Alert(); Alert(String s); Alert(Call c)
+	 * SYNOPSIS
+	 * 		String s -> cadid of call to create alert for
+	 * 		Call c -> call to create alert for
+	 * DESCRIPTION
+	 * 		this constuctor creates an object of an alert, if the constructor is passed through
+	 * 		with a string (a cadid) it will search for the call within the mongo database and 
+	 * 		return the call. if the constructor is created with a call then that step is skipped.
+	 * RETURNS
+	 * 		an alert object
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public Alert(){
 		apps = new ArrayList<Apparatus>();
 		appLocs = new ArrayList<String>();
@@ -40,6 +56,21 @@ public class Alert {
 		apps = new ArrayList<Apparatus>();
 		appLocs = new ArrayList<String>();
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.alerting.Alert.addApp(Apparatus e)
+	 * SYNOPSIS
+	 * 		Apparatus e -> apparatus to be added
+	 * DESCRIPTION
+	 * 		adds Apparatus e to List<Apparatus> apps and their locations to 
+	 * 		List<String> appLocs to the alert object
+	 * RETURNS
+	 * 		void
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public void addApp(Apparatus e){
 		apps.add(e);
 		String t = e.getUnitLocCoun()+"-"+
@@ -48,6 +79,20 @@ public class Alert {
 			appLocs.add(t);
 		}
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.alerting.Alert.removeApp(Apparatus e)
+	 * SYNOPSIS
+	 * 		Apparatus e -> apparatus to be removed from list
+	 * DESCRIPTION
+	 * 		removes apparatus e from List<Apparatus> apps
+	 * RETURNS
+	 * 		void
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public void removeApp(Apparatus e){
 		apps.remove(e);
 	}
@@ -60,6 +105,25 @@ public class Alert {
 	public Call getCall(){
 		return c;
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.alerting.Alert.sendAlert()
+	 * SYNOPSIS
+	 * 		this.Alert 					-> alert to be sent to server
+	 * 			Call c 					->	call that alert is build for
+	 * 			List<Apparatus> apps	->	list of apparatus assigned to call c
+	 * 			List<Apparatus> appLocs	->	list of locations of apps
+	 * 		StringBuilder alert 		->	stringbuilder that will contain the text for the alert
+	 * DESCRIPTION
+	 * 		goes through each apparatus in apps locations from appLocs and adds them to alert 
+	 * 		to be send through the server. 
+	 * RETURNS
+	 * 		void
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public void sendAlert(){
 		StringBuilder alert = new StringBuilder("** ");
 		for(String e : appLocs){

@@ -12,12 +12,12 @@
 package edu.ramapo.jkole.cad;
 
 public class Profile {
-	private static String user;
-	private static String agency;
-	private static int securlvl;
-	private static int adminlvl;
-	private static int editlvl;
-	private static int querylvl;
+	private  String user;
+	private  String agency;
+	private  int securlvl;
+	private  int adminlvl;
+	private  int editlvl;
+	private  int querylvl;
 	
 	public Profile(){ 
 		user = null;
@@ -30,55 +30,48 @@ public class Profile {
 	
 	public Profile(String user, String agency, int securlvl, 
 			int adminlvl, int editlvl, int querylvl){
-		Profile.user = user;
-		Profile.agency = agency;
-		Profile.securlvl = securlvl;
-		Profile.adminlvl = adminlvl;
-		Profile.editlvl = editlvl;
-		Profile.querylvl = querylvl;
+		this.user = user;
+		this.agency = agency;
+		this.securlvl = securlvl;
+		this.adminlvl = adminlvl;
+		this.editlvl = editlvl;
+		this.querylvl = querylvl;
 	}
 	
 	public String getUser() {
 		return user;
 	}
-	public static void setUser(String user) {
-		Profile.user = user;
+	public void setUser(String user) {
+		this.user = user;
 	}
 	public String getAgency() {
 		return agency;
 	}
-	public static void setAgency(String agency) {
-		Profile.agency = agency;
+	public void setAgency(String agency) {
+		this.agency = agency;
 	}
-	public static int getSecurlvl() {
+	public int getSecurlvl() {
 		return securlvl;
 	}
-	public static void setSecurlvl(int securlvl) {
-		Profile.securlvl = securlvl;
+	public void setSecurlvl(int securlvl) {
+		this.securlvl = securlvl;
 	}
-	public static int getAdminlvl() {
+	public int getAdminlvl() {
 		return adminlvl;
 	}
-	public static void setAdminlvl(int adminlvl) {
-		Profile.adminlvl = adminlvl;
+	public void setAdminlvl(int adminlvl) {
+		this.adminlvl = adminlvl;
 	}
-	public static int getEditlvl() {
+	public int getEditlvl() {
 		return editlvl;
 	}
-	public static void setEditlvl(int editlvl) {
-		Profile.editlvl = editlvl;
+	public void setEditlvl(int editlvl) {
+		this.editlvl = editlvl;
 	}
-	public static int getQuerylvl() {
+	public int getQuerylvl() {
 		return querylvl;
 	}
-	public static void setQuerylvl(int querylvl) {
-		Profile.querylvl = querylvl;
+	public void setQuerylvl(int querylvl) {
+		this.querylvl = querylvl;
 	}
-	public static String getTitle() {
-		return title;
-	}
-	public static void setTitle(String title) {
-		Profile.title = title;
-	}
-	private static String title;
 }

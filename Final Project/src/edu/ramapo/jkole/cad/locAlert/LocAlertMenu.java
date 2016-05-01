@@ -93,7 +93,21 @@ public class LocAlertMenu extends Application{
 			}
 		}
 	}
-	@SuppressWarnings({ "static-access", "unchecked", "unused" })
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.locAlert.LocAlertMenu.start()
+	 * SYNOPSIS
+	 * 		this.LocAlertMenu -> this application
+	 * DESCRIPTION
+	 * 		displays the JavaFX Application LocAlertMenu
+	 * RETURNS
+	 * 		void
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
+	@SuppressWarnings({ "unchecked" })
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		if(Main.pro.getAdminlvl() < 4){return;}
@@ -140,7 +154,7 @@ public class LocAlertMenu extends Application{
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     LocationAlert dat = row.getItem();
-             //       setBottomPane(dat);
+                    setBottomPane(dat);
                 }
             });
             return row ;
@@ -175,7 +189,21 @@ public class LocAlertMenu extends Application{
         stage.sizeToScene(); 
         stage.show(); 
 	}
-	@SuppressWarnings("unused")
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.locAlert.LocAlertMenu.setBottomPane(LocationAlert dat)
+	 * SYNOPSIS
+	 * 		LocationAlert dat -> the LocationAlert that will be updated
+	 * DESCRIPTION
+	 * 		sets the bottom portion of the stage to a menu that will be able to be updates
+	 * 		with the information from dat.
+	 * RETURNS
+	 * 		void
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private void setBottomPane(LocationAlert dat) {
 		tabPane.getTabs().clear();
 		
@@ -189,12 +217,28 @@ public class LocAlertMenu extends Application{
 		
 		return null;
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.locAlert.LocAlertMenu.getAlerts()
+	 * SYNOPSIS
+	 * 		DBCollection coll					->	collection to access Alerts from database
+	 * 		ObservableList<LocationAlert> dat	->	data within the TableView of the application
+	 * DESCRIPTION
+	 * 		gets all Alerts from the database collection coll and adds them to dat where
+	 * 		they will be viewed in a tableview.
+	 * RETURNS
+	 * 		ObservableList<LocationAlert> dat 	->	observablelist that will contain data 
+	 * 													in the TableView
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	@SuppressWarnings("unchecked")
 	private ObservableList<LocationAlert> getAlerts() {
 		ObservableList<LocationAlert> dat = FXCollections.observableArrayList(
 				new LocationAlert()); 
-		Database.setDb(Database.client.getDB("Alerts"));
-		DBCollection coll = Database.db.getCollection("info");
+		DBCollection coll = Database.getCol("Alerts", "info");
 		List<DBObject> foundDocument = coll.find().toArray();
 		dat.remove(0);
 		for(int i = 0; i < foundDocument.size(); i++){
@@ -203,6 +247,21 @@ public class LocAlertMenu extends Application{
 		}
 		return dat;
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.locAlert.LocAlertMenu.addAlert()
+	 * SYNOPSIS
+	 * 		LocationAlert alert		->	LocationAlert that will be created
+	 * DESCRIPTION
+	 * 		creates a visible display and gathers information from the 
+	 * 		application to be inserted into the database 
+	 * RETURNS
+	 * 		void
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private void addAlert() {
 		Tab addStation = new Tab("Add Alert");
 		
@@ -273,6 +332,21 @@ public class LocAlertMenu extends Application{
 		tabPane.getTabs().clear();
 		tabPane.getTabs().add(addStation);
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.locAlert.LocAlertMenu.validateAddress(String text)
+	 * SYNOPSIS
+	 * 		String text		->		string of address that user wants to create alert for
+	 * DESCRIPTION
+	 * 		takes the text and puts it through Google Geocoder to set all address as a valid
+	 * 		location and a consistant format.
+	 * RETURNS
+	 * 		void
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	protected String validateAddress(String text) {
 		try {
 			final Geocoder geocoder = new Geocoder();
@@ -285,9 +359,26 @@ public class LocAlertMenu extends Application{
 		}
 		return "";
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.locAlert.LocAlertMenu.refreshT()
+	 * SYNOPSIS
+	 * 		TableView<LocationAlert> table	->	table that will be refreshed on 
+	 * 												function call.
+	 * DESCRIPTION
+	 * 		looks at the selected item of the table then removes all items 
+	 * 		and calls the getAlert function.
+	 * RETURNS
+	 * 		void
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	protected void refreshT() {
+		int a = table.getSelectionModel().getSelectedIndex();
 		table.getItems().clear();
 		table.setItems(getAlerts());
-		
+		table.getSelectionModel().select(a);
 	}
 }

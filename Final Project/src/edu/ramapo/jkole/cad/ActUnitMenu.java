@@ -197,7 +197,7 @@ public class ActUnitMenu extends Application{
 						int a = table.getSelectionModel().getSelectedIndex();
 						table.setItems(check(table.getItems()));
 						table.getSelectionModel().select(a);
-						Thread.sleep(10000);
+						Thread.sleep(8000);
 					}  
 					catch(IllegalStateException | InterruptedException e){
 						System.err.println("ERROR ON ACTIVE UNIT THREAD");

@@ -24,16 +24,23 @@ public class AlertServer {
 
 	 private static final int PORT = 9001;
 
-	    /**
-	     * The set of all the print writers for all the clients.  This
-	     * set is kept so we can easily broadcast messages.
-	     */
 	    private static HashSet<PrintWriter> writers = new HashSet<PrintWriter>();
-
-	    /**
-	     * The appplication main method, which just listens on a port and
-	     * spawns handler threads.
-	     */
+	    
+		/**/
+		/*
+		 * NAME
+		 * 		edu.ramapo.jkole.alerting.AlertServer.main()
+		 * SYNOPSIS
+		 * 		beginning point of AlertServer 
+		 * DESCRIPTION
+		 * 		starts and creates a server to listen for Alerts and 
+		 * 		then sends them out to alertclients.
+		 * RETURNS
+		 * 		void
+		 * Author
+		 * 		Jason Kole - Spring 2016
+		 */
+		/**/
 	    public static void main(String[] args) throws Exception {
 	        System.out.println("The Alert server is running.");
 	        ServerSocket listener = new ServerSocket(PORT);
@@ -46,32 +53,35 @@ public class AlertServer {
 	        }
 	    }
 
-	    /**
-	     * A handler thread class.  Handlers are spawned from the listening
-	     * loop and are responsible for a dealing with a single client
-	     * and broadcasting its messages.
-	     */
+	    /**/
+		/**
+		 * a thread class that is responsible for listening to a 
+		 * client and broadcasting messages.
+		 **/
+		/**/
 	    private static class Handler extends Thread {
 	        private Socket socket;
 	        private BufferedReader in;
 	        private PrintWriter out;
 
-	        /**
-	         * Constructs a handler thread, squirreling away the socket.
-	         * All the interesting work is done in the run method.
-	         */
 	        public Handler(Socket socket) {
 	            this.socket = socket;
 	        }
-
-	        /**
-	         * Services this thread's client by repeatedly requesting a
-	         * screen name until a unique one has been submitted, then
-	         * acknowledges the name and registers the output stream for
-	         * the client in a global set, then repeatedly gets inputs and
-	         * broadcasts them.
-	         */
-
+	        /**/
+			/*
+			 * NAME
+			 * 		edu.ramapo.jkole.alerting.AlertServer.run()
+			 * SYNOPSIS
+			 * 		thread loop for the handler class 
+			 * DESCRIPTION
+			 * 		listens to the server and once it recieves a message it will
+			 * 		send it out to all listeners on the server. 
+			 * RETURNS
+			 * 		void
+			 * Author
+			 * 		Jason Kole - Spring 2016
+			 */
+			/**/
 	        public void run() {
 	            try {
 	                in = new BufferedReader(new InputStreamReader(

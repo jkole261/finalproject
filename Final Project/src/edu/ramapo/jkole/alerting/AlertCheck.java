@@ -39,6 +39,21 @@ public class AlertCheck extends Thread {
 	   str = string;
 	   info = new StringBuilder();
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.alerting.AlertCheck.run()
+	 * SYNOPSIS
+	 * 		Socket socket	->	connection to server
+	 * DESCRIPTION
+	 * 		runs a thread to listen for incoming messages and 
+	 * 		prints them to the console
+	 * RETURNS
+	 * 		void
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
     public void run() {
     	try {		   
     		String serverAddress = "127.0.0.1";
@@ -60,7 +75,7 @@ public class AlertCheck extends Thread {
     			} catch (Exception e) {
     				Thread.currentThread().interrupt();
     			} 
-//				Thread.sleep(500);
+				Thread.sleep(500);
 	       }
 		} catch (UnknownHostException e1) {
 			e1.printStackTrace();
@@ -74,12 +89,41 @@ public class AlertCheck extends Thread {
 	private void showMessage(String message2) {
     	MainMenu.showPopup(info.toString());
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.alerting.Alert.start()
+	 * SYNOPSIS
+	 * 		this.AlertCheck		-> this instance of the thread
+	 * DESCRIPTION
+	 * 		begins running the thread
+	 * RETURNS
+	 * 		void
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public void start () {
 		if (t == null) {
 			t = new Thread (this);
 			t.start ();
 		}
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.alerting.AlertCheck.close()
+	 * SYNOPSIS
+	 * 		this.AlertCheck		->	connection that is closed
+	 * DESCRIPTION
+	 * 		closes the socket and interrupts the thread running 
+	 * 		to give chance to terminate the thread.
+	 * RETURNS
+	 * 		void
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public void close(){
 		try {
 			socket.close();

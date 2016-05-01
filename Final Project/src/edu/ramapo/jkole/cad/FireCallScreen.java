@@ -182,7 +182,7 @@ public class FireCallScreen extends Application{
     			new VBox(Clock.getClock()))));
     	root.setCenter(getCallScreen());
     	
-		stage.setTitle("Fire Incident Screen"); 
+		stage.setTitle("Call Incident Screen"); 
 	    stage.setScene(scene);
 	    stage.setMaxWidth(GraphicsEnvironment
 	    		.getLocalGraphicsEnvironment().getMaximumWindowBounds().width);
@@ -211,7 +211,9 @@ public class FireCallScreen extends Application{
 			stage.close();
 		});
 		
-		modify.setOnAction(actionEvent -> {});
+		modify.setOnAction(actionEvent -> {
+//ADD MODIFY TO CALL			
+		});
 		modify.setDisable(true);
 		
 		delete.setDisable(true);
@@ -228,7 +230,6 @@ public class FireCallScreen extends Application{
 		DBCursor curs = Database.getCol("Calls", "basicInfo").find(new BasicDBObject("addr", searchAddr(text)));
 	   	while(curs.hasNext()){
 	   		curs.next();
-	   		System.out.println(curs.curr());
 	   		list.add(new Call((BasicDBObject)curs.curr()));
 	   	}
 		new CallStack(list);
@@ -238,7 +239,6 @@ public class FireCallScreen extends Application{
 			final Geocoder geocoder = new Geocoder();
 			GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().setAddress(text+", NJ").setLanguage("en").getGeocoderRequest();
 			GeocodeResponse geocoderResponse = geocoder.geocode(geocoderRequest);
-			System.out.println(geocoderResponse.getResults().get(0).getFormattedAddress());
 			return geocoderResponse.getResults().get(0).getFormattedAddress();
 		} catch (IOException e) {
 			System.err.print(e);
@@ -262,7 +262,7 @@ public class FireCallScreen extends Application{
 		tool.getItems().addAll(involv, usage, files, narr, rlog, nfris, image, upgrd);
 		
 		usage.setOnAction(actionEvent -> new UsageLog(cadid.getText()));
-		
+		narr.setDisable(true);
 		files.setDisable(true);
 
 		narr.setOnAction(actionEvent -> {
@@ -313,6 +313,8 @@ public class FireCallScreen extends Application{
 		header3.getChildren().add(new Label("Narrative:"));
 		header3.setStyle("-fx-background-color: #d3d3d3;");
 		header3.setPadding(new Insets(10, 10, 10, 10));
+		
+		addr.setPrefWidth(325);
 		
 		box.getChildren().add(new HBox(new Label("CAD ID: "), cadid));
 		box.getChildren().add(new HBox(new Label("Nature: "), nature));
@@ -411,6 +413,13 @@ public class FireCallScreen extends Application{
 	}
 	private Node getCallInfo() {
 		VBox box = new VBox();
+		
+		paged.setPrefWidth(200);
+		enrt.setPrefWidth(200);
+		arrvd.setPrefWidth(200);
+		ctrld.setPrefWidth(200);
+		clear.setPrefWidth(200);
+		
 		box.getChildren().add(new HBox(new Label("BuildType: "), btype, new Label("Paged: "), paged));
 		box.getChildren().add(new HBox(new Label("OIC: "), oic, new Label("ENRT: "), enrt));
 		box.getChildren().add(new HBox(new Label("Condition Code: "), cond, new Label("ARRVD: "), arrvd));

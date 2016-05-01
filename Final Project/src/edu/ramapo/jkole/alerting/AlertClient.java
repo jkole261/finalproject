@@ -30,10 +30,23 @@ public class AlertClient extends Thread{
     public AlertClient(String string) { 
     	str = string;
     }
-    
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.alerting.AlertClient.run()
+	 * SYNOPSIS
+	 * 		this.AlertClient	-> thread that will be ran
+	 * DESCRIPTION
+	 * 		runs the thread AlertClient which opens a socket 
+	 * 		to sends String message to the server.
+	 * RETURNS
+	 * 		void
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public void run() {
 		try {
-        // Make connection and initialize streams
 			socket = new Socket(serverAddress, 9001);
 	        in = new BufferedReader(new InputStreamReader(
 	            socket.getInputStream()));
@@ -42,12 +55,40 @@ public class AlertClient extends Thread{
 	        Thread.currentThread().interrupt();
 		} 
     }
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.alerting.AlertClient.start()
+	 * SYNOPSIS
+	 * 		this.AlertClient -> this instance of the Thread
+	 * DESCRIPTION
+	 * 		runs the thread AlertClient
+	 * RETURNS
+	 * 		void
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public void start () {
 		if (t == null) {
 			t = new Thread (this);
 			t.start ();
 		}
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.alerting.AlertClient.close()
+	 * SYNOPSIS
+	 * 		this.AlertClient ->		this instance of the thread
+	 * DESCRIPTION
+	 * 		closes the socket and interupts the thread
+	 * RETURNS
+	 * 		void
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public void close(){
 		try {
 			socket.close();
@@ -57,7 +98,21 @@ public class AlertClient extends Thread{
 			e.printStackTrace();
 		}
 	}
-	public void setMessage(String string) throws IOException {
-		message = string;
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.alerting.AlertClient.setMessage(String str)
+	 * SYNOPSIS
+	 * 		String str -> string that will be send as an Alert
+	 * DESCRIPTION
+	 * 		send the message before the thread is ran
+	 * RETURNS
+	 * 		void
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
+	public void setMessage(String str) throws IOException {
+		message = str;
 	}
 }

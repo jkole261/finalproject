@@ -35,32 +35,33 @@ public class LocationAlert {
 	public LocationAlert(){
 		
 	}
-	
 	@SuppressWarnings("unchecked")
 	public LocationAlert(BasicDBObject obj){
 		new LocationAlert((HashMap<String, String>) obj.toMap());
 	}
 	
 	public LocationAlert(HashMap<String, String> map){
-		location = map.get("addr"); //formatted address
+		location = map.get("addr");
 		city = map.get("city");
 		munic = map.get("munic");
 		type = map.get("type");
 		info = map.get("info");
 	}
-
-	public ObjectId getAlertID() {
-		return alertID;
-	}
-
-	public void setAlertID(ObjectId alertID) {
-		this.alertID = alertID;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.locAlert.LocationAlert.getTypeString()
+	 * SYNOPSIS
+	 * 		JSONParser parser	-> parser used to read file "../lib/alertType.dat"
+	 * DESCRIPTION
+	 * 		reads through the alertType.dat file to match the numeric code from the 
+	 * 		LocationAlert and matches it to a string within the JSON Object table.
+	 * RETURNS
+	 * 		String of value of the type
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	@SuppressWarnings("unchecked")
 	public String getTypeString(){
 		JSONParser parser = new JSONParser(); 
@@ -89,7 +90,17 @@ public class LocationAlert {
         }
 		return "";
 	}
-	
+	public ObjectId getAlertID() {
+		return alertID;
+	}
+
+	public void setAlertID(ObjectId alertID) {
+		this.alertID = alertID;
+	}
+
+	public String getLocation() {
+		return location;
+	}
 	public void setLocation(String location) {
 		this.location = location;
 	}
@@ -125,7 +136,20 @@ public class LocationAlert {
 	public void setInfo(String info) {
 		this.info = info;
 	}
-	
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.locAlert.LocationAlert.toMap()
+	 * SYNOPSIS
+	 * 		LocationAlert dat	->	this.LocationAlert
+	 * DESCRIPTION
+	 * 		returns this instance of LocationAlert into a HashMap<String, String>
+	 * RETURNS
+	 * 		HashMap<String, String> map
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public HashMap<String, String> toMap(){
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("addr", location);
@@ -135,7 +159,20 @@ public class LocationAlert {
 		map.put("info", info);
 		return map;
 	}
-	
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.locAlert.LocationAlert.update(LocationAlert la)
+	 * SYNOPSIS
+	 * 		LocationAlert la -> the LocationAlert that will be updated
+	 * DESCRIPTION
+	 * 		looks for any new or updated information then sents it to the database
+	 * RETURNS
+	 * 		void
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public void update(LocationAlert la){
 		BasicDBObject obj = (BasicDBObject) Database.getCol("Alerts", "info").findOne(new BasicDBObject(toMap()));
 		
