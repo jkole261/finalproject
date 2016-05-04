@@ -168,9 +168,22 @@ public class MunicMenu {
         stage.sizeToScene(); 
         stage.show(); 
 	}
-	
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.MunicMenu.addMunic()
+	 * SYNOPSIS
+	 * 		 
+	 * DESCRIPTION
+	 * 		creates a GUI tab at the bottom of the stage to allow the 
+	 * 		user to add a municipality into the database.
+	 * RETURNS
+	 * 		Action
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private void addMunic() {
-		// TODO Auto-generated method stub
 		Tab addMunic = new Tab("Add Municipality");
 		
 		VBox stinfo = new VBox();
@@ -268,7 +281,22 @@ public class MunicMenu {
 		
 		tabPane.getTabs().addAll(munic);
 	}
-	
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.MunicMenu.getMunInfo(Municipality munic)
+	 * SYNOPSIS
+	 * 		 Municipality munic -> municipality selected from the tableview
+	 * DESCRIPTION
+	 * 		sets the bottom tab similar to the addMunic function however it 
+	 * 		contains all the information from the database about a previously 
+	 * 		entered municipality
+	 * RETURNS
+	 * 		Action
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private Node getMunInfo(Municipality munic) {
 		VBox stinfo = new VBox();
 		stinfo.setSpacing(10);
@@ -352,12 +380,39 @@ public class MunicMenu {
         }
         else { System.out.println("Remove Error"); }            
 	}
-
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.MunicMenu.refreshT()
+	 * SYNOPSIS
+	 * 		 
+	 * DESCRIPTION
+	 * 		Removes all table items and calls another function to repopulate
+	 * RETURNS
+	 * 		void
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private void refreshT() {
 		table.getItems().clear();
 		table.setItems(getMunicipalities());
 	}
-	
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.MunicMenu.getMunicipalities()
+	 * SYNOPSIS
+	 * 		 
+	 * DESCRIPTION
+	 * 		gets all municipalities from the municipalities.addresses database
+	 * 		and puts them into a observablelist to be viewed in a tableview
+	 * RETURNS
+	 * 		ObservableList<Municipality> dat
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private ObservableList<Municipality> getMunicipalities() {
 		ObservableList<Municipality> dat = FXCollections.observableArrayList(
 				new Municipality()); 

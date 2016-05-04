@@ -10,7 +10,7 @@
  */
 /**/
 package edu.ramapo.jkole.cad;
-
+ 
 public class Nature extends Object{
 	private String nature;
 	private String disptype;

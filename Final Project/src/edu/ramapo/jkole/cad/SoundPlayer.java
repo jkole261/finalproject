@@ -16,6 +16,19 @@ import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 
 public class SoundPlayer {
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.SoundPlayer.playSound()
+	 * SYNOPSIS
+	 * 		 
+	 * DESCRIPTION
+	 * 		Plays notificatio sound when called
+	 * RETURNS
+	 * 		Action
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
 	static void playSound(){
 		 String gongFile = "/Windows/Media/notify.wav";
 		 try{

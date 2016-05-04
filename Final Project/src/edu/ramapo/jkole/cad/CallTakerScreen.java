@@ -1,4 +1,4 @@
-/**/
+/****/
 /** CallTakerScreen.java
  * 
  * @author Jason Kole
@@ -8,7 +8,7 @@
  * into the database as well as upgrade existing calls within the system. WARNING 
  * currently there is no protection against editing an old call.
  **/
-/**/
+/****/
 package edu.ramapo.jkole.cad;
 
 import java.awt.GraphicsEnvironment;
@@ -146,6 +146,21 @@ public class CallTakerScreen extends Application {
 			System.err.println(e.getMessage());
 		}
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.CallTakerScreen.start()
+	 * SYNOPSIS
+	 * 		
+	 * DESCRIPTION
+	 * 		creates a GUI for dispatchers to input information and 
+	 * 		create new calls.
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	@Override
 	public void start(Stage stage) throws Exception {
 		BorderPane root = new BorderPane();
@@ -172,6 +187,20 @@ public class CallTakerScreen extends Application {
         stage.sizeToScene(); 
         stage.show();
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.CallTakerScreen.getCenter()
+	 * SYNOPSIS
+	 * 		
+	 * DESCRIPTION
+	 * 		adds information to the main stage (GUI)
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private Node getCenter() throws IOException {
 		VBox callinfo = new VBox();
 		callinfo.setPadding(new Insets(15, 15, 5, 15));
@@ -290,6 +319,21 @@ public class CallTakerScreen extends Application {
 		callinfo.setSpacing(10);
 		return callinfo;
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.CallTakerScreen.getNature()
+	 * SYNOPSIS
+	 * 		
+	 * DESCRIPTION
+	 * 		compares two natures, then returns a observable list 
+	 * 		of all the natures in the natures.dat file
+	 * RETURNS
+	 * 		ObservableList<Nature> nature -> list of natures
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private ObservableList<Nature> getNature() throws IOException {
 		Comparator<? super Nature> compareNat = new Comparator<Nature>() {
 	        @Override
@@ -312,7 +356,21 @@ public class CallTakerScreen extends Application {
 		bufRead.close();
 		return nature;
 	}
-	
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.CallTakerScreen.createRadioLog(Stirng s)
+	 * SYNOPSIS
+	 * 		String s -> Unit Number for radio log
+	 * DESCRIPTION
+	 * 		creates a GUI to insert a radio log for apparatus s, 
+	 * 		then calls ApparatusDispatch.rlog
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	protected static void createRadioLog(String s){
 		Dialog<Pair<String, String>> dialog = new Dialog<>();
 		dialog.setTitle("Create Radio Log");
@@ -356,7 +414,21 @@ public class CallTakerScreen extends Application {
 		    ApparatusDispatch.rlog(unitCom);
 		});
 	}
-	
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.CallTakerScreen.createRadioLog()
+	 * SYNOPSIS
+	 * 		 
+	 * DESCRIPTION
+	 * 		creates a GUI to insert a radio log for specified apparatus, 
+	 * 		then calls ApparatusDispatch.rlog
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	protected static void createRadioLog() {
 		//set unit as busy with comment
 		Dialog<Pair<String, String>> dialog = new Dialog<>();
@@ -509,6 +581,20 @@ public class CallTakerScreen extends Application {
 		
 		return temp;
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.CallTakerScreen.search(Stirng text)
+	 * SYNOPSIS
+	 * 		String test -> searches for address
+	 * DESCRIPTION
+	 * 		searches the Calls.basicInfo table for all calls consisting of address text
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	protected void search(String text) {
 		// TODO Auto-generated method stub
 		List<Call> list = new ArrayList<Call>();
@@ -520,6 +606,21 @@ public class CallTakerScreen extends Application {
 	   	}
 		new CallStack(list, this);
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.CallTakerScreen.search(HashMao<String, String> info)
+	 * SYNOPSIS
+	 * 		info -> hashmap of all the information of the call
+	 * DESCRIPTION
+	 * 		searches the Calls.basicInfo table for all calls consisting of the 
+	 * 		information in the hashmap
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private void search(HashMap<String, String> info) {
 		List<Call> list = new ArrayList<Call>();
 		for (Iterator<Map.Entry<String, String>> iter = 
@@ -543,7 +644,6 @@ public class CallTakerScreen extends Application {
 	}
 	private BasicDBObject getNewInfo(BasicDBObject object) {
 		validateAddr(addr.getText());
-		
 		object.put("nature", ntext);
 		object.put("cadid", cadid.getText());
 		object.put("actid", actid.getText());
@@ -620,7 +720,6 @@ public class CallTakerScreen extends Application {
 		calls.setText(dbObject.get("Calls").toString());
 		dups.setText(dbObject.get("Dups").toString());
 		alerts.setText(dbObject.get("Alerts").toString());
-//!!!!! ADD REST OF VALUES
 	}
 	private void clearScreen() {
 		cadid.clear();actid.clear();
@@ -643,12 +742,27 @@ public class CallTakerScreen extends Application {
 		 callinfo = getNewCallInfo();
 		 Call c = new Call(callinfo);
 		 Call.addCall(c);
-//check and add zones
 		 actid.setText(c.getCall().get("actid"));
 		 cadid.setText(c.getCall().get("cadid"));
 		 dups.setText(c.getCall().get("dups"));
 		 alerts.setText(c.getCall().get("alerts"));
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.CallTakerScreen.validateAddr(String text)
+	 * SYNOPSIS
+	 * 		String text -> address to be formatted 
+	 * DESCRIPTION
+	 * 		uses Googles geocoder to search for the 
+	 * 		closest address to text and then returns 
+	 * 		the value of the formatted address.
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private void validateAddr(String text) {
 		try {
 			final Geocoder geocoder = new Geocoder();

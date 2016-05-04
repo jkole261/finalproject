@@ -7,6 +7,8 @@
  * the login is a javaFX application that is bipassed for testing purposes. however will
  * be the first thing a user sees when the application is started. users will be promped
  * for a username and password pair to log into the system.
+ * 
+ * THIS IS NOT COMPLETED FOR THIS RELEASE
  */
 /**/
 
@@ -27,15 +29,30 @@ import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
 
 public class Login {
-
+	private static Profile profile;
 	public static String getUser() {
 		// TODO Auto-generated method stub
 		return Main.pro.getUser();
 	}
 
 	public static void setUser(Profile user) {
+		Main.pro = profile;
 	}
-	
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Login.showLogin()
+	 * SYNOPSIS
+	 * 		 
+	 * DESCRIPTION
+	 * 		creates a GUI for the login menu, once both fields 
+	 * 		are inserted a new MainMenu is created
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public void showLogin(){
 		Dialog<Pair<String, String>> dialog = new Dialog<Pair<String, String>>();
 		dialog.setTitle("Login Dialog");

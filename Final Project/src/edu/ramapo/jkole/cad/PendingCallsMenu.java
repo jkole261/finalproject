@@ -153,7 +153,22 @@ public class PendingCallsMenu extends Application {
 		vbox.getChildren().add(table);	
 		return vbox;
 	}
-
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.PendingCallsMenu.getElapsedTime(String string)
+	 * SYNOPSIS
+	 * 		 String string -> time to be parsed into elapsed hours, minutes and seconds
+	 * DESCRIPTION
+	 * 		on every function call this parses the time of the call into hours minutes and seconds
+	 * 		once it is in seperate forms it subtracts from the current time and returns as a 
+	 * 		difference string.
+	 * RETURNS
+	 * 		String s;
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private String getElapsedTime(String string) {
 		// TODO Auto-generated method stub
 		int yr = 0, day = 0, month = 0, hr = 0, min = 0, sec = 0;
@@ -189,7 +204,22 @@ public class PendingCallsMenu extends Application {
 		}
 		return s;
 	}
-
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.PendingCallsMenu.getCalls()
+	 * SYNOPSIS
+	 * 		 
+	 * DESCRIPTION
+	 * 		gets all calls that are currently rcvd and have yet to be dispatched
+	 * 		the function then returns them into an observable list to be viewed
+	 * 		in a table view
+	 * RETURNS
+	 * 		void
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private ObservableList<Call> getCalls() {
 		ObservableList<Call> dat = FXCollections.observableArrayList(); 
 		DBCollection coll = Database.getCol("Calls", "status");

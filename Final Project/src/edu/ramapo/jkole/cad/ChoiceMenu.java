@@ -1,4 +1,4 @@
-/**/
+/****/
 /** ChoiceMenu.java
  * 
  * @author Jason Kole
@@ -9,7 +9,7 @@
  * save within the system.
  * 
  **/
-/**/
+/****/
 package edu.ramapo.jkole.cad;
 
 import java.io.File;
@@ -85,11 +85,26 @@ public class ChoiceMenu extends Application{
         stage.setScene(scene);
         stage.show();
 	}
-
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ChoiceMenu.getSearchMenu()
+	 * SYNOPSIS
+	 * 		 
+	 * DESCRIPTION
+	 * 		searches the TreeView for text in the TextField text...
+	 * 		this is currently disabled
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private Node getSearchMenu() {
 		// TODO Auto-generated method stub
 		TextField text = new TextField();
 		Button bt = new Button("Search");
+		bt.setDisable(true);
 		VBox box = new VBox();
 		box.getChildren().addAll(new Label("Search: "), text, bt);
 		
@@ -101,6 +116,20 @@ public class ChoiceMenu extends Application{
 
 		return null;
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ChoiceMenu.getTreeList(String str)
+	 * SYNOPSIS
+	 * 		 String str -> filename to get values from
+	 * DESCRIPTION
+	 * 		creates a treeview with values from str.dat
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	@SuppressWarnings("unchecked")
 	public static TreeView<String> getTreeList(String str) {
 		JSONParser parser = new JSONParser();
@@ -128,7 +157,21 @@ public class ChoiceMenu extends Application{
         
 		return tree;
 	}
-
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ChoiceMenu.getChildren(String str, String file)
+	 * SYNOPSIS
+	 * 		String file -> filename to get values from
+	 * 		String str -> menu to add children to
+	 * DESCRIPTION
+	 * 		adds values to treeitems in the treeview, items are stored in JSON objects
+	 * RETURNS
+	 * 		ObservableList<TreeItem<String>> -> obersvable list of treeitems
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	@SuppressWarnings("unchecked")
 	public static ObservableList<TreeItem<String>> getChildren(String str, String file) {
 		JSONParser parser = new JSONParser();

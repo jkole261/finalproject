@@ -8,10 +8,12 @@
  * able to change CSS formatting throughout the entire program.
  * the preferences are stored in a CSS file according to the 
  * user.
+ * 
+ * NOT COMPLETED FOR THIS RELEASE
  */
 /**/
 package edu.ramapo.jkole.cad;
-
+ 
 import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.net.MalformedURLException;

@@ -104,38 +104,13 @@
 	{"code":"596", "type":"Post office or mailing firms"},
 	{"code":"599", "type":"Buisness office"}],
 "Industrial, Utility, Defense, Agriculture, Mining":[
-	{"code":"60", "type":"Systems and Services, other"},
-	{"code":"61", "type":"Restore municipal services"},
-	{"code":"62", "type":"Restore sprinkler or fire protection system"},
-	{"code":"63", "type":"Restore fire alarm system"},
-	{"code":"64", "type":"Shut down system"},
-	{"code":"65", "type":"Secure property"},
-	{"code":"66", "type":"Remove water or control flooding condition"}],
+	{"code":"60", "type":"Other"}],
 "Manufacturing, Processing":[
-	{"code":"70", "type":"Assistance, other"},
-	{"code":"71", "type":"Assist physically disabled"},
-	{"code":"72", "type":"Assist animal"},
-	{"code":"73", "type":"Provide manpower"},
-	{"code":"74", "type":"Provide apparatus"},
-	{"code":"75", "type":"Provide equiptment"},
-	{"code":"76", "type":"Provide water"},
-	{"code":"77", "type":"Control Crowd"},
-	{"code":"78", "type":"Control traffic"},
-	{"code":"79", "type":"Assess damage from sever weather or natural disaster"}],
+	{"code":"70", "type":"Other"}],
 "Storage":[
-	{"code":"80", "type":"Information, Investigation, and Enforcement, other"},
-	{"code":"81", "type":"Incident command"},
-	{"code":"82", "type":"Notify other agencies"},
-	{"code":"83", "type":"Provide information to the public or media"},
-	{"code":"84", "type":"Refer to proper authority"},
-	{"code":"85", "type":"Enforce fire code and other codes"},
-	{"code":"86", "type":"Investigate"},
-	{"code":"87", "type":"Investigate. Fire out on arrival"}],
+	{"code":"80", "type":"Other"}],
 "Outside or special property":[
-	{"code":"90", "type":"Fill-in, standby, other"},
-	{"code":"91", "type":"Fill in, move up to another fire station"},
-	{"code":"92", "type":"Standby"},
-	{"code":"93", "type":"Canceled en route"}],
+	{"code":"90", "type":"Other"}],
 "Property use, other":[
-	{"code":"00", "type":"Actions Taken, other"}]
+	{"code":"00", "type":"Property Use, other"}]
 }

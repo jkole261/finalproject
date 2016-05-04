@@ -103,7 +103,20 @@ public class StatusMenu extends Application {
         stage.sizeToScene(); 
         stage.show(); 
 	}
-
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.StatusMenu.print(Stage stage)
+	 * SYNOPSIS
+	 * 		Stage stage -> stage to be printed
+	 * DESCRIPTION
+	 * 		creates a printable area of the status menu
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private void print(Stage stage) {
 		PrinterJob printerJob = PrinterJob.createPrinterJob();
 		   if(printerJob.showPrintDialog(stage.getOwner()) && printerJob.printPage(table))
@@ -165,7 +178,20 @@ public class StatusMenu extends Application {
 		
 		return temp;
 	}
-
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.StatusMenu.getFormatedTime(Sting timestamp)
+	 * SYNOPSIS
+	 * 		String timestamp -> readable instance of timestamp
+	 * DESCRIPTION
+	 * 		creates a user friendly string to view current timestamp for the tableview
+	 * RETURNS
+	 * 		String timestamp
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private String getFormatedTime(String timestamp) {
 		return timestamp.substring(0, 4)+"/"+timestamp.substring(4, 6)+"/"+
 				timestamp.substring(6, 8)+" "+timestamp.substring(9, 11)+":"+

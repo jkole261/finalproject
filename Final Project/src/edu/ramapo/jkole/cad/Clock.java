@@ -26,6 +26,21 @@ import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
 public class Clock {
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Clock.getClock()
+	 * SYNOPSIS
+	 * 		
+	 * DESCRIPTION
+	 * 		creates a label that contains a clock of the current 
+	 * 		time that updates every .5 seconds to have the current time
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static Node getClock() {
         final Label clock = new Label();
         clock.setTextAlignment(TextAlignment.RIGHT);

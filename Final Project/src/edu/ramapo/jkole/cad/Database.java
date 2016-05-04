@@ -43,11 +43,41 @@ public class Database {
 			System.err.println("TEST");
 		}
 	}
-	public static void connectionTest(String DBName, String Collection){
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Database.connectionText()
+	 * SYNOPSIS
+	 * 		
+	 * DESCRIPTION
+	 * 		connects to the database and returns all databased within the server
+	 * RETURNS
+	 * 		System.out.println
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
+	public static void connectionTest(){
 		List<String> dbs = client.getDatabaseNames();
 		System.out.println(Arrays.toString(dbs.toArray())+" - CONNECTED");
 
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Database.remove(String datbas, String collect, String id)
+	 * SYNOPSIS
+	 * 		String datbas ->	database to remove object from
+	 * 		String collect -> 	collection to remov object from
+	 * 		String id -> id of object to be removed
+	 * DESCRIPTION
+	 * 		removes object with id from table datbas.collect
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static boolean remove(String datbas, String collect, String id) {
 		DB db = client.getDB(datbas);
 		DBCollection col = db.getCollection(collect);
@@ -58,11 +88,30 @@ public class Database {
 		}
 		else return false;
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Database.update(String datbas, String collect, 
+	 * 			BasicDBObject obj, String oid)
+	 * SYNOPSIS
+	 * 		String datbas ->	database to updated object from
+	 * 		String collect -> 	collection to updated object from
+	 * 		BasicDBObject obj ->	object that will be updated to
+	 * 		String oid -> id of object to be updated
+	 * DESCRIPTION
+	 * 		updated the object with oid in datbas.collect to object obj
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static void update(String datbas, String collect, BasicDBObject obj, String oid) {
 		DBCollection col = getCol(datbas, collect);	
 		DBObject temp = col.findOne(new ObjectId(oid));
 		col.findAndModify(temp, obj);
 	}
+	
 	public static BasicDBObject find(String datbas, String collect, String oid) {
 		DB db = client.getDB(datbas);
 		DBCollection col = db.getCollection(collect);
@@ -81,6 +130,21 @@ public class Database {
 		String temp = col.findOne(obj).get(what).toString();
 		return temp;
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Database.getCol(String datbas, String collect)
+	 * SYNOPSIS
+	 * 		String datbas ->	database to remove object from
+	 * 		String collect -> 	collection to remov object from
+	 * DESCRIPTION
+	 * 		returns an instance of DBCollection to allow for other updated to occur
+	 * RETURNS
+	 * 		DBCollection 
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static DBCollection getCol(String db, String collect) {
 		return client.getDB(db).getCollection(collect);		
 	}

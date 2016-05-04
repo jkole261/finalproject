@@ -53,6 +53,12 @@ public class Call {
 		//Type, fire protocol
 		return null;
 	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	/**/
 	/*
 	 * NAME
@@ -402,11 +408,15 @@ public class Call {
 	/**/
 	/*
 	 * NAME
-	 * 		edu.ramapo.jkole.cad.Call.clearApp(String, atype, String us, String um, Strin an)
+	 * 		edu.ramapo.jkole.cad.Call.clearApp(String atype, String uc, String um, String an)
 	 * SYNOPSIS
-	 * 		
+	 * 		String atype -> Apparatus type
+	 * 		String uc ->	Unit County Code
+	 * 		String um ->	Unit Municipality Code
+	 * 		String an ->	Apparatus Number
 	 * DESCRIPTION
-	 * 		
+	 * 		finds the object containing atype, uc, um, and an in the Apparatus database
+	 * 		and then updates the status to available.
 	 * RETURNS
 	 * 		null
 	 * Author
@@ -426,6 +436,25 @@ public class Call {
 						ActCallMenu.table.getSelectionModel().getSelectedItem().getCall().get("cadid")+
 						"|OPR:"+Login.getUser());	
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Call.clearApp(String atype, String uc, String um, String an, Call c)
+	 * SYNOPSIS
+	 * 		String atype -> Apparatus type
+	 * 		String uc ->	Unit County Code
+	 * 		String um ->	Unit Municipality Code
+	 * 		String an ->	Apparatus Number
+	 * 		Call c ->		Call to be cleared from
+	 * DESCRIPTION
+	 * 		finds the object containing atype, uc, um, and an in the Apparatus database
+	 * 		and then updates the status to available.
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private static void clearApp(String atype, String uc, String um, String an, Call c) {
 		Apparatus app = new Apparatus((BasicDBObject) Database
 				.getCol("Apparatus", "info")
@@ -438,6 +467,21 @@ public class Call {
 						c.getCall().get("cadid")+
 						"|OPR:"+Login.getUser());	
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Call.setPaged(String callid)
+	 * SYNOPSIS
+	 * 		String callid	-> cad number for call to be updated
+	 * DESCRIPTION
+	 * 		finds the call with the callid and updates the call.times 
+	 * 		table and adds the paged time of the call.
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static void setPaged(String callid) {
 		// TODO Auto-generated method stub
 		BasicDBObject obj = (BasicDBObject) Database.getCol("Calls", "times")
@@ -447,6 +491,21 @@ public class Call {
 		}
 		Database.getCol("Calls", "times").save(obj);
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Call.setArvd(String callid)
+	 * SYNOPSIS
+	 * 		String callid	-> cad number for call to be updated
+	 * DESCRIPTION
+	 * 		finds the call with the callid and updates the call.times 
+	 * 		table and adds the arvd time of the call.
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static void setArvd(Call call) {
 		// TODO Auto-generated method stub
 		Database.getCol("Calls", "status").findAndModify(
@@ -460,6 +519,49 @@ public class Call {
 		}
 		Database.getCol("Calls", "times").save(obj);
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Call.setArvd(String callid)
+	 * SYNOPSIS
+	 * 		String callid	-> cad number for call to be updated
+	 * DESCRIPTION
+	 * 		finds the call with the callid and updates the call.times 
+	 * 		table and adds the ctrld time of the call.
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
+	public static void setCtrld(Call call) {
+		Database.getCol("Calls", "status").findAndModify(
+				new BasicDBObject("CallId", call.getCall().get("cadid").toString()), 
+				new BasicDBObject("CallId", call.getCall().get("cadid").toString())
+					.append("Status", "CTRLD"));
+		BasicDBObject obj = (BasicDBObject) Database.getCol("Calls", "times")
+				.findOne(new BasicDBObject("call", call.getCall().get("cadid")));
+		if(!(obj.containsField("CTRLD"))){
+			obj.put("CTRLD", Clock.getTime());
+		}
+		Database.getCol("Calls", "times").save(obj);
+	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Call.addComment(Call selectedCall, String[] str)
+	 * SYNOPSIS
+	 * 		Call selectedCall -> call selected in the activecallmenu
+	 * 		String[] str -> comments for call
+	 * DESCRIPTION
+	 * 		adds a comment to the calls.comments table with the value of the 
+	 * 		string array str.
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static void addComment(Call selectedCall, String[] str) {
 		// TODO Auto-generated method stub
 		try{
@@ -486,6 +588,21 @@ public class Call {
 			Database.getCol("Calls", "comments").insert(obj);
 		}
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Call.getDispComments()
+	 * SYNOPSIS
+	 * 		 
+	 * DESCRIPTION
+	 * 		finds and gets comments from call.comments table for 
+	 * 		this instance of call.
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public String getDispComments() {
 		// TODO Auto-generated method stub
 		try{
@@ -497,6 +614,20 @@ public class Call {
 			return "";
 		}
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Call.getAppFromCall(String callid)
+	 * SYNOPSIS
+	 * 		String callid	-> cad number for call to get Apparatus from
+	 * DESCRIPTION
+	 * 		finds all apparatus that are assigned to call with cadid of callid
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static List<Apparatus> getAppFromCall(String callid) {
 		DBCursor curs = Database.getCol("Apparatus", "info")
 				.find(new BasicDBObject("Status.Comment", 
@@ -508,23 +639,5 @@ public class Call {
 			applist.add(new Apparatus((BasicDBObject)curs.curr()));
 		}
 		return applist;
-	}
-	public String getStatus() {
-		return status;
-	}
-	public void setStatus(String status) {
-		this.status = status;
-	}
-	public static void setCtrld(Call call) {
-		Database.getCol("Calls", "status").findAndModify(
-				new BasicDBObject("CallId", call.getCall().get("cadid").toString()), 
-				new BasicDBObject("CallId", call.getCall().get("cadid").toString())
-					.append("Status", "CTRLD"));
-		BasicDBObject obj = (BasicDBObject) Database.getCol("Calls", "times")
-				.findOne(new BasicDBObject("call", call.getCall().get("cadid")));
-		if(!(obj.containsField("CTRLD"))){
-			obj.put("CTRLD", Clock.getTime());
-		}
-		Database.getCol("Calls", "times").save(obj);
 	}
 }

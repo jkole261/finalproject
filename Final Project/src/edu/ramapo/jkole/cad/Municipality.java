@@ -91,7 +91,6 @@ public class Municipality {
 	}
 
 	public String getOid() {
-		// TODO Auto-generated method stub
 		return id;
 	}
 
@@ -106,5 +105,4 @@ public class Municipality {
 	public static String getCodeFromDB(String key, String text) {
 		return Database.get("MunicCode", key, text,"municipalities", "addresses");
 	}
-
 }

@@ -181,7 +181,20 @@ public class StationScreen extends Application{
         stage.sizeToScene(); 
         stage.show(); 
 	}
-	
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.StationScreen.addStation()
+	 * SYNOPSIS
+	 * 		 
+	 * DESCRIPTION
+	 * 		creates a user GUI to insert a new station into the database
+	 * RETURNS
+	 * 		void
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private void addStation() {
 		// TODO Auto-generated method stub
 		Tab addStation = new Tab("Add Station");
@@ -305,7 +318,22 @@ public class StationScreen extends Application{
 		
 		tabPane.getTabs().addAll(station, apparatus, activeap);
 	}
-	
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.StationScreen.getStaInfo(Station sta)
+	 * SYNOPSIS
+	 * 		Station sta -> this station that information will 
+	 * 						be retrieved about
+	 * DESCRIPTION
+	 * 		searches the database for station sta and populates a user 
+	 * 		GUI with all the information
+	 * RETURNS
+	 * 		VBox stinfo -> VBOX containing a GUI
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private Node getStaInfo(Station sta) {
 		VBox stinfo = new VBox();
 		stinfo.setSpacing(10);
@@ -490,6 +518,21 @@ public class StationScreen extends Application{
 		
 		return vbox;
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.StationScreen.getActAppar(Station sta)
+	 * SYNOPSIS
+	 * 		 Station sta -> station to get active appartus
+	 * DESCRIPTION
+	 * 		gets all apparatus from the database that are currently
+	 * 		assigned to station sta and their status is NOT OOS.
+	 * RETURNS
+	 * 		void
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private ObservableList<Apparatus> getActAppar(Station sta) throws JSONException {
 		ObservableList<Apparatus> dat = FXCollections.observableArrayList(
 				new Apparatus()); 

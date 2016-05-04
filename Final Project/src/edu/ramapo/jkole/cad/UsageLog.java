@@ -133,7 +133,22 @@ public class UsageLog extends Application{
 	protected ObservableList<Status> check(ObservableList<Status> items) {
 		return getApps();
 	}
-
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.UsageLog.getApps()
+	 * SYNOPSIS
+	 * 		
+	 * DESCRIPTION
+	 * 		returns all the apparatus status updated regarding 
+	 * 		callid, this will return a log of all status updates 
+	 * 		for this instance of call
+	 * RETURNS
+	 * 		ObservableList<Status> list -> list of apparatus
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private ObservableList<Status> getApps() {
 		try{
 			ObservableList<Status> list = FXCollections.observableArrayList();

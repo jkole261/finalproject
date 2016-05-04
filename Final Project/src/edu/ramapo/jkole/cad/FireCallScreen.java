@@ -212,7 +212,7 @@ public class FireCallScreen extends Application{
 		});
 		
 		modify.setOnAction(actionEvent -> {
-//ADD MODIFY TO CALL			
+			
 		});
 		modify.setDisable(true);
 		
@@ -225,6 +225,19 @@ public class FireCallScreen extends Application{
 		box.getChildren().addAll(tool);
 		return box;
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.FireCallScreen.search(String text)
+	 * SYNOPSIS
+	 * 		String text -> address to search
+	 * DESCRIPTION
+	 * 		pulls the history of all calls with the address of text
+	 * RETURNS
+	 * 		List of calls
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
 	protected void search(String text) {
 		List<Call> list = new ArrayList<Call>();
 		DBCursor curs = Database.getCol("Calls", "basicInfo").find(new BasicDBObject("addr", searchAddr(text)));
@@ -234,6 +247,20 @@ public class FireCallScreen extends Application{
 	   	}
 		new CallStack(list);
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.FireCallScreen.searchAddr(String text)
+	 * SYNOPSIS
+	 * 		String text -> text to be searched
+	 * DESCRIPTION
+	 * 		Geocodes address to ensure that address 
+	 * 		is of valid format and location
+	 * RETURNS
+	 * 		String formatted addres
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
 	public String searchAddr(String text) {
 		try {
 			final Geocoder geocoder = new Geocoder();
@@ -336,6 +363,22 @@ public class FireCallScreen extends Application{
 		main.getChildren().addAll(header, box);
 		return main;
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.FireCallScreen.getNarrative()
+	 * SYNOPSIS
+	 * 		 
+	 * DESCRIPTION
+	 * 		Returns two treeviews once with dispatcher comments 
+	 * 		retrieved from the initial call object as well as all 
+	 * 		comments regarding this call in the call.comments table. 
+	 * 		also returns a treeview of all apparatus linked to current call
+	 * RETURNS
+	 * 		VBox box -> visual of two treeViews
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
 	private Node getNarrative() {
 		VBox box = new VBox();
 		
@@ -376,6 +419,21 @@ public class FireCallScreen extends Application{
 		
 		return box;
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.FireCallScreen.update(String appUnit)
+	 * SYNOPSIS
+	 * 		String appUnit -> apparatus to update
+	 * DESCRIPTION
+	 * 		updates the status of appUnit depending on what the current 
+	 * 		status is using switch cases. if busy -> enrt, if enrt -> onloc
+	 * 		if onloc->avail.
+	 * RETURNS
+	 * 		Action
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
 	protected void update(String appUnit) {
 		appUnit = appUnit.substring(0, appUnit.indexOf("\t"));
 		BasicDBObject obj = new BasicDBObject("AppType", appUnit.substring(0,1))

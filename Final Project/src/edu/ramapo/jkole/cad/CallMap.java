@@ -42,7 +42,21 @@ public class CallMap extends Application {
     	stage = new Stage();
     	start(stage);
     }
-    
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.CallMap.start()
+	 * SYNOPSIS
+	 * 		
+	 * DESCRIPTION
+	 * 		creates a GUI to display the file googlemap.html that is 
+	 * 		interactive to the users similar to googlemaps.
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
     @Override public void start(Stage stage) {
         // create web engine and view
     	webView = new WebView();
@@ -110,7 +124,20 @@ public class CallMap extends Application {
         // show stage
         stage.show();
     }
-
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Call.createSpacer()
+	 * SYNOPSIS
+	 * 		 
+	 * DESCRIPTION
+	 * 		creates a spacer within the GUI
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
     private Node createSpacer() {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);

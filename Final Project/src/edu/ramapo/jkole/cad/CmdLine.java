@@ -14,7 +14,22 @@ import javafx.application.Platform;
 
 public class CmdLine {
 	Call c;
-	
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.CmdLine.modify(Call selectedCall, String string, String[] str)
+	 * SYNOPSIS
+	 * 		Call selectedCall -> selected call from activecallmenu
+	 * 		String string -> the first value in the commandline
+	 * 		String[] str -> array list of the commandline arguements
+	 * DESCRIPTION
+	 * 		uses else if statments to match the string to the command line arguements
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static void modify(Call selectedCall, String string, String[] str) {
 		if(string.equalsIgnoreCase("cc")){
 			clearCall(selectedCall);
@@ -63,7 +78,20 @@ public class CmdLine {
 		System.out.println("CLEAR CALL "+selectedCall.getCall().get("actid").toString());
 		Call.clearCall(selectedCall);
 	}
-	
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.CmdLine.execute(String[] str)
+	 * SYNOPSIS
+	 * 		String[] str -> array list of the commandline arguements
+	 * DESCRIPTION
+	 * 		uses else if statments to match the string to the command line arguements
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static void execute(String[] str){
 		if(str[0].equalsIgnoreCase("exit")){
 			Platform.exit();

@@ -31,8 +31,23 @@ public class Dispatch {
 	static double calllng;
 	static String cadid;
 	
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Dispatch.recUnits(String callid)
+	 * SYNOPSIS
+	 * 		String callid ->	callid to recoment units
+	 * DESCRIPTION
+	 * 		generates list of units with call type that is needed.
+	 * 		then returns a list of apparatus that should be dispatched 
+	 * 		for the call.
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static void recUnits(String callid) {
-		//Recommend units based on avail and nature
 		try {
 			cadid = callid;
 			List<Apparatus> units = getUnitsWithType(callid);
@@ -43,7 +58,23 @@ public class Dispatch {
 			e.printStackTrace();
 		}
 	}
-
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Dispatch.recUnits(String callid, String type)
+	 * SYNOPSIS
+	 * 		String callid ->	callid to recoment units
+	 * 		String type ->		type of apparatus to be dispatched
+	 * DESCRIPTION
+	 * 		generates list of units with call type that is needed.
+	 * 		then returns a list of apparatus that should be dispatched 
+	 * 		for the call.
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static void recUnits(String callid, String type) {
 		//Recommend units based on avail and nature
 		try {
@@ -58,9 +89,9 @@ public class Dispatch {
 	}
 	
 	private static void suggest(List<AppList> nUni) {
-		// TODO Auto-generated method stub
 		new ApparatusDispatch(cadid, nUni);
 	}
+	
 	private static List<AppList> UnitSelection(List<Apparatus> units, DispatchSeq seq) {
 		List<AppList> app = new ArrayList<AppList>();
 		String[][] s = seq.getApp(); 
@@ -83,7 +114,21 @@ public class Dispatch {
 		}
 		return app;
 	}
-
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Dispatch.selectUnit(List<Apparatus>, String string)
+	 * SYNOPSIS
+	 * 		List<apparatus> -> list of apparatus to choose from
+	 * 		String string -> type of apparatus to be dispatched
+	 * DESCRIPTION
+	 * 		matches the types of apparatus returning the clises unit first
+	 * RETURNS
+	 * 		Apparatus -> selected apparatus
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private static Apparatus selectUnit(List<Apparatus> units, String string) {
 		//get from list. if found remove from list
 		Apparatus temp = new Apparatus();
@@ -211,7 +256,21 @@ public class Dispatch {
          });
 		return list;
 	}
-
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Dispatch.getDist(double lat, double lng)
+	 * SYNOPSIS
+	 * 		double lat -> latitude of the call
+	 * 		double lng -> longitude of the call
+	 * DESCRIPTION
+	 * 		returns the distance from apparatus to the call in miles
+	 * RETURNS
+	 * 		distance 
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private static double getDist(double lat, double lng) {
 		double earthRadius = 3958.75;
 	    double latDiff = Math.toRadians(lat-calllat);
@@ -276,23 +335,5 @@ public class Dispatch {
 		GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().setAddress(Database.get("addr", "cadid", callid, "Calls", "basicInfo")).setLanguage("en").getGeocoderRequest();
 		GeocodeResponse geocoderResponse = geocoder.geocode(geocoderRequest);
 		return geocoderResponse.getResults().get(0).getGeometry().getLocation().getLat().doubleValue();
-	}
-
-	public static List<AppList> recUnitsList(String cadid, List<AppList> list) {
-		List<Apparatus> units;
-		try {
-			units = getUnitsWithType(cadid);
-	//		DispatchSeq seq = new DispatchSeq(cadid);
-			List<AppList> nUni = UnitSelection(units);
-			return nUni;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return list;
-	}
-
-	private static List<AppList> UnitSelection(List<Apparatus> units) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

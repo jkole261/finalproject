@@ -161,7 +161,7 @@ public class MainMenu extends Application {
         localert.setOnAction(actionEvent -> new LocAlertMenu());
         
         connTest.setOnAction(actionEvent -> Database
-        		.connectionTest("departmentlocs", "addresses"));
+        		.connectionTest());
        
         if(Main.isAdmin()){
         	
@@ -194,10 +194,6 @@ public class MainMenu extends Application {
         pendingCalls.setTooltip(new Tooltip("Pending Calls"));
         pendingCalls.setOnAction(actionEvent -> new PendingCallsMenu());
                  
- //     dispscreen.setGraphic(new ImageView("/dispscreen.png"));
- //     callTaker.setGraphic(new ImageView("/Phone-Icon.png"));
- //     mapping.setGraphic(new ImageView("/mapicon.png"));
-        
         toolBar.getItems().addAll(callTaker, dispscreen, mapping, activeCalls,
         		activeUnits, pendingCalls);
               
@@ -249,14 +245,55 @@ public class MainMenu extends Application {
 		    }
 		});
     }
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.MainMenu.update(Call selectedCall, String text)
+	 * SYNOPSIS
+	 * 		Call selectedCall -> call selected from activecallmenu
+	 * 		String text -> text in command line
+	 * DESCRIPTION
+	 * 		calls the modify function in the CmdLine class
+	 * RETURNS
+	 * 		Action
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	protected void update(Call selectedCall, String text) {
 		String[] str = parseText(text);
 		CmdLine.modify(selectedCall, str[0], str);
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.MainMenu.execute(String text)
+	 * SYNOPSIS
+	 * 		String text -> text in command line
+	 * DESCRIPTION
+	 * 		calls the execute function in the CmdLine class
+	 * RETURNS
+	 * 		Action
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
 	protected void execute(String text){
 		String[] str = parseText(text);
 		CmdLine.execute(str);
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.MainMenu.parseText(String text)
+	 * SYNOPSIS
+	 * 		String text -> text in command line
+	 * DESCRIPTION
+	 * 		splits the text in command line to an string array
+	 * RETURNS
+	 * 		String[] text
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
 	private String[] parseText(String text) {
 		return text.split(" ");
 	}

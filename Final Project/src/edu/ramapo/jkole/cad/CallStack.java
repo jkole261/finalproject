@@ -11,6 +11,8 @@
 package edu.ramapo.jkole.cad;
 
 import java.awt.GraphicsEnvironment;
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.List;
 
 import javafx.application.Application;
@@ -53,11 +55,30 @@ public class CallStack extends Application{
 			e.printStackTrace();
 		}
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.CallStack.start()
+	 * SYNOPSIS
+	 * 		 
+	 * DESCRIPTION
+	 * 		a GUI for all search results
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	@SuppressWarnings({ "unchecked", "static-access" })
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		BorderPane root = new BorderPane();
 		Scene scene = new Scene(root, 600, 400, Color.ANTIQUEWHITE);
+		try {
+			scene.getStylesheets().add((new File("lib/css/"+Main.pro.getUser()+".css").toURI().toURL()).toExternalForm());
+		} catch (MalformedURLException e2) {
+			e2.printStackTrace();
+		} 
 		stage.setTitle("Search Results");
 		
 		table = new TableView<Call>();	

@@ -42,7 +42,21 @@ public class DispatchSeq {
 	public String[][] getApp(){
 		return sequence;
 	}
-	
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.DispatchSeq.getSequence(String type)
+	 * SYNOPSIS
+	 * 		String type -> the dispatch type that has been selected
+	 * DESCRIPTION
+	 * 		gets the dispatch sequence of the specified response type
+	 * RETURNS
+	 * 		String[][] str = a 2D array with the number of apparatus 
+	 * 		and each type to be dispatched
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private String[][] getSequence(String type) {
 		String[][] str = new String[20][2];
 		String[] st;

@@ -98,7 +98,21 @@ public class Status {
 		this.comment = Comm;
 		this.appstring = app;
 	}
-	
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Status.getAppString()
+	 * SYNOPSIS
+	 * 		
+	 * DESCRIPTION
+	 * 		returns the apparatus string in the format 'E1326A'
+	 * 		these values are AppType, CountyNumber, MunicNumber, AppNumber
+	 * RETURNS
+	 * 		Action
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public String getAppstring() {
 		DBObject obj = Database.getCol("Apparatus", "info")
 				.findOne(new BasicDBObject("_id", new ObjectId(appstring)));
@@ -130,7 +144,21 @@ public class Status {
 		comment = curr.get("Comment").toString();
 		app = Apparatus.getApparatus(curr.get("Apparatus").toString());
 	}
-
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Status.updateStatus(Status dat, String comment)
+	 * SYNOPSIS
+	 * 		Status dat -> new instance of status to be updated
+	 * 		String comment ->	comment for status to be updated
+	 * DESCRIPTION
+	 * 		updates the status dat into the database of Apparatus.status 
+	 * 		the new status
+	 * RETURNS
+	 * 		Action
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
 	public static boolean updateStatus(Status dat, String comment){
 		DBCollection coll = Database.getCol("Apparatus", "Status");
 		String timeStamp = new SimpleDateFormat("yyyyMMdd.HHmmssSSS").format(Calendar.getInstance().getTime());
@@ -198,7 +226,19 @@ public class Status {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Status.getStatString(String dat)
+	 * SYNOPSIS
+	 * 		returns a string of Status
+	 * DESCRIPTION
+	 * 		converts the status into a readable string
+	 * RETURNS
+	 * 		String 
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
 	public static String getStatString(String dat) throws JSONException {
 		JSONObject string = new JSONObject(dat);
 		if(!Boolean.parseBoolean(string.getString("active"))){

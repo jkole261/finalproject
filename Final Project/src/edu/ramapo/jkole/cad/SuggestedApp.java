@@ -29,7 +29,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class SuggestedApp extends Application{
+public class SuggestedApp extends Application {
 	private Stage stage;
 	private static List<AppList> list;
 	private static List<Apparatus> applist;
@@ -69,7 +69,7 @@ public class SuggestedApp extends Application{
 		}
     	root.setCenter(getCent());
     	
-		stage.setTitle("!!!!Dispatch Unit Screen"); 
+		stage.setTitle("Dispatch Unit Screen"); 
         stage.setScene(scene);
         stage.setMaxWidth(GraphicsEnvironment.getLocalGraphicsEnvironment()
         		.getMaximumWindowBounds().width);
@@ -112,5 +112,5 @@ public class SuggestedApp extends Application{
 			list.add(new AppList(type, applist.get(i)));
 		}
 		return list;
-	}
+	} 
 }
