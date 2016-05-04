@@ -185,7 +185,6 @@ public class Apparatus {
 	}
 
 	public Apparatus() {
-		// TODO Auto-generated constructor stub
 		super();
 		this.setOid(oid);
 		this.appType = "*";
@@ -216,7 +215,6 @@ public class Apparatus {
 	}
 
 	public Apparatus(String string) {
-		// TODO Auto-generated constructor stub
 		if(string.substring(0, 2).equals("PD")){
 			this.appType = "*";
 			this.counNum = "*";
@@ -273,12 +271,44 @@ public class Apparatus {
 	public String getAppType() {
 		return appType;
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Apparatus.getApparatus(String oid)
+	 * SYNOPSIS
+	 * 		String oid	->	object id of Apparatus
+	 * DESCRIPTION
+	 * 		searches through the database for apparatus with the 
+	 * 		object if of oid
+	 * RETURNS
+	 * 		Apparatus app	->	Apparatus with objectId of oid
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static Apparatus getApparatus(String oid) {
 		Apparatus app = new Apparatus((BasicDBObject)
 				Database.getCol("Apparatus", "info")
 					    .findOne(new BasicDBObject("_id", new ObjectId(oid))));
 		return app;
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Apparatus.findApp(String app)
+	 * SYNOPSIS
+	 * 		String app	->	unit number for Apparatus
+	 * DESCRIPTION
+	 * 		parses the string app into the 4 components of the unique 
+	 * 		apparatus number: type, countycode, municcode, and appnumber.
+	 * 		the function searches the database with all 4 of these components
+	 * 		and then creates and instance of apparatus for app.
+	 * RETURNS
+	 * 		Apparatus a	->	apparatus with appnumber of app
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static Apparatus findApp(String app){
 		app = app.toUpperCase();
 		BasicDBObject obj = new BasicDBObject("AppType", app.substring(0,1))
@@ -389,11 +419,45 @@ public class Apparatus {
 	public boolean isSupv() {
 		return supv;
 	}
-	
+	public void setEngine(boolean b) {
+		this.engine = b;
+	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Apparatus.getUnitString()
+	 * SYNOPSIS
+	 * 		String appType	->	type of apparatus
+	 * 		String counNum	->	county code for apparatus
+	 * 		String muniNum	->	municipal code for apparatus
+	 * 		String appNum	->	number of apparatus with that type
+	 * DESCRIPTION
+	 * 		returns the 4 components of the unique apparatus number in a string
+	 * RETURNS
+	 * 		String of unit
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public String getUnitString(){
 		return appType+counNum+muniNum+appNum;
 	}
-
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Apparatus.changeLoc(String appUnit, String newLoc)
+	 * SYNOPSIS
+	 * 		String appUnit	->	string for apparatus to have location changed
+	 * 		String newLoc	->	string of new station that apparatus will be moved to
+	 * DESCRIPTION
+	 * 		parses out the string appUnit and finds the apparatus with that string and 
+	 * 		changes its current location to the string newLoc.
+	 * RETURNS
+	 * 		void
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static void changeLocation(String appUnit, String newLoc) {
 		// TODO Auto-generated method stub
 		BasicDBObject obj = new BasicDBObject("AppType", appUnit.substring(0,1))
@@ -409,18 +473,23 @@ public class Apparatus {
 		obj.put("UnitDistLoc", str[2]);
 		Database.getCol("Apparatus", "info").save(obj);
 	}
-
-	public void setEngine(boolean b) {
-		// TODO Auto-generated method stub
-		this.engine = b;
-	}
-	
-	@Override
-	public String toString() {
-		return "Apparatus [oid=" + oid + ", apptype="+ appType + ", counNum=" + counNum + ", muniNum=" + muniNum + ", appNum="+appNum+ ", unitYear=" + unitYear + ", unitMake=" + unitMake + ", unitLocCoun="
-				+ unitLocCoun + ", unitLocMuni=" + unitLocMuni + ", unitLocDist=" + unitLocDist + "]";
-	}
-
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Apparatus.getCurCall()
+	 * SYNOPSIS
+	 * 		this.Apparatus	->	this instance of apparatus
+	 * DESCRIPTION
+	 * 		gets the status of the apparatus and if it is anything 
+	 * 		other then avail will return the current call from the 
+	 * 		status of that apparatus. if there is a radio log it 
+	 * 		parses out the comments of that radiolog.
+	 * RETURNS
+	 * 		void
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public String getCurCall() {
 		// TODO Auto-generated method stub
 		if(getStat().equalsIgnoreCase("ENRT") || 

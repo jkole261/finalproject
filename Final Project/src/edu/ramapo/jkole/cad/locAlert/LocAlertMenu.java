@@ -100,7 +100,9 @@ public class LocAlertMenu extends Application{
 	 * SYNOPSIS
 	 * 		this.LocAlertMenu -> this application
 	 * DESCRIPTION
-	 * 		displays the JavaFX Application LocAlertMenu
+	 * 		displays the JavaFX Application LocAlertMenu with a tableview 
+	 * 		and a toolbar with function to add information to the table 
+	 * 		and database.
 	 * RETURNS
 	 * 		void
 	 * Author
@@ -196,8 +198,8 @@ public class LocAlertMenu extends Application{
 	 * SYNOPSIS
 	 * 		LocationAlert dat -> the LocationAlert that will be updated
 	 * DESCRIPTION
-	 * 		sets the bottom portion of the stage to a menu that will be able to be updates
-	 * 		with the information from dat.
+	 * 		gets the LocationAlert dat and sets the bottom portion of the stage to a 
+	 * 		menu that will be able to be update this LocationAlert.
 	 * RETURNS
 	 * 		void
 	 * Author

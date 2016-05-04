@@ -39,20 +39,34 @@ public class AutoComboBox implements EventHandler<KeyEvent> {
         });
         this.comboBox.setOnKeyReleased(AutoComboBox.this);
     }
-
+    /**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.AutoComboBox.handle(KeyEvent event)
+	 * SYNOPSIS
+	 * 		event -> a key press while the combobox is open
+	 * DESCRIPTION
+	 * 		this function handles all the key presses within the combo box
+	 * 		and decided if it is a new character or to navigate the already
+	 * 		selected values. 
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	@Override
     public void handle(KeyEvent event) {
-
         if(event.getCode() == KeyCode.UP) {
             cPos = -1;
-            moveCaret(comboBox.getEditor().getText().length());
+            moveCurs(comboBox.getEditor().getText().length());
             return;
         } else if(event.getCode() == KeyCode.DOWN) {
             if(!comboBox.isShowing()) {
                 comboBox.show();
             }
             cPos = -1;
-            moveCaret(comboBox.getEditor().getText().length());
+            moveCurs(comboBox.getEditor().getText().length());
             return;
         } else if(event.getCode() == KeyCode.BACK_SPACE) {
             moveCaretToPos = true;
@@ -82,13 +96,13 @@ public class AutoComboBox implements EventHandler<KeyEvent> {
         if(!moveCaretToPos) {
             cPos = -1;
         }
-        moveCaret(t.length());
+        moveCurs(t.length());
         if(!list.isEmpty()) {
             comboBox.show();
         }
     }
 
-    private void moveCaret(int textLength) {
+    private void moveCurs(int textLength) {
         if(cPos == -1) {
             comboBox.getEditor().positionCaret(textLength);
         } else {

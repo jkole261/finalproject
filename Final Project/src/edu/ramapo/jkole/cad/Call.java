@@ -53,6 +53,22 @@ public class Call {
 		//Type, fire protocol
 		return null;
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Call.initDisp(String callid)
+	 * SYNOPSIS
+	 * 		String callid -> callid for call to be dispatched
+	 * DESCRIPTION
+	 * 		manually starts the process of dispatching units in the 
+	 * 		event that the call was placed into pending calls and not
+	 * 		dispatched initially. 
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static void initDisp(String callid){
 		DBCollection coll = Database.getCol("Calls", "status");
 		BasicDBObject obj = new BasicDBObject("CallId", callid);
@@ -63,9 +79,23 @@ public class Call {
 	public void upgrade(String cadid, String type){
 		Dispatch.recUnits(cadid, type);
 	}
-	public void changeDispSeq(Call c, String newseq){
-		
-	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Call.clearCall(Call c)
+	 * SYNOPSIS
+	 * 		Call c -> call that will have its status changed to clear
+	 * DESCRIPTION
+	 * 		updates all the tables that reference this call to available.
+	 * 		sets the clear time to the current time, and changed the status to clear.
+	 * 		this also clears every apparatus from the call but going through the list 
+	 * 		one by one of all apparatus assigned to the call.
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static void clearCall(Call c){
 		BasicDBObject obj = (BasicDBObject) Database
 				.getCol("Calls", "basicInfo")
@@ -104,6 +134,21 @@ public class Call {
 	public String toString(){
 		return call.toString();
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Call.addCall(Call c)
+	 * SYNOPSIS
+	 * 		Call c -> call to be added
+	 * DESCRIPTION
+	 * 		calls functions that autofill certain aspects of the call such as the cadid number
+	 * 		active id number, dublicate number, number of alerts, and call times
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static void addCall(Call c) {
 		// TODO Auto-generated method stub
 		BasicDBObject doc = new BasicDBObject(c.getCall());
@@ -121,6 +166,21 @@ public class Call {
 				new BasicDBObject("call", c.getCall().get("cadid").toString()));
 		initDisp(doc.getString("cadid"));
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Call.checkAlert(Call call)
+	 * SYNOPSIS
+	 * 		Call call -> Call to be check if address contains alerts
+	 * DESCRIPTION
+	 * 		searches the database of Alerts to see if the call address matches anything in that table.
+	 * 		if so returns the number of alerts and displays popup menus with alerts. 
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static String checkAlert(Call call) {
 		// TODO Auto-generated method stub
 		DBCollection coll = Database.getCol("Alerts", "info");
@@ -132,6 +192,21 @@ public class Call {
 		call.getCall().put("alerts", i);
 		return i;
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Call.sendAlert(DBCursor curs)
+	 * SYNOPSIS
+	 * 		DBCursor curs -> object of alert
+	 * DESCRIPTION
+	 * 		displays an alert menu with the alert so the dispatcher 
+	 * 		can see what it is
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private static void sendAlert(DBCursor curs) {
 		while(curs.hasNext()){
 			SoundPlayer.playSound();
@@ -146,6 +221,21 @@ public class Call {
 			alert.showAndWait();
 		}
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Call.checkDups(Call call)
+	 * SYNOPSIS
+	 * 		Call call -> call to be checked
+	 * DESCRIPTION
+	 * 		looks through the database to see if there are duplicate calls 
+	 * 		in the system according to address and nature.
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static String checkDups(Call call) {
 		// TODO Auto-generated method stub
 		DBCollection coll = Database.getCol("Calls", "basicInfo");
@@ -155,6 +245,21 @@ public class Call {
 		call.getCall().put("dups", i);
 		return i;
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Call.setCADId()
+	 * SYNOPSIS
+	 * 		String callid -> callid for call to be dispatched
+	 * DESCRIPTION
+	 * 		generates the callid based on number of calls in the 
+	 * 		system for the given year
+	 * RETURNS
+	 * 		String cadid -> id of call
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private String setCADId() {
 		// TODO Auto-generated method stub
 		String cadID = null;
@@ -163,11 +268,26 @@ public class Call {
 				new BasicDBObject("$regex", "^"+Clock.getYr()+".*")
 				.append("$options", "i"))).count();
 		i++;
-		//increment cadID
 		cadID = Clock.getYr()+"-"+String.format("%06d", i);
 		call.put("cadid", cadID);
 		return cadID;
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Call.setEnrt(Call call)
+	 * SYNOPSIS
+	 * 		Call call -> call to be updated
+	 * DESCRIPTION
+	 * 		sets the status of the call to enrt as well as updates 
+	 * 		the Calls.times database to have the enrt time of the 
+	 * 		current time.
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static void setEnrt(Call call){
 		//Update callTimes
 		Database.getCol("Calls", "status").findAndModify(
@@ -182,7 +302,20 @@ public class Call {
 		}
 		Database.getCol("Calls", "times").save(obj1);
 	}
-	
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Call.setActive()
+	 * SYNOPSIS
+	 * 		
+	 * DESCRIPTION
+	 * 		sets the activeid of the call so that it will be seen as active
+	 * RETURNS
+	 * 		String actid
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private String setActive() {
 		int i = 0;
 		DBCollection coll = Database.getCol("Calls", "basicInfo");
@@ -217,6 +350,7 @@ public class Call {
 		// TODO Auto-generated method stub
 		return new BasicDBObject(this.call);
 	}
+
 	public static void clearAll() {
 		// TODO Auto-generated method stub
 		DBCursor curs = Database
@@ -236,6 +370,21 @@ public class Call {
 		}
 		while(curs.hasNext());
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Call.clearApp(String String)
+	 * SYNOPSIS
+	 * 		String string -> callid
+	 * DESCRIPTION
+	 * 		finds all apparatus with the callid number of string in the status comments.
+	 * 		then clears each apparatus within the call. 
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private static void clearApp(String string) {
 		// TODO Auto-generated method stub
 		DBCursor curs = Database.getCol("Apparatus", "Status")
@@ -250,6 +399,20 @@ public class Call {
 					curs.curr().get("appNum").toString());
 		}
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.Call.clearApp(String, atype, String us, String um, Strin an)
+	 * SYNOPSIS
+	 * 		
+	 * DESCRIPTION
+	 * 		
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private static void clearApp(String atype, String uc, String um, String an) {
 		// TODO Auto-generated method stub
 		Apparatus app = new Apparatus((BasicDBObject) Database

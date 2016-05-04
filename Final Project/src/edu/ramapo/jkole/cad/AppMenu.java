@@ -103,10 +103,22 @@ public class AppMenu extends Application {
 			}
 		}
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.AppMenu.getAppStation()
+	 * SYNOPSIS
+	 * 		Station dat -> emergency services station that will recieve units
+	 * DESCRIPTION
+	 * 		generates and populates a table for all apparatus within this station
+	 * RETURNS
+	 * 		TableView<Apparatus> -> table of all apparatus within the station
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static Node getAppStation(Station dat) {
-		// TODO Auto-generated method stub
-		// Get Apparatus Info for mod staffing and location at each station
 		stattable = new TableView<Apparatus>();
 		VBox temp = new VBox();
 
@@ -227,6 +239,20 @@ public class AppMenu extends Application {
 	    
 	    return temp;
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.AppMenu.start(Stage stage)
+	 * SYNOPSIS
+	 * 		Stage stage -> the main stage for this class
+	 * DESCRIPTION
+	 * 		generates a GUI for users to see and edit all apparatus within the menu
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -392,6 +418,21 @@ public class AppMenu extends Application {
         stage.sizeToScene(); 
         stage.show(); 
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.AppMenu.setBottomPane(Apparatus dat)
+	 * SYNOPSIS
+	 * 		Apparatus dat -> apparatus to get information for
+	 * DESCRIPTION
+	 * 		set the bottom portion of the stage to a tabbed menu with information 
+	 * 		on the apparatus, location, and status log.
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private void setBottomPane(Apparatus dat) {
 		// TODO Auto-generated method stub
 		tabPane.getTabs().clear();
@@ -406,6 +447,22 @@ public class AppMenu extends Application {
 		
 		tabPane.getTabs().addAll(appinf, apploc, appStat );	
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.AppMenu.getStatus(Apparatus dat)
+	 * SYNOPSIS
+	 * 		Apparatus dat -> apparatus to recieve status log of
+	 * DESCRIPTION
+	 * 		this function creates and displays a table with all status history
+	 * 		of the apparatus dat. the user also has the ability to change status
+	 * 		in this menu with a button click. 
+	 * RETURNS
+	 * 		VBox vbox -> visual box containing buttons and tableview
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	@SuppressWarnings("unchecked")
 	private Node getStatus(Apparatus dat) {
 		// TODO Auto-generated method stub
@@ -505,6 +562,20 @@ public class AppMenu extends Application {
 		vbox.getChildren().addAll(new Text("Status Menu"), stattable, btmenu, updatestat);
 		return vbox;
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.AppMenu.getAppStatus(Apparatus dat)
+	 * SYNOPSIS
+	 * 		Apparatus dat -> apparatus to recieve status log of
+	 * DESCRIPTION
+	 * 		creates a list status updates for specified apparatus
+	 * RETURNS
+	 * 		ObservableList<Status> -> table of all status within the apparatus
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private ObservableList<Status> getAppStatus(Apparatus dat) {
 		ObservableList<Status> obl = FXCollections.observableArrayList(
 				new Status(false, false, false, false, false, dat));
@@ -527,6 +598,22 @@ public class AppMenu extends Application {
 		}
 		return obl;
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.AppMenu.getAppLoc(Apparatus app)
+	 * SYNOPSIS
+	 * 		Apparatus dat -> the apparatus to recieve location and update location
+	 * DESCRIPTION
+	 * 		generates a GUI for the user to change the station where this apparatus 
+	 * 		is located. this generates 3 search boxes that the user can see all stations
+	 * 		within a certain search criteria. 
+	 * RETURNS
+	 * 		VBox aploc -> the visual of the discription of this function
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private Node getAppLoc(Apparatus app) {
 		VBox aploc = new VBox();
 		aploc.setSpacing(10);
@@ -598,6 +685,24 @@ public class AppMenu extends Application {
 		
 		return aploc;
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.AppMenu.changeLoc(Apparatus dat, String county, String munic, String dist)
+	 * SYNOPSIS
+	 * 		Apparatus dat -> apparatus that will be updated
+	 * 		String county -> county code of new location
+	 * 		String munic -> municipal code of new location
+	 * 		String dist -> district code of new location
+	 * DESCRIPTION
+	 * 		changes the values within the apparatus database of the location to county, munic, and dist.
+	 * 		this changes where the apparatus is located within the system. 
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	protected void changeLoc(Apparatus dat, String county, String munic, String dist) {
 		// TODO Auto-generated method stub
 		System.out.println(dat.getOid());
@@ -621,6 +726,22 @@ public class AppMenu extends Application {
 		DBObject doc = coll.findOne(obj);
 		return doc.get("Name").toString();
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.AppMenu.getAppInfo(Apparatus dat)
+	 * SYNOPSIS
+	 * 		Apparatus dat -> apparatus that will be updated
+	 * DESCRIPTION
+	 * 		creates a GUI for the user to update information of the apparatus
+	 * 		once fired it autofills all information about the apparatus that
+	 * 		was previously filled.
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private Node getAppInfo(Apparatus dat) {
 		VBox apinfo = new VBox();
 		apinfo.setSpacing(10);
@@ -776,7 +897,20 @@ public class AppMenu extends Application {
         }
         else { System.out.println("Remove Error"); }            
 	}
-	
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.AppMenu.addApparatus()
+	 * SYNOPSIS
+	 * 		 
+	 * DESCRIPTION
+	 * 		creates a GUI for the user to add an apparatus into the database
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private void addApparatus() {
 		// TODO Auto-generated method stub
 		Tab addStation = new Tab("Add Apparatus");
@@ -934,11 +1068,40 @@ public class AppMenu extends Application {
 		tabPane.getTabs().clear();
 		tabPane.getTabs().add(addStation);
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.AppMenu.refreshT()
+	 * SYNOPSIS
+	 * 		TableView table
+	 * DESCRIPTION
+	 * 		removes all values within the table and then calls a 
+	 * 		new instance of the function to fill data into it
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	protected void refreshT() {
 		// TODO Auto-generated method stub
 		table.getItems().clear();
 		table.setItems(getApparatus());
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.AppMenu.getApparatus()
+	 * SYNOPSIS
+	 * 		
+	 * DESCRIPTION
+	 * 		calls the database and recieves all apparatus within the system
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private ObservableList<Apparatus> getApparatus() {
 		ObservableList<Apparatus> dat = FXCollections.observableArrayList(
 				new Apparatus()); 

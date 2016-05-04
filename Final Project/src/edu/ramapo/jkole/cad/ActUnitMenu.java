@@ -38,6 +38,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TableView.ResizeFeatures;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -65,7 +66,24 @@ public class ActUnitMenu extends Application{
 			}
 		}
 	}
-	@SuppressWarnings({ "unchecked", "static-access" })
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ActUnitMenu.start()
+	 * SYNOPSIS
+	 * 		this.ActUnitMenu	->	this JavaFX Application 
+	 * DESCRIPTION
+	 * 		starts and creates the visual application of the ActiveUnitMenu within this
+	 * 		menu there is a thread that runs and looks for new information. within this 
+	 * 		function the thread every 10 seconds looks for new apparatus that have been 
+	 * 		added or had a status update since the last refresh.
+	 * RETURNS
+	 * 		void
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
+	@SuppressWarnings({ "unchecked", "static-access", "rawtypes" })
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
@@ -87,7 +105,15 @@ public class ActUnitMenu extends Application{
 		TableColumn<Apparatus, String> timeelap = new TableColumn<Apparatus, String>("Time Elapsed");
 		
 		table.getColumns().addAll(unit, loc, stat, curcall, timeelap);
+		 
 
+		table.setColumnResizePolicy(new Callback<TableView.ResizeFeatures, Boolean>() {
+			@Override
+			  public Boolean call(ResizeFeatures param) {
+			     return true;
+			  }
+			});
+		
 		MenuItem showCall = new MenuItem("_Show Call");
 		showCall.setMnemonicParsing(true);
 		MenuItem changeLoc = new MenuItem("_Change Loc");
@@ -252,14 +278,47 @@ public class ActUnitMenu extends Application{
 	    stage.sizeToScene(); 
 	    stage.show();
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ActUnitMenu.getElapsed(Apparatus app)
+	 * SYNOPSIS
+	 * 		Apparatus app	-> gets string of time of last update
+	 * DESCRIPTION
+	 * 		searches the database for the apparatus app and gets the 
+	 * 		string of the timestamp from the last status update. this 
+	 * 		is then sent to getElapsedTime(String string) which parses 
+	 * 		it into time format.
+	 * RETURNS
+	 * 		getElapsedTime(String string)	->	parses string into time 
+	 * 			format then gets elapsed time starting at string.
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	protected String getElapsed(Apparatus app) {
 		// TODO Auto-generated method stub
-		BasicDBObject obj = (BasicDBObject) Database.getCol("Apparatus", "info").findOne(new BasicDBObject("_id", new ObjectId(app.getOid())));
+		BasicDBObject obj = (BasicDBObject) Database.getCol("Apparatus", "info")
+				.findOne(new BasicDBObject("_id", new ObjectId(app.getOid())));
 		String s = obj.getString("Status");
 		s = s.substring(s.indexOf("TimeStamp")+14, s.indexOf("TimeStamp")+32);
 		return getElapsedTime(s);
 	}
-	
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ActUnitMenu.getElapsedTime(String string)
+	 * SYNOPSIS
+	 * 		String string	->	time of last update in string format
+	 * DESCRIPTION
+	 * 		parses the string into year, month, day, hours, minutes, and seconds
+	 * 		subtracts time since the current time and returns and elapsed time
+	 * RETURNS
+	 * 		String currentTime	->	current time in string format
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private String getElapsedTime(String string) {
 		// TODO Auto-generated method stub
 		int yr = 0, day = 0, month = 0, hr = 0, min = 0, sec = 0;
@@ -294,7 +353,24 @@ public class ActUnitMenu extends Application{
 		}
 		return s;
 	}
-	
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ActUnitMenu.check()
+	 * SYNOPSIS
+	 * 		ObservableList<Apparatus> items	->	current list of Apparatus
+	 * DESCRIPTION
+	 * 		every call of this function checks the size of items against the
+	 * 		size of the database. if the sizes are different then it will set
+	 * 		the current ObservableList to what is currently in the database.
+	 * 		if the list is the same size then the function returns null else 
+	 * 		will return the new list.
+	 * RETURNS
+	 * 		ObservableList<Apparatus> items; null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private ObservableList<Apparatus> check(ObservableList<Apparatus> items) {
 		if(items.isEmpty()){
 			items = getApps();
@@ -317,14 +393,45 @@ public class ActUnitMenu extends Application{
 		}
 		return items;
 	}
-	
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ActUnitMenu.getApps(int i)
+	 * SYNOPSIS
+	 * 		int i	->	gets the i'th apparatus in the database collection
+	 * DESCRIPTION
+	 * 		gets the collection of all apparatus within the database and retrieves 
+	 * 		the number i apparatus.
+	 * RETURNS
+	 * 		Apparatus temp	->	number i apparatus
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private Apparatus getApps(int i) {
 		DBCollection coll = Database.getCol("Apparatus", "info");
 		List<DBObject> foundDocument = coll.find(new BasicDBObject("Status.active", true)).toArray();
 		Apparatus temp = new Apparatus((BasicDBObject) foundDocument.get(i));
 		return temp;
 	}
-
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ActUnitMenu.getApps()
+	 * SYNOPSIS
+	 * 		ObservableList<Apparatus> dat	->	list that will contain all 
+	 * 												current Apparatus.
+	 * 		DBCollection Coll				->	collection that gets all information 
+	 * 												from the database.
+	 * DESCRIPTION
+	 * 		On function calls this searches the database of apparatus and adds them to dat
+	 * 		means they are active.
+	 * RETURNS
+	 * 		ObservableList<Apparatus> dat	->	observable list containing all Apparatus
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private ObservableList<Apparatus> getApps() {
 		ObservableList<Apparatus> apps = FXCollections.observableArrayList(); 
 		DBCollection coll = Database.getCol("Apparatus", "info");

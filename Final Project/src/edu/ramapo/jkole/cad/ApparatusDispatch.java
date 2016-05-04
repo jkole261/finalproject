@@ -61,7 +61,23 @@ public class ApparatusDispatch extends Application{
 			e.printStackTrace();
 		}
 	}
-	
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ApparatusDispatch.start()
+	 * SYNOPSIS
+	 * 		Stage stage -> the main visual form that will be seen
+	 * 		List<AppList> appList -> the list of apparatus and their purpose to be dispatched
+	 * 		String callid -> the id for the call to be dispatched
+	 * DESCRIPTION
+	 * 		starts the display of the menu where dispatchers can see the units to be
+	 * 		dispatched and alter them if the user findes neccessary. 
+	 * RETURNS
+	 * 		dispatched apparatus
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	@Override
 	public void start(Stage stage) throws Exception {
 		BorderPane root = new BorderPane();
@@ -82,7 +98,22 @@ public class ApparatusDispatch extends Application{
         stage.sizeToScene(); 
         stage.show();
 	}
-
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ApparatusDispatch.getBot()
+	 * SYNOPSIS
+	 * 		Button que -> when fired adds call to the pending call list
+	 * 		Button page -> dispatches all apparatus in the list
+	 * DESCRIPTION
+	 * 		searches through the database for apparatus with the 
+	 * 		object if of oid
+	 * RETURNS
+	 * 		VBox bot -> button menu at the bottom of this stage
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private Node getBot() {
 		VBox bot = new VBox();
 		Button page = new Button("PAGE UNITS");
@@ -111,11 +142,43 @@ public class ApparatusDispatch extends Application{
 		
 		return bot;
 	}
-
-	private void setPending(String callid2) {
-		Database.add("Calls", "pend", new BasicDBObject("CadID", callid2));
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ApparatusDispatch.setPending(String id)
+	 * SYNOPSIS
+	 * 		String id	->	Cadid of the call to be set as pending
+	 * DESCRIPTION
+	 * 		uses the function add from the Class Database to add a single object
+	 * 		into the Calls.pend table. This function only inserts the callid into
+	 *		the table.
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
+	private void setPending(String id) {
+		Database.add("Calls", "pend", new BasicDBObject("CadID", id));
 	}
-
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ApparatusDispatch.pageApparatus(List<AppList> appList2)
+	 * SYNOPSIS
+	 * 		List<AppList> applist2 -> the list sent once the page button is fired with
+	 * 			the list of all apparatus and purposes to be dispatched to the call.
+	 * 		Alert alert ->	the alert sent to the server in order to generate the rip and run
+	 * DESCRIPTION
+	 * 		this function changes the status of the call to paged and then  loops through the 
+	 * 		appList2 object and for each apparatus within the list it adds it to the alert 
+	 * 		object. once it is added to the alert object it then pages each apparatus. 
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private void pageApparatus(List<AppList> appList2) {
 		alert = new Alert(callid);
 		Database.getCol("Calls", "status").findAndModify(
@@ -128,7 +191,22 @@ public class ApparatusDispatch extends Application{
 		}
 		alert.sendAlert();
 	}
-
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ApparatusDispatch.clearApp(String str)
+	 * SYNOPSIS
+	 * 		String str	->	String of the apparatus 
+	 * DESCRIPTION
+	 * 		this function parses out the str into the 4 parts of the apparatus 
+	 * 		and then searches the database for that apparatus. If found changes
+	 * 		the status and clears the active call for each apparatus.
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static void clearApp(String str){
 		String[] string = {str.substring(0, 1),
 				str.substring(1, 3),str.substring(3, 5),""};
@@ -147,7 +225,23 @@ public class ApparatusDispatch extends Application{
 		Status.updateStatus(new Status(true, false, false, true, false, app),
 				"CALL CLEAR:"+ActCallMenu.table.getSelectionModel().getSelectedItem().getCall().get("cadid")+"|OPR:"+Login.getUser());	
 	}
-	
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ApparatusDispatch.arvdApp(String str)
+	 * SYNOPSIS
+	 * 		String str	->	String of Apparatus
+	 * DESCRIPTION
+	 * 		Parses out the 4 parts of the apparatus and searches the 
+	 * 		Apparatus Database the apparatus, once found sets the status to arrived. if the 
+	 * 		apparatus is the first of the calls AppList to be arrived it will then set the call
+	 * 		arrived time to the same as the apparatus
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static void arvdApp(String str){
 		String[] string = {str.substring(0, 1),
 				str.substring(1, 3),str.substring(3, 5),""};
@@ -167,7 +261,24 @@ public class ApparatusDispatch extends Application{
 				"CALL ARVD:"+ActCallMenu.table.getSelectionModel().getSelectedItem().getCall().get("cadid")+"|OPR:"+Login.getUser());	
 		Call.setArvd(ActCallMenu.table.getSelectionModel().getSelectedItem());
 	}
-	
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ApparatusDispatch.arvdApp(String callid, String app)
+	 * SYNOPSIS
+	 * 		String app	->	String of Apparatus
+	 * 		String callid -> String of call to be updated
+	 * DESCRIPTION
+	 * 		Parses out the 4 parts of the apparatus and searches the 
+	 * 		Apparatus Database the apparatus, once found sets the status to arrived. if the 
+	 * 		apparatus is the first of the calls AppList to be arrived it will then set the call
+	 * 		arrived time to the same as the apparatus
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static void arvdApp(String callid, String app){
 		String[] string = {app.substring(0, 1),
 				app.substring(1, 3),app.substring(3, 5),""};
@@ -187,7 +298,23 @@ public class ApparatusDispatch extends Application{
 				"CALL ARVD:"+callid+"|OPR:"+Login.getUser());	
 		Call.setArvd(new Call(callid));
 	}
-	
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ApparatusDispatch.enrtApp(String str)
+	 * SYNOPSIS
+	 * 		String str	->	String of Apparatus
+	 * DESCRIPTION
+	 * 		Parses out the 4 parts of the apparatus and searches the 
+	 * 		Apparatus Database the apparatus, once found sets the status to enroute. if the 
+	 * 		apparatus is the first of the calls AppList to be enroute it will then set the call
+	 * 		enrt time to the same as the apparatus
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static void enrtApp(String str){
 		String[] string = {str.substring(0, 1),
 		str.substring(1, 3),str.substring(3, 5),""};
@@ -207,7 +334,24 @@ public class ApparatusDispatch extends Application{
 				"CALL ENRT:"+ActCallMenu.table.getSelectionModel().getSelectedItem().getCall().get("cadid")+"|OPR:"+Login.getUser());		
 		Call.setEnrt(ActCallMenu.table.getSelectionModel().getSelectedItem());
 	}
-	
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ApparatusDispatch.enrtApp(String callid, String app)
+	 * SYNOPSIS
+	 * 		String app	->	String of Apparatus
+	 * 		String callid -> String of callid
+	 * DESCRIPTION
+	 * 		Parses out the 4 parts of the apparatus and searches the 
+	 * 		Apparatus Database the apparatus, once found sets the status to enroute. if the 
+	 * 		apparatus is the first of the calls AppList to be enroute it will then set the call
+	 * 		enrt time to the same as the apparatus
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static void enrtApp(String callid, String app){
 		String[] string = {app.substring(0, 1),
 		app.substring(1, 3),app.substring(3, 5),""};
@@ -227,9 +371,22 @@ public class ApparatusDispatch extends Application{
 				"CALL ENRT:"+callid+"|OPR:"+Login.getUser());		
 		Call.setEnrt(new Call(callid));
 	}
-	
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ApparatusDispatch.page(AppList appList2)
+	 * SYNOPSIS
+	 * 		AppList appList2	->	collection of apparatus and purpose 
+	 * DESCRIPTION
+	 * 		parses to make sure that the apparatus is an emergency services apparatus.
+	 * 		if it is then it will set the status of each apparatus to paged.
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private void page(AppList appList2) {
-//		GENERATE TONES
 		Apparatus app = appList2.app;
 		
 		if(app.getUnitString().contains("*") || 
@@ -338,7 +495,21 @@ public class ApparatusDispatch extends Application{
 	public void stop(){
 		stage.close();
 	}
-
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ApparatusDispatch.setAvail(String str)
+	 * SYNOPSIS
+	 * 		String str	->	String of Apparatus
+	 * DESCRIPTION
+	 * 		Parses out the 4 parts of the apparatus and searches the 
+	 * 		Apparatus Database the apparatus, once found sets the status to available.
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static void setAvail(String str) {
 		String[] string = {str.substring(0, 1),
 		str.substring(1, 3),str.substring(3, 5),""};
@@ -357,6 +528,22 @@ public class ApparatusDispatch extends Application{
 		Status.updateStatus(new Status(true, false, false, true, false, app),
 				"CMDLINE AVAIL|OPR:"+Login.getUser());		
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ApparatusDispatch.setAvail(String callid, String app)
+	 * SYNOPSIS
+	 * 		String app	->	String of Apparatus
+	 * 		String callid -> String of callid
+	 * DESCRIPTION
+	 * 		Parses out the 4 parts of the apparatus and searches the 
+	 * 		Apparatus Database the apparatus, once found sets the status to Available.
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static void setAvail(String callid, String app) {
 		String[] string = {app.substring(0, 1),
 		app.substring(1, 3),app.substring(3, 5),""};
@@ -375,19 +562,32 @@ public class ApparatusDispatch extends Application{
 		Status.updateStatus(new Status(true, false, false, true, false, a),
 				"CMDLINE AVAIL|OPR:"+Login.getUser());		
 	}
-	
-	
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ApparatusDispatch.upgrade()
+	 * SYNOPSIS
+	 * 		
+	 * DESCRIPTION
+	 * 		displays a choice dialog to give the dispatcher the opportunity to 
+	 * 		upgrade the response of apparatus. dispatcher selects an item from
+	 * 		the drop down and the fuction will then generate a new ApparatusDispatch Menu
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static void upgrade() {
 		List<String> choices = new ArrayList<>();
 
 		choices.addAll(getChoices());
 
 		ChoiceDialog<String> dialog = new ChoiceDialog<String>("" ,choices);
-		dialog.setTitle("Choice Dialog");
-		dialog.setHeaderText("Look, a Choice Dialog");
-		dialog.setContentText("Choose your letter:");
+		dialog.setTitle("Upgrade Response");
+		dialog.setHeaderText("Choose dispatch type to upgrade...");
+		dialog.setContentText("Response Type:");
 
-		// Traditional way to get the response value.
 		Optional<String> result = dialog.showAndWait();
 		if (result.isPresent()){
 			String str = result.get().toUpperCase();
@@ -395,7 +595,22 @@ public class ApparatusDispatch extends Application{
 			System.out.println(callid);
 		}
 	}
-
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ApparatusDispatch.getChoices()
+	 * SYNOPSIS
+	 * 		
+	 * DESCRIPTION
+	 * 		parses out the choice from the disptypes.dat file and then returns
+	 * 		them into a collection of strings that will populate the choicemenu
+	 * 		in upgrade().
+	 * RETURNS
+	 * 		List<String> list -> list of strings of dispatch types
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private static Collection<? extends String> getChoices() {
 		List<String> list = new ArrayList<String>();
 		try {
@@ -412,7 +627,22 @@ public class ApparatusDispatch extends Application{
 		}
 		return list;
 	}
-
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ApparatusDispatch.setOss(String callid, String[] str)
+	 * SYNOPSIS
+	 * 		String[1] str	->	String of Apparatus
+	 * 		String callid -> String of callid
+	 * DESCRIPTION
+	 * 		Parses out the 4 parts of the apparatus and searches the 
+	 * 		Apparatus Database the apparatus, once found sets the status to Out of Service.
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static void setOss(String string, String[] str) {
 		// TODO Auto-generated method stub
 		String[] str1 = {str[1].substring(0, 1),
@@ -432,6 +662,21 @@ public class ApparatusDispatch extends Application{
 		Status.updateStatus(new Status(false, false, false, false, false, app),
 				"OOS|"+com+"|OPR:"+Login.getUser());	
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ApparatusDispatch.setOss(String app)
+	 * SYNOPSIS
+	 * 		String app	->	String of Apparatus
+	 * DESCRIPTION
+	 * 		Parses out the 4 parts of the apparatus and searches the 
+	 * 		Apparatus Database the apparatus, once found sets the status to OOS.
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static void setOss(String app) {
 		String[] string = {app.substring(0, 1),
 				app.substring(1, 3),app.substring(3, 5),""};
@@ -459,8 +704,20 @@ public class ApparatusDispatch extends Application{
 					"OOS|"+com+"|OPR:"+Login.getUser());
 		});	
 	}
-	
-	
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ApparatusDispatch.rlog(Pair<String, String> unitCom)
+	 * SYNOPSIS
+	 * 		Pair<String, String> -> pair of the unit number and comment for rlog
+	 * DESCRIPTION
+	 * 		sets the apparatus on a radio log and the status to busy
+	 * RETURNS
+	 * 		null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static void rlog(Pair<String, String> unitCom) {
 		Apparatus app = Apparatus.findApp(unitCom.getKey());
 		

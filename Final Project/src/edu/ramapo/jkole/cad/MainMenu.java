@@ -164,6 +164,7 @@ public class MainMenu extends Application {
         		.connectionTest("departmentlocs", "addresses"));
        
         if(Main.isAdmin()){
+        	
         	mainMenu.getMenus().addAll(file, disp, sear, admi, help);
         }
         if(!Main.isAdmin()){

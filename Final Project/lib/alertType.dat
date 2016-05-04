@@ -3,11 +3,21 @@
 	{"code":"2", "type":"Notification"},
 	{"code":"3", "type":"Arrest"}],
 "Safety":[
-	{"code":"10", "type":"Children Safety"},
-	{"code":"11", "type":"Weapons"},
-	{"code":"12", "type":"Safety, other"}],
+	{"code":"11", "type":"Children Safety"},
+	{"code":"12", "type":"Weapons"},
+	{"code":"13", "type":"Felon, Parole, other"},
+	{"code":"14", "type":"Confined Space, other"},
+	{"code":"15", "type":"Hazardous Materials"},
+	{"code":"16", "type":"Fire Danger"},
+	{"code":"10", "type":"Safety, other"}],
 "Notification":[
-	{"code":"20", "type":"Notify, other"}],
+	{"code":"20", "type":"Notify, other"}
+	{"code":"21", "type":"In-home Oxygen"},
+	{"code":"22", "type":"On Scene Security"}
+	{"code":"23", "type":"House Arrest"}],
 "Arrest":[
-	{"code":"30", "type":"Arrest, other"}]
+	{"code":"30", "type":"Arrest, other"}
+	{"code":"31", "type":"Arrest, Warrant"},
+	{"code":"32", "type":"Parole Violation"},
+	{"code":"33", "type":"Arrest, involving minor"}]
 }

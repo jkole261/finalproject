@@ -30,6 +30,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TableView.ResizeFeatures;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -57,8 +58,24 @@ public class ActCallMenu extends Application{
 			}
 		}
 	}
-	
-	@SuppressWarnings("unchecked")
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ActCallMenu.start()
+	 * SYNOPSIS
+	 * 		this.ActCallMenu	->	this JavaFX Application 
+	 * DESCRIPTION
+	 * 		starts and creates the visual application of the ActiveCallMenu within this
+	 * 		menu there is a thread that runs and looks for new information. within this 
+	 * 		function the thread every 10 seconds looks for new calls that have been added
+	 * 		since the last refresh.
+	 * RETURNS
+	 * 		void
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void start(Stage stage) throws Exception {
 		BorderPane root = new BorderPane();
 		Scene scene = new Scene(root, 600, 400, Color.ANTIQUEWHITE);
@@ -81,6 +98,13 @@ public class ActCallMenu extends Application{
 		
 		table.getColumns().addAll(actid, loc, type, stat, city);
 
+		table.setColumnResizePolicy(new Callback<TableView.ResizeFeatures, Boolean>() {
+			@Override
+			  public Boolean call(ResizeFeatures param) {
+			     return true;
+			  }
+			});
+		
 		table.setRowFactory( tv -> {
             TableRow<Call> row = new TableRow<Call>();
             row.setOnMouseClicked(event -> {
@@ -161,6 +185,24 @@ public class ActCallMenu extends Application{
 	    stage.sizeToScene(); 
 	    stage.show();
 	}
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ActCallMenu.check()
+	 * SYNOPSIS
+	 * 		ObservableList<Call> calls	->	current list of Calls
+	 * DESCRIPTION
+	 * 		every call of this function checks the size of calls against the
+	 * 		size of the database. if the sizes are different then it will set
+	 * 		the current ObservableList to what is currently in the database.
+	 * 		if the list is the same size then the function returns null else 
+	 * 		will return the new list.
+	 * RETURNS
+	 * 		ObservableList<Call> calls; null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	protected ObservableList<Call> check(ObservableList<Call> calls) {
 		if(calls.isEmpty()){
 			calls = getCalls();
@@ -184,7 +226,24 @@ public class ActCallMenu extends Application{
 		}
 		return calls;
 	}
-
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ActCallMenu.check()
+	 * SYNOPSIS
+	 * 		ObservableList<Call> calls	->	current list of Calls
+	 * DESCRIPTION
+	 * 		every call of this function checks the size of calls against the
+	 * 		size of the database. if the sizes are different then it will set
+	 * 		the current ObservableList to what is currently in the database.
+	 * 		if the list is the same size then the function returns null else 
+	 * 		will return the new list.
+	 * RETURNS
+	 * 		ObservableList<Call> calls; null
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private Call getCall(int j) {
 		DBCollection coll = Database.getCol("Calls", "basicInfo");
 		List<DBObject> foundDocument = coll.find(
@@ -193,7 +252,22 @@ public class ActCallMenu extends Application{
 		temp.setStatus(Call.getStatus(temp.getCall().get("cadid")));
 		return temp;
 	}
-
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ActCallMenu.getSelectedCall()
+	 * SYNOPSIS
+	 * 		TableView<Call> table	->	table that user will be able to 
+	 * 										select call from.
+	 * DESCRIPTION
+	 * 		gets the selected item from the table at the time of 
+	 * 		function call.
+	 * RETURNS
+	 * 		Call table.getSelectionModel().getSelectedItem();
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	public static Call getSelectedCall(){
 		return table.getSelectionModel().getSelectedItem();
 	}
@@ -202,7 +276,25 @@ public class ActCallMenu extends Application{
 	public void stop(){
 	    System.out.println("Stage is closing");
 	}
-	
+	/**/
+	/*
+	 * NAME
+	 * 		edu.ramapo.jkole.cad.ActCallMenu.getCalls()
+	 * SYNOPSIS
+	 * 		ObservableList<Call> date	->	list that will contain all 
+	 * 											current calls.
+	 * 		DBCollection Coll			->	collection that gets all information 
+	 * 											from the database.
+	 * DESCRIPTION
+	 * 		On function calls this searches the database of current calls for
+	 * 		calls that hace an activeid number of greater then 0, which 
+	 * 		means they are active.
+	 * RETURNS
+	 * 		ObservableList<Call> dat	->	observable list containing all calls
+	 * Author
+	 * 		Jason Kole - Spring 2016
+	 */
+	/**/
 	private ObservableList<Call> getCalls() {
 		ObservableList<Call> dat = FXCollections.observableArrayList(); 
 		DBCollection coll = Database.getCol("Calls", "basicInfo");

@@ -37,7 +37,7 @@ public class Login {
 	}
 	
 	public void showLogin(){
-		Dialog<Pair<String, String>> dialog = new Dialog<>();
+		Dialog<Pair<String, String>> dialog = new Dialog<Pair<String, String>>();
 		dialog.setTitle("Login Dialog");
 		dialog.setHeaderText("Look, a Custom Login Dialog");
 

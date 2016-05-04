@@ -28,7 +28,6 @@ import com.mongodb.MongoTimeoutException;
 public class Database {
 	public static MongoClient client;
 	public static DB db;
-	
 	public static DB getDb() {
 		return db;
 	}
