@@ -25,6 +25,8 @@ import com.google.code.geocoder.model.GeocodeResponse;
 import com.google.code.geocoder.model.GeocoderRequest;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+import com.mongodb.MongoTimeoutException;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -54,6 +56,9 @@ public class FireCallScreen extends Application{
 	static String callid = "";
 	static Call c;
 	static String app;
+	int index;
+	List<DBObject> actCall;
+	List<DBObject> callTime;
 	boolean editable = true;
 	
 	BorderPane root; 
@@ -80,6 +85,19 @@ public class FireCallScreen extends Application{
 	TextField clear = new TextField();
 	
 	public FireCallScreen(){
+		try {
+			if(stage.isShowing()){
+				return;
+			} else {
+				stage.show();
+				getCalls();
+			}
+		} catch (NullPointerException e){
+			stage = new Stage();
+			getCalls();
+			try{ start(stage); }
+			catch (Exception e1) { e1.printStackTrace(); }
+		}	
 		stage = new Stage();
 		try {
 			start(stage);
@@ -210,6 +228,10 @@ public class FireCallScreen extends Application{
 			Call.clearCall(new Call(callid));
 			stage.close();
 		});
+		
+		next.setOnAction(actionEvent -> nextCall());
+		
+		prev.setOnAction(actionEvent -> prevCall());
 		
 		modify.setOnAction(actionEvent -> {
 			
@@ -363,6 +385,16 @@ public class FireCallScreen extends Application{
 		main.getChildren().addAll(header, box);
 		return main;
 	}
+	
+	private void getCalls() {
+		try{
+			actCall = Database.getCol("Calls", "basicInfo").find().toArray();
+			callTime = Database.getCol("Calls", "times").find().toArray();
+			index = callTime.size();
+		} catch (MongoTimeoutException e){
+			System.err.println(e.getMessage());
+		}
+	}
 	/**/
 	/*
 	 * NAME
@@ -488,6 +520,54 @@ public class FireCallScreen extends Application{
 		getTimes();
 		
 		return box;
+	}
+	private void prevCall() {
+		System.out.println(index+"");
+		if(index > 0){
+			index--;
+			clearScreen();
+			setScreen(actCall.get(index), callTime.get(index));
+		}
+		else{
+			System.out.println("INDEX TO LOW");
+		}
+	}
+	private void nextCall() {
+		try{
+			if(index < actCall.size()){
+				index++;
+				clearScreen();
+				setScreen(actCall.get(index), callTime.get(index));
+			}
+			else{
+				System.out.println("INDEX TO HIGH");
+			}
+		} catch(IndexOutOfBoundsException e) {
+			clearScreen();
+			System.out.println("NO NEW");
+		}
+	}
+	protected void setScreen(DBObject call, DBObject time) {
+		c = new Call((BasicDBObject) call);
+		cadid.setText(call.get("cadid").toString());
+		actid.setText(call.get("actid").toString());
+		nature.setText(call.get("nature").toString());
+		addr.setText(call.get("addr").toString());
+		city.setText(call.get("city").toString());
+		paged.setText(time.get("PAGED").toString());
+		enrt.setText(time.get("ENRT").toString());
+		arrvd.setText(time.get("ARVD").toString());
+		ctrld.setText(time.get("CTRLD").toString());
+		clear.setText(time.get("CLEAR").toString());
+	}
+	private void clearScreen() {
+		cadid.clear();actid.clear();
+		addr.clear();city.clear();
+		fzone.clear();contact.clear();
+		st.clear();nature.clear();
+		paged.clear();enrt.clear();
+		arrvd.clear();ctrld.clear();
+		clear.clear();
 	}
 	private void getTimes() {
 		paged.setText(getTime("PAGED"));

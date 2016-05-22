@@ -596,7 +596,6 @@ public class CallTakerScreen extends Application {
 	 */
 	/**/
 	protected void search(String text) {
-		// TODO Auto-generated method stub
 		List<Call> list = new ArrayList<Call>();
 		DBCursor curs = Database.getCol("Calls", "basicInfo").find(new BasicDBObject("addr", searchAddr(text)));
 	   	while(curs.hasNext()){
