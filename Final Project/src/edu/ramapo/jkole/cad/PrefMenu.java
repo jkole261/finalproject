@@ -21,19 +21,23 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 
+import org.w3c.css.sac.InputSource;
+import org.w3c.dom.css.CSSRule;
+import org.w3c.dom.css.CSSRuleList;
 import org.w3c.dom.css.CSSStyleSheet;
 
 import com.steadystate.css.parser.CSSOMParser;
 import com.steadystate.css.parser.SACParserCSS3;
 
+import edu.ramapo.jkole.css.parser.RuleParser;
 import javafx.application.Application;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import jdk.internal.org.xml.sax.InputSource;
 
 public class PrefMenu extends Application{
 	static Stage stage;
@@ -78,21 +82,28 @@ public class PrefMenu extends Application{
         stage.show();
 	}
 
-	private CSSStyleSheet getStyleSheet(String user) {
-		InputStream inStream = new FileInputStream("css/"+user+".css");
+	private CSSStyleSheet getStyleSheet(String user) {		
 		try {
+			InputStream inStream = new FileInputStream("lib/css/"+user+".css");
 		    InputSource source = new InputSource(new InputStreamReader(inStream, "UTF-8"));
-
 		    CSSOMParser parser = new CSSOMParser(new SACParserCSS3());
-		   
-		} finally {
+		    sheet = parser.parseStyleSheet(source, null, null);
 		    inStream.close();
-		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
 		return null;
 	}
 
 	private Node getCenter() {
 		GridPane grid =  new GridPane();
+		
+		CSSRuleList rules = sheet.getCssRules();
+	    for (int i = 0; i < rules.getLength(); i++) {
+	        final CSSRule rule = rules.item(i);
+	        GridPane.setConstraints(RuleParser.parseRule(rule), 1, i); // column=3 row=1
+	        
+	    }
 		
 		//Row 1
 		//TextField 
