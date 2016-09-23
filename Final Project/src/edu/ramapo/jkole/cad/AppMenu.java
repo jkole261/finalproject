@@ -393,8 +393,7 @@ public class AppMenu extends Application {
             TableRow<Apparatus> row = new TableRow<Apparatus>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
-                    Apparatus dat = row.getItem();
-                    setBottomPane(dat);
+                	setBottomPane(row.getItem());
                 }
             });
             return row ;
@@ -440,7 +439,7 @@ public class AppMenu extends Application {
 		Tab appinf = new Tab("Apparatus Info");
 		Tab apploc = new Tab("Apparatus Location");
 		Tab appStat = new Tab("Apparatus Status");
-		
+
 		appinf.setContent(getAppInfo(dat));
 		apploc.setContent(getAppLoc(dat));
 		appStat.setContent(getStatus(dat));
@@ -636,14 +635,10 @@ public class AppMenu extends Application {
 		tfDist.setPrefWidth(50);
 		Button findloc = new Button("Search");
 		
-		findloc.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) { 
+		findloc.setOnAction(e -> { 
             	loc.getItems().clear();
-            	System.out.println("FIND LOCATION");
-            	MongoClient temp = Database.client; 
-            	DB db = temp.getDB("departmentlocs");
-            	DBCollection coll = db.getCollection("addresses");
-            	
+            	System.out.println("FIND LOCATION\n"+app.getUnitString());
+            	DBCollection coll = Database.getCol("departmentlocs", "addresses");
             	BasicDBObject obj = new BasicDBObject("CountyCode", tfCount.getText());
             		if(!tfMunic.getText().equalsIgnoreCase(""))	{obj.append("MunicCode", tfMunic.getText());}
             		if(!tfDist.getText().equalsIgnoreCase(""))	{obj.append("District", tfDist.getText());}
@@ -670,15 +665,16 @@ public class AppMenu extends Application {
                 loc.setRowFactory( tv -> {
                     TableRow<Station> row = new TableRow<Station>();
                     row.setOnMouseClicked(event -> {
-                        if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
-                            changeLoc(app, row.getItem().getCountycode(), 
+                        if (event.getClickCount() == 2 && (! row.isEmpty()) ) {  
+                        	System.out.println("A "+app.getUnitString());
+                        	changeLoc(app, row.getItem().getCountycode(), 
                             		row.getItem().getMuniccode(),
                             		row.getItem().getDistrict());
                             loc.getItems().clear();
                     }});
                     return row ;
                 });
-        }});
+        });
 		
 		query.getChildren().addAll(tfCount, tfMunic, tfDist, findloc);
 		aploc.getChildren().addAll(curloc, query, loc);
@@ -703,17 +699,15 @@ public class AppMenu extends Application {
 	 * 		Jason Kole - Spring 2016
 	 */
 	/**/
-	protected void changeLoc(Apparatus dat, String county, String munic, String dist) {
-		// TODO Auto-generated method stub
+	protected void changeLoc(Apparatus dat, String c, String m, String d) {
 		System.out.println(dat.getOid());
-		MongoClient temp = Database.client;
-		DB db = temp.getDB("Apparatus");
-		DBCollection coll = db.getCollection("info");
+		DBCollection coll = Database.getCol("Apparatus", "info");
 		BasicDBObject obj = (BasicDBObject) coll.findOne(new BasicDBObject("_id", new ObjectId(dat.getOid())));
-			obj.put("UnitCounLoc", county);
-			obj.put("UnitMuniLoc", munic);
-			obj.put("UnitDistLoc", dist);
+			obj.put("UnitCounLoc", c);
+			obj.put("UnitMuniLoc", m);
+			obj.put("UnitDistLoc", d);
 		Database.update("Apparatus", "info", obj, dat.getOid());
+		obj = new BasicDBObject();
 		refreshT();
 	}
 	private String getCurLoc(Apparatus dat) {
